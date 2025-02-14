@@ -1,0 +1,98 @@
+if pgrep -x sway > /dev/null; then
+	export QT_QPA_PLATFORMTHEME=qt5ct
+	export SDL_VIDEODRIVER=wayland
+	export _JAVA_AWT_WM_NONREPARENTING=1
+	export QT_QPA_PLATFORM=wayland
+	export XDG_CURRENT_DESKTOP=sway
+	export XDG_SESSION_DESKTOP=sway
+	#exec sway
+else
+	echo "zsh_i3"
+fi
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='nvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+# User specific environment
+
+
+
+#export ALL_PROXY=127.0.0.1:7890
+export http_proxy=http://127.0.0.1:7890
+export https_proxy=http://127.0.0.1:7890
+
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+#if [ -d ~/.bashrc.d ]; then
+#    for rc in ~/.bashrc.d/*; do
+#        if [ -f "$rc" ]; then
+#            . "$rc"
+#        fi
+#    done
+#fi
+export NVBOARD_HOME=/home/inf/repos/ysyx-workbench/nvboard
+export NPC_HOME=/home/inf/repos/ysyx-workbench/npc
+
+
+export AM_HOME=/home/inf/Downloads/repos/ics2024/abstract-machine
+
+export NEMU_HOME=/home/inf/repos/ics2024/nemu
+
+
+
+# JINA_CLI_BEGIN
+
+## autocomplete
+if [[ ! -o interactive ]]; then
+    return
+fi
+
+compctl -K _jina jina
+
+_jina() {
+  local words completions
+  read -cA words
+
+  if [ "${#words}" -eq 2 ]; then
+    completions="$(jina commands)"
+  else
+    completions="$(jina completions ${words[2,-2]})"
+  fi
+
+  reply=(${(ps:
+:)completions})
+}
+
+# session-wise fix
+ulimit -n 4096
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+
+
