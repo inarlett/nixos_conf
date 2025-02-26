@@ -20,105 +20,34 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      (
-        let
-          base = pkgs.appimageTools.defaultFhsEnvArgs;
-        in
-        pkgs.buildFHSUserEnv (
-          base
-          // {
-            name = "fhs";
-            targetPkgs =
-              pkgs:
-              # pkgs.buildFHSUserEnv 只提供一个最小的 FHS 环境，缺少很多常用软件所必须的基础包
-              # 所以直接使用它很可能会报错
-              #
-              # pkgs.appimageTools 提供了大多数程序常用的基础包，所以我们可以直接用它来补充
-              (base.targetPkgs pkgs)
-              ++ (with pkgs; [
-                pkg-config
-                ncurses
-                # 如果你的 FHS 程序还有其他依赖，把它们添加在这里
-              ]);
-            profile = "export FHS=1";
-            runScript = "zsh";
-            extraOutputsToInstall = [ "dev" ];
-          }
-        )
-      )
-      autotiling
-      coreboot-toolchain.riscv
       docker-compose
-      gammastep
-      gcc
-      glibc
-      jdk8
       lazydocker
-      libgcc
-      SDL2
-      openblas
       linuxHeaders
       linux-manual
-      livecaptions
       lm_sensors
       man-pages
       man-pages-posix
-      ncurses
-      ntfs3g
-      polkit_gnome
-      readline
       wayland-utils
-      waydroid
       vulkan-tools
       xsel
-      xdg-desktop-portal
-      xdg-desktop-portal-wlr
     ];
-  };
-
-  i18n = {
-    inputMethod = {
-      fcitx5 = {
-        waylandFrontend = true;
-      };
-      type = "fcitx5";
-    };
   };
 
   imports = [
     ./modules/nixos-common.nix
     ./modules/zsh
   ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
   programs = {
-    appimage = {
-      enable = true;
-      binfmt = true;
-    };
     steam = {
-      enable = true;
+      enable = true;  
     };
     sway = {
       enable = true;
       wrapperFeatures.gtk = true;
-    };
-    yazi = {
-      enable = true;
-
-    };
-    nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        gcc
-        readline
-        SDL2_mixer
-        SDL2
-      ];
-    };
-    waybar = {
-      enable = true;
     };
     virt-manager = {
       enable = true;
@@ -128,6 +57,7 @@
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
+
   services = {
     acpid = {
       enable = true;
@@ -136,33 +66,35 @@
     apache-kafka = {
       enable = true;
       settings = {
-        "log.dirs" = [ "/var/lib/apache-kafka" ];
+        "log.dirs" = ["/var/lib/apache-kafka"];
         "zookeeper.connect" = "localhost:2181";
       };
     };
     # aria2 = {
-    #   enable = true;
+    #   enable = true;   
     #   rpcSecretFile = /run/secrets/aria2-rpc-token.txt;
     # };
     displayManager = {
-      sddm = {
+      ly = {
         enable = true;
-        wayland.enable = true;
+        settings = {
+          animation = "matrix";
+        };
       };
     };
     distccd = {
-      enable = true;
+      enable = true;  
     };
     fwupd = {
       enable = true;
     };
     geth = {
       logos = {
-        enable = true;
-      };
+        enable = true;  
+      }; 
     };
     guix = {
-      enable = true;
+      enable = true;  
     };
     nginx = {
       enable = true;
@@ -181,7 +113,7 @@
       };
     };
     ollama = {
-      enable = true;
+      enable = true;  
     };
     # Enable CUPS to print documents.
     printing = {
@@ -196,77 +128,58 @@
       };
     };
     sunshine = {
-      enable = true;
+      enable = true;  
     };
     # touchegg = {
     #   enable = false;
     # };
     # tts.servers = {
     #   logos = {
-    #     enable = true;
+    #     enable = true;  
     #   };
     # };
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
       windowManager = {
-        i3 = {
+        xmonad = {
           enable = true;
+          enableContribAndExtras = true;
         };
       };
       # videoDrivers = [ "intel" ];
     };
     zookeeper = {
-      enable = true;
+      enable = true;  
     };
   };
-  security.polkit = {
-    enable = true;
-  };
-  systemd = {
-    services = {
-      polkit-gnome-authentication-agent-1 = {
-        description = "polkit-gnome-authentication-agent-1";
-        wantedBy = [ "graphical-session.target" ];
-        wants = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
-      };
-      apache-kafka.wantedBy = lib.mkForce [ ];
-      distccd.wantedBy = lib.mkForce [ ];
-      docker.wantedBy = lib.mkForce [ ];
-      waydroid-container.wantedBy = lib.mkForce [ ];
-      fwupd.wantedBy = lib.mkForce [ ];
-      geth-logos.wantedBy = lib.mkForce [ ];
-      guix-daemon.wantedBy = lib.mkForce [ ];
-      libvirtd.wantedBy = lib.mkForce [ ];
-      libvirt-guests.wantedBy = lib.mkForce [ ];
-      mysql.wantedBy = lib.mkForce [ ];
-      nginx.wantedBy = lib.mkForce [ ];
-      ollama.wantedBy = lib.mkForce [ ];
-      rabbitmq.wantedBy = lib.mkForce [ ];
-      redis-logos.wantedBy = lib.mkForce [ ];
-      sunshine.wantedBy = lib.mkForce [ ];
-      zookeeper.wantedBy = lib.mkForce [ ];
-    };
+
+  systemd.services = {
+    apache-kafka.wantedBy = lib.mkForce [ ];
+    distccd.wantedBy = lib.mkForce [ ];
+    docker.wantedBy = lib.mkForce [ ];
+    fwupd.wantedBy = lib.mkForce [ ]; 
+    geth-logos.wantedBy = lib.mkForce [ ];
+    guix-daemon.wantedBy = lib.mkForce [ ];
+    libvirtd.wantedBy = lib.mkForce [ ];
+    libvirt-guests.wantedBy = lib.mkForce [ ];
+    mysql.wantedBy = lib.mkForce [ ];
+    nginx.wantedBy = lib.mkForce [ ];
+    ollama.wantedBy = lib.mkForce [ ];
+    rabbitmq.wantedBy = lib.mkForce [ ];
+    redis-logos.wantedBy = lib.mkForce [ ];
+    sunshine.wantedBy = lib.mkForce [ ];
+    zookeeper.wantedBy = lib.mkForce [ ];
   };
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
+
   virtualisation = {
-    waydroid = {
-      enable = true;
-    };
     docker = {
-      enable = true;
+      enable = true;  
     };
     libvirtd = {
       enable = true;
@@ -290,9 +203,6 @@
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
-  networking = {
-    firewall.interfaces."docker0".allowedTCPPorts = [ 7890 ];
-  };
   # Or disable the firewall altogether.
 
   # Copy the NixOS configuration file and link it from the resulting system

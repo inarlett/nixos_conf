@@ -47,12 +47,11 @@
         )
       )
       autotiling
-      coreboot-toolchain.riscv
+      readline
       docker-compose
       gammastep
       gcc
-      glibc
-      jdk8
+      git-credential-manager
       lazydocker
       libgcc
       SDL2
@@ -66,7 +65,6 @@
       ncurses
       ntfs3g
       polkit_gnome
-      readline
       wayland-utils
       waydroid
       vulkan-tools

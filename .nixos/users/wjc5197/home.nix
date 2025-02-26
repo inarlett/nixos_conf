@@ -21,6 +21,32 @@
   # release notes.
   # The home.packages option allows you to install Nix packages into your
   # environment.
+  accounts = {
+    email.accounts.wjc5197 = {
+      address = "wjc5197@gmail.com";
+      flavor = "gmail.com";
+      gpg = {
+        key = "28ED85EC47C3E1A84FA9A52B5F919C9DB9BADDD4";
+        signByDefault = true;
+      };
+      imap = {
+        host = "imap.gmail.com";
+      };
+      mbsync = {
+        enable = true;
+      };
+      msmtp = {
+        enable = true;
+      };
+      mu = {
+        enable = true;
+      };
+      passwordCommand = "gpg -d -q ~/.secrets/gmail-imap.gpg";
+      primary = true;
+      realName = "WJC5197";
+      userName = "wjc5197@gmail.com";
+    };
+  };
 
   dconf = {
     enable = true;
@@ -60,11 +86,15 @@
       #   org.gradle.console=verbose
       #   org.gradle.daemon.idletimeout=3600000
       # '';
+      ".authinfo.gpg".source = ./secrets/authinfo.gpg;
+      ".ideavimrc".source = ./ideavimrc;
+      ".m2/settings.xml".source = ./mvn.xml;
+      ".rsync".source = ./rsync;
+      ".secrets".source = ./secrets;
+      ".xmonad/lib".source = ./xmonad/lib;
+      ".xmonad/xmonad.hs".source = ./xmonad/xmonad.hs;
     };
-    homeDirectory = "/home/inf";
-    #packages = with pkgs.python312Packages; [
-    #  compiledb
-    #];
+    homeDirectory = "/home/wjc5197";
     packages = with pkgs; [
       # # Adds the 'hello' command to your environment. It prints a friendly
       # # "Hello, world!" when run.
@@ -83,7 +113,6 @@
       # '')
 
       # archivebox # insecure
-      SDL2_mixer
       agda
       aider-chat
       anki-bin
@@ -96,17 +125,14 @@
       ))
       audacity
       bear
-      go-musicfox
       betterlockscreen
       bleachbit
-      #blender
-      blender-hip
+      blender
       blueman
       cabal-install
       cachix
       ccache
-      clinfo
-      clash-verge-rev
+      # clash-verge-rev
       clang
       clang-tools
       clipmenu
@@ -114,8 +140,6 @@
       clojure-lsp
       cmake
       code-cursor
-      coursier
-      davinci-resolve
       dbeaver-bin
       dconf
       deno
@@ -127,9 +151,7 @@
       evtest
       ffmpeg-full
       firejail
-      fluent-reader
       fontforge
-      freecad-wayland
       gh
       ghc
       ghostscript
@@ -152,7 +174,6 @@
       haskell-language-server
       hledger
       hledger-web
-      hmcl
       html-tidy
       imagemagick
       inkscape
@@ -165,45 +186,34 @@
       leiningen
       libllvm
       libreoffice-fresh
-      linux-wallpaperengine
       # libsForQt5.full
-      lldb
+      # lldb
       # llvmPackages.libcxx
       # llvmPackages.libcxxClang
       # mariadb
-      mesa
+      # mesa
       maven
       meson
       metals
-      mill
       moonlight-qt
       musescore
-      nethack
       nil
       ninja
       nodejs
       nyxt
       onboard
       onedrive
-      libsForQt5.okular
       # openai-whisper-cpp
-      pipx
       plantuml
-      podman
       python3
       ra-multiplex
       racket-minimal
       rclone
-      #redshift
-      rocmPackages.rocm-smi
-      rsshub
+      redshift
       rsync
       ruff-lsp # python lsp
       # rustlings
-      rustdesk-flutter
       rustup
-      sbt
-      vlc
       # rust-analyzer
       sbcl
       scala
@@ -212,46 +222,33 @@
       scrot
       SDL2
       shotcut
-      showmethekey
-      slurp
       solaar
       speedtest-cli
       styluslabs-write
       tailscale
       tailwindcss
       # tdlib
-      telegram-desktop
-      tesseract
       tokei
       tor-browser
       translate-shell
       typescript
       typescript-language-server
       typst
-      maim
       unrar
       # volume
       w3m
-      wechat-uos
       wineWowPackages.full
-      winetricks
-      wl-clipboard
-      wofi
       wolfram-engine
-      wshowkeys
       # xautolock
       xdg-ninja
       xmake
       xss-lock
-      xsettingsd
-      qq
       # yq
       zeal
       zig
       zls
       zotero
-    ]++
-    (with pkgs.python312Packages; [compiledb]);
+    ];
 
     pointerCursor = {
       gtk.enable = true;
@@ -280,11 +277,9 @@
       CM_HISTLENGTH = 31;
       CM_LAUNCHER = "rofi";
       TERMINAL = "kitty";
-      MOZ_ENABLE_WAYLAND = 1;
-      NEMU_HOME = "/home/inf/repos/ics2024/nemu";
     };
     stateVersion = "24.11"; # Please read the comment before changing.
-    username = "inf";
+    username = "wjc5197";
   };
 
   imports = [
@@ -326,8 +321,8 @@
     };
     git = {
       enable = true;
-      userEmail = "insnath@outlook.com";
-      userName = "inarlett";
+      userEmail = "wjc5197@gmail.com";
+      userName = "wjc5197";
     };
     go = {
       enable = true;
@@ -345,7 +340,7 @@
       settings = {
         enable_audio_bell = false;
       };
-      # extraConfig = builtins.readFile ./kitty.conf;
+      extraConfig = builtins.readFile ./kitty.conf;
     };
     mbsync = {
       enable = true;
@@ -381,7 +376,7 @@
         modes = "drun";
         show-icons = true;
       };
-      # theme = ./rofi.rasi;
+      theme = ./rofi.rasi;
     };
     texlive = {
       enable = true;
@@ -405,9 +400,15 @@
     vscode = {
       enable = true;
     };
+    xmobar = {
+      enable = true;
+      extraConfig = builtins.replaceStrings [ "dpi = 96" ] [ "dpi = ${toString dpi}" ] (
+        builtins.readFile ./xmobarrc
+      );
+    };
     yazi = {
       enable = true;
-      #enableBashIntegration = true;
+      enableBashIntegration = true;
       enableZshIntegration = true;
     };
     zoxide = {
@@ -452,66 +453,45 @@
   #   };
   # };
 
+  wayland = {
+    windowManager = {
+      sway = {
+        enable = true;
+        config = rec {
+          keybindings = lib.mkOptionDefault {
+            # "${modifier}+Shift+c" = "kill";
+          };
+          modifier = "Mod4";
+          # Use kitty as default terminal
+          terminal = "kitty";
+          startup = [
+            # { command = "firefox"; }
+          ];
+        };
+      };
+    };
+  };
+
   xdg = {
     configFile = {
+      "dunst/dunstrc".source = ./dunstrc;
       "redshift/redshift.conf".source = ./redshift.conf;
-      "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
-      "yazi/yazi.toml".source=./yazi.toml;
-      #"git/config".source = ./git-config;
+      # "sway/config".source = pkgs.lib.mkOverride 10 "/home/<user>/dotfiles/sway/config"
     };
-
-    desktopEntries = {
-      #   mupdf = {
-      #     name = "Mupdf";
-      #     genericName = "Web Browser";
-      #     exec = "mupdf-x11 %f";
-      #     terminal = false;
-      #     categories = [
-      #       "Application"
-      #     ];
-      #     mimeType = [
-      #       "application/pdf"
-      #     ];
-      #   };
-      code = {
-        name = "VSCode";
-        genericName = "Text Editor";
-        exec = "code --ozone-platform=wayland";
-        categories = [
-          "Application"
-        ];
-        mimeType = [
-          "application/develop"
-        ];
-      };
-      idea-community-bin= {
-        name = "IDEA-CE";
-        genericName = "Text Editor";
-        exec = "idea-community -Dawt.toolkit.name=WLToolkit";
-        categories = [
-          "Application"
-        ];
-        mimeType = [
-          "application/develop"
-        ];
-      };
-      fluent-reader = {
-        name="fluent-reader";
-        genericName="reader";
-        exec = "fluent-reader --proxy-server=socks5://127.0.0.1:7890";
-        categories = [
-          "Application"
-        ];
-      };
-      Google-Chrome = {
-        name="Google-Chrome";
-        genericName="Browser";
-        exec = "google-chrome-stable --gtk-version=4";
-        categories = [
-          "Application"
-        ];
-      };
-    };
+    # desktopEntries = {
+    #   mupdf = {
+    #     name = "Mupdf";
+    #     genericName = "Web Browser";
+    #     exec = "mupdf-x11 %f";
+    #     terminal = false;
+    #     categories = [
+    #       "Application"
+    #     ];
+    #     mimeType = [
+    #       "application/pdf"
+    #     ];
+    #   };
+    # };
   };
 
   xresources = {

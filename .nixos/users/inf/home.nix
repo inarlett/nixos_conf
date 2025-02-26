@@ -114,7 +114,6 @@
       clojure-lsp
       cmake
       code-cursor
-      coursier
       davinci-resolve
       dbeaver-bin
       dconf
@@ -127,7 +126,6 @@
       evtest
       ffmpeg-full
       firejail
-      fluent-reader
       fontforge
       freecad-wayland
       gh
@@ -152,7 +150,6 @@
       haskell-language-server
       hledger
       hledger-web
-      hmcl
       html-tidy
       imagemagick
       inkscape
@@ -165,7 +162,6 @@
       leiningen
       libllvm
       libreoffice-fresh
-      linux-wallpaperengine
       # libsForQt5.full
       lldb
       # llvmPackages.libcxx
@@ -175,7 +171,6 @@
       maven
       meson
       metals
-      mill
       moonlight-qt
       musescore
       nethack
@@ -189,7 +184,6 @@
       # openai-whisper-cpp
       pipx
       plantuml
-      podman
       python3
       ra-multiplex
       racket-minimal
@@ -202,7 +196,6 @@
       # rustlings
       rustdesk-flutter
       rustup
-      sbt
       vlc
       # rust-analyzer
       sbcl
@@ -407,7 +400,7 @@
     };
     yazi = {
       enable = true;
-      #enableBashIntegration = true;
+      enableBashIntegration = true;
       enableZshIntegration = true;
     };
     zoxide = {
@@ -456,8 +449,6 @@
     configFile = {
       "redshift/redshift.conf".source = ./redshift.conf;
       "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
-      "yazi/yazi.toml".source=./yazi.toml;
-      #"git/config".source = ./git-config;
     };
 
     desktopEntries = {
@@ -482,33 +473,6 @@
         ];
         mimeType = [
           "application/develop"
-        ];
-      };
-      idea-community-bin= {
-        name = "IDEA-CE";
-        genericName = "Text Editor";
-        exec = "idea-community -Dawt.toolkit.name=WLToolkit";
-        categories = [
-          "Application"
-        ];
-        mimeType = [
-          "application/develop"
-        ];
-      };
-      fluent-reader = {
-        name="fluent-reader";
-        genericName="reader";
-        exec = "fluent-reader --proxy-server=socks5://127.0.0.1:7890";
-        categories = [
-          "Application"
-        ];
-      };
-      Google-Chrome = {
-        name="Google-Chrome";
-        genericName="Browser";
-        exec = "google-chrome-stable --gtk-version=4";
-        categories = [
-          "Application"
         ];
       };
     };
