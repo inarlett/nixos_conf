@@ -99,8 +99,7 @@
       go-musicfox
       betterlockscreen
       bleachbit
-      #blender
-      blender-hip
+      blender
       blueman
       cabal-install
       cachix
@@ -112,8 +111,10 @@
       clipmenu
       clojure
       clojure-lsp
+      cloudflare-warp
       cmake
       code-cursor
+      conda
       coursier
       davinci-resolve
       dbeaver-bin
@@ -176,6 +177,7 @@
       meson
       metals
       mill
+      mindustry-wayland
       moonlight-qt
       musescore
       nethack
@@ -189,6 +191,7 @@
       # openai-whisper-cpp
       pipx
       plantuml
+      pnpm
       podman
       python3
       ra-multiplex
@@ -214,6 +217,7 @@
       shotcut
       showmethekey
       slurp
+      snapper
       solaar
       speedtest-cli
       styluslabs-write

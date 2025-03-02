@@ -140,6 +140,10 @@
         "zookeeper.connect" = "localhost:2181";
       };
     };
+    cloudflare-warp={
+      enable=true;
+
+    };
     # aria2 = {
     #   enable = true;
     #   rpcSecretFile = /run/secrets/aria2-rpc-token.txt;
@@ -292,6 +296,12 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking = {
     firewall.interfaces."docker0".allowedTCPPorts = [ 7890 ];
+    networkmanager = {
+      enable= true;
+      wifi = {
+        scanRandMacAddress = false;
+      };
+    };
   };
   # Or disable the firewall altogether.
 
