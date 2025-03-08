@@ -21,7 +21,7 @@
   # release notes.
   # The home.packages option allows you to install Nix packages into your
   # environment.
-
+  nixpkgs.config.allowUnfree = true;
   dconf = {
     enable = true;
     settings = {
@@ -85,6 +85,7 @@
       # archivebox # insecure
       SDL2_mixer
       agda
+      aichat
       aider-chat
       anki-bin
       (aspellWithDicts (
@@ -148,6 +149,7 @@
       graphviz
       gsl
       gtest
+      gtkwave
       guile
       # haskellPackages.ghcup
       haskell-language-server
@@ -194,8 +196,10 @@
       pnpm
       podman
       python3
+      qFlipper
+      qq
       ra-multiplex
-      racket-minimal
+      racket
       rclone
       #redshift
       rocmPackages.rocm-smi
@@ -235,6 +239,7 @@
       maim
       unrar
       # volume
+      verilator
       w3m
       wechat-uos
       wineWowPackages.full
@@ -248,14 +253,15 @@
       xmake
       xss-lock
       xsettingsd
-      qq
       # yq
       zeal
       zig
       zls
       zotero
     ]++
-    (with pkgs.python312Packages; [compiledb]);
+    (with pkgs.python312Packages; [compiledb])
+    ++
+    (with pkgs.xfce; [thunar]);
 
     pointerCursor = {
       gtk.enable = true;

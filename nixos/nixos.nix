@@ -63,10 +63,12 @@
       lm_sensors
       man-pages
       man-pages-posix
+      micromamba
       ncurses
       ntfs3g
       polkit_gnome
       readline
+      redsocks
       wayland-utils
       waydroid
       vulkan-tools
@@ -142,7 +144,6 @@
     };
     cloudflare-warp={
       enable=true;
-
     };
     # aria2 = {
     #   enable = true;
@@ -194,6 +195,20 @@
     rabbitmq = {
       enable = true;
     };
+    #redsocks = {
+    #  enable = true;
+    #  redsocks = [
+    #    {
+    #      doNotRedirect = [
+    #        "-d 1.2.0.0/16"
+    #      ];
+    #      port = 23456;
+    #      proxy = "127.0.0.1:7890";
+    #      redirectCondition = "--dport 80";
+    #      type = "http-relay";
+    #    }
+    #  ];
+    #};
     redis.servers = {
       logos = {
         enable = true;

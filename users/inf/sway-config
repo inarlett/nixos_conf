@@ -38,7 +38,7 @@ exec swayidle -w \
           before-sleep 'swaylock -f -c 000000'
 output * bg ~/Pictures/Wallpapers/wp4574930-ftl-faster-than-light-wallpapers.jpg fill
 
-exec --no-startup-id clash-meta -f ~/.config/mihomo/clash.yaml
+#exec --no-startup-id clash-meta -f ~/.config/mihomo/clash.yaml
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
