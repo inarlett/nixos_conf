@@ -8,6 +8,7 @@
   ...
 }:
 
+
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -117,7 +118,14 @@
       code-cursor
       conda
       coursier
-      davinci-resolve
+      davinci-resolve-custom
+      (import ./davinci-resolve-custom.nix {
+        inherit pkgs;
+        perl = pkgs.perl;
+        bash = pkgs.bash;
+        writeText = pkgs.writeText;
+        xkeyboard_config = pkgs.xkeyboard_config;
+      })
       dbeaver-bin
       dconf
       deno
