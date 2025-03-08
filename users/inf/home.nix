@@ -119,13 +119,6 @@
       conda
       coursier
       davinci-resolve-custom
-      (import ./davinci-resolve-custom.nix {
-        inherit pkgs;
-        perl = pkgs.perl;
-        bash = pkgs.bash;
-        writeText = pkgs.writeText;
-        xkeyboard_config = pkgs.xkeyboard_config;
-      })
       dbeaver-bin
       dconf
       deno

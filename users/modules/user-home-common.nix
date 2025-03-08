@@ -10,7 +10,6 @@
       fastfetch
       fd
       gdb
-      google-chrome
       mupdf
       nixfmt-rfc-style
       p7zip

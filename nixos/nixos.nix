@@ -313,9 +313,6 @@
     firewall.interfaces."docker0".allowedTCPPorts = [ 7890 ];
     networkmanager = {
       enable= true;
-      wifi = {
-        scanRandMacAddress = false;
-      };
     };
   };
   # Or disable the firewall altogether.
