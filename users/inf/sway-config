@@ -29,6 +29,7 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 exec_always waybar
 exec_always dunst
 exec_always fcitx5
+exec_always clash-verge
 exec_always autotiling
 
 # exec --no-startup-id ~/.config/polybar/launch.sh --hack

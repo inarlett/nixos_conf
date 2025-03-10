@@ -49,6 +49,7 @@
       autotiling
       coreboot-toolchain.riscv
       docker-compose
+      davinci-resolve-custom
       gammastep
       gcc
       glibc
@@ -312,7 +313,7 @@
   networking = {
     firewall.interfaces."docker0".allowedTCPPorts = [ 7890 ];
     networkmanager = {
-      enable= true;
+      enable = true;
     };
   };
   # Or disable the firewall altogether.

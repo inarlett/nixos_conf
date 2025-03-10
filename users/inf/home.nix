@@ -8,7 +8,6 @@
   ...
 }:
 
-
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -118,7 +117,6 @@
       code-cursor
       conda
       coursier
-      davinci-resolve-custom
       dbeaver-bin
       dconf
       deno
@@ -225,6 +223,7 @@
       snapper
       solaar
       speedtest-cli
+      spotify
       styluslabs-write
       tailscale
       tailwindcss
@@ -462,7 +461,6 @@
   #     package = pkgs.adwaita-qt;
   #   };
   # };
-
   xdg = {
     configFile = {
       "redshift/redshift.conf".source = ./redshift.conf;
@@ -470,7 +468,7 @@
       "yazi/yazi.toml".source=./yazi.toml;
       #"git/config".source = ./git-config;
     };
-
+    
     desktopEntries = {
       #   mupdf = {
       #     name = "Mupdf";
@@ -522,7 +520,14 @@
           "Application"
         ];
       };
+      spotifree = {
+        name="spotifree";
+        genericName="Music Player";
+        exec = "/home/inf/.shell/spotify-starter.sh";
+        categories = [ "Audio" "Music" "Player" ];
+      };
     };
+    
   };
 
   xresources = {
