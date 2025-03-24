@@ -18,6 +18,10 @@
       url = "github:nix-community/NixOS-WSL";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # stylix.url = "github:danth/stylix";
   };
   outputs =
@@ -25,6 +29,7 @@
       self,
       nixpkgs,
       home-manager,
+      nur,
       ...
     }:
     let
@@ -106,6 +111,7 @@
             ./nixos/modules/zsh
             ./nixos/modules/localhost-http-proxy.nix
           ];
+          
           nixos = "nixos";
           system = "x86_64-linux";
           users = [

@@ -48,23 +48,26 @@
       )
       autotiling
       coreboot-toolchain.riscv
+      #davinci-resolv
       docker-compose
-      davinci-resolve-custom
       gammastep
       gcc
       glibc
+      #haskellPackages.ghcup
+      icu
       jdk8
       lazydocker
       libgcc
       SDL2
       openblas
+      libglvnd
       linuxHeaders
       linux-manual
       livecaptions
       lm_sensors
       man-pages
       man-pages-posix
-      micromamba
+      mesa
       ncurses
       ntfs3g
       polkit_gnome
@@ -77,6 +80,9 @@
       xdg-desktop-portal
       xdg-desktop-portal-wlr
     ];
+    wordlist = {
+      enable = true;
+    };
   };
 
   i18n = {
@@ -114,10 +120,6 @@
     nix-ld = {
       enable = true;
       libraries = with pkgs; [
-        gcc
-        readline
-        SDL2_mixer
-        SDL2
       ];
     };
     waybar = {
@@ -132,6 +134,21 @@
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
   services = {
+    auto-cpufreq = {
+      enable = true;
+      settings = {
+        battery = {
+          energy_performance_preference = "power";
+          governor = "powersave";  
+          turbo = "auto";
+        };
+        charger = {
+          energy_performance_preference = "balance_power";
+          governor = "powersave";  
+          turbo = "auto";
+        };
+      };
+    };
     acpid = {
       enable = true;
       logEvents = true;

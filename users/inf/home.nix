@@ -83,11 +83,12 @@
       # '')
 
       # archivebox # insecure
-      SDL2_mixer
       agda
       aichat
+      alacritty
       aider-chat
       anki-bin
+      ardour
       (aspellWithDicts (
         dicts: with dicts; [
           en
@@ -100,7 +101,7 @@
       go-musicfox
       betterlockscreen
       bleachbit
-      blender
+      blender-hip
       blueman
       cabal-install
       cachix
@@ -117,6 +118,7 @@
       code-cursor
       conda
       coursier
+      davinci-resolve-studio
       dbeaver-bin
       dconf
       deno
@@ -124,21 +126,27 @@
       # dmd
       dotnet-sdk
       dunst
+      element-web
       espeak
       evtest
       ffmpeg-full
       firejail
+      flameshot
       fluent-reader
       fontforge
       freecad-wayland
+      git-lfs
       gh
       ghc
+      ghidra
       ghostscript
       gimp
       glew
       glfw
       # glib
       goldendict-ng
+      google-chrome
+      
       # google-cloud-sdk
       gopls
       gparted
@@ -156,6 +164,7 @@
       hledger-web
       hmcl
       html-tidy
+      hugo
       imagemagick
       inkscape
       jdt-language-server
@@ -166,25 +175,31 @@
       krita
       leiningen
       libllvm
+      libnotify
       libreoffice-fresh
       linux-wallpaperengine
+      listen1
       # libsForQt5.full
       lldb
       # llvmPackages.libcxx
       # llvmPackages.libcxxClang
       # mariadb
-      mesa
+      jpm
+      mako
       maven
+      mesa
       meson
       metals
       mill
       mindustry-wayland
       moonlight-qt
+      motrix
       musescore
       nethack
       nil
       ninja
       nodejs
+      nodePackages.gulp
       nyxt
       onboard
       onedrive
@@ -194,12 +209,14 @@
       plantuml
       pnpm
       podman
+      pwvucontrol
       python3
       qFlipper
       qq
       ra-multiplex
       racket
       rclone
+      rm-improved
       #redshift
       rocmPackages.rocm-smi
       rsshub
@@ -216,7 +233,6 @@
       scrcpy
       screenkey
       scrot
-      SDL2
       shotcut
       showmethekey
       slurp
@@ -231,7 +247,8 @@
       telegram-desktop
       tesseract
       tokei
-      tor-browser
+      tor
+      #tor-browser
       translate-shell
       typescript
       typescript-language-server
@@ -239,8 +256,10 @@
       maim
       unrar
       # volume
+      # nur.repos.lschuermann.vivado-2022_2
       verilator
       w3m
+      warpd
       wechat-uos
       wineWowPackages.full
       winetricks
@@ -255,6 +274,7 @@
       xsettingsd
       # yq
       zeal
+      zed-editor
       zig
       zls
       zotero
@@ -336,6 +356,7 @@
     };
     git = {
       enable = true;
+      lfs.enable = true;
       userEmail = "insnath@outlook.com";
       userName = "inarlett";
     };
@@ -411,6 +432,7 @@
     };
     tmux = {
       enable = true;
+      extraConfig="set -g mouse on\nset -g prefix M-x";
     };
     vscode = {
       enable = true;
@@ -465,6 +487,7 @@
     configFile = {
       "redshift/redshift.conf".source = ./redshift.conf;
       "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
+      "i3/config".source = ./i3-config;
       "yazi/yazi.toml".source=./yazi.toml;
       #"git/config".source = ./git-config;
     };
@@ -482,10 +505,11 @@
       #       "application/pdf"
       #     ];
       #   };
-      code = {
+      VScode = {
         name = "VSCode";
         genericName = "Text Editor";
         exec = "code --ozone-platform=wayland";
+        icon = "Vscode";
         categories = [
           "Application"
         ];
@@ -514,6 +538,7 @@
       };
       Google-Chrome = {
         name="Google-Chrome";
+        icon="google-chrome-stable";
         genericName="Browser";
         exec = "google-chrome-stable --gtk-version=4";
         categories = [
@@ -522,6 +547,7 @@
       };
       spotifree = {
         name="spotifree";
+        icon = "spotify";
         genericName="Music Player";
         exec = "/home/inf/.shell/spotify-starter.sh";
         categories = [ "Audio" "Music" "Player" ];

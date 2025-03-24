@@ -126,6 +126,8 @@
       touchpad.tapping=true;
     };
     logind = {
+      #lidSwitch ="ignore";
+      #lidSwitchDocked = "ignore";
       extraConfig = ''
         HandlePowerKey=lock
       '';

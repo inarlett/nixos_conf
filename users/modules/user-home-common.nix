@@ -13,6 +13,7 @@
       mupdf
       nixfmt-rfc-style
       p7zip
+      rr
       ripgrep
       tree
       # wget
