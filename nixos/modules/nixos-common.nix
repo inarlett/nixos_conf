@@ -80,6 +80,7 @@
     };
     settings = {
       auto-optimise-store = true;
+
       experimental-features = [
         "nix-command"
         "flakes"
@@ -135,8 +136,10 @@
     # Enable the OpenSSH daemon.
     openssh = {
       enable = true;
+      ports = [ 22 ];
       settings = {
         PermitRootLogin = "no";
+        PasswordAuthentication = true;
       };
     };
     pipewire = {

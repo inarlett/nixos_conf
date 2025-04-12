@@ -21,7 +21,6 @@
   # release notes.
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  nixpkgs.config.allowUnfree = true;
   dconf = {
     enable = true;
     settings = {
@@ -88,6 +87,7 @@
       alacritty
       aider-chat
       anki-bin
+      anydesk
       ardour
       (aspellWithDicts (
         dicts: with dicts; [
@@ -107,18 +107,19 @@
       cachix
       ccache
       clinfo
-      clash-verge-rev
       clang
       clang-tools
+      clash-verge-rev
       clipmenu
       clojure
       clojure-lsp
       cloudflare-warp
       cmake
       code-cursor
+      conan
       conda
       coursier
-      davinci-resolve-studio
+      #davinci-resolve-studio
       dbeaver-bin
       dconf
       deno
@@ -130,6 +131,7 @@
       espeak
       evtest
       ffmpeg-full
+      filezilla
       firejail
       flameshot
       fluent-reader
@@ -201,10 +203,16 @@
       nodejs
       nodePackages.gulp
       nyxt
+      octave
       onboard
       onedrive
+      openconnect
       libsForQt5.okular
       # openai-whisper-cpp
+      obs-studio
+      obs-studio-plugins.obs-pipewire-audio-capture
+      obs-studio-plugins.wlrobs
+      peazip
       pipx
       plantuml
       pnpm
@@ -223,7 +231,7 @@
       rsync
       ruff-lsp # python lsp
       # rustlings
-      rustdesk-flutter
+      #rustdesk
       rustup
       sbt
       vlc
@@ -246,6 +254,7 @@
       # tdlib
       telegram-desktop
       tesseract
+      tigervnc
       tokei
       tor
       #tor-browser
@@ -256,16 +265,20 @@
       maim
       unrar
       # volume
-      # nur.repos.lschuermann.vivado-2022_2
+      #nur.repos.lschuermann.vivado-2022_2
       verilator
+      wayvnc
       w3m
-      warpd
       wechat-uos
+      wemeet
+      windsurf
       wineWowPackages.full
       winetricks
       wl-clipboard
+      wl-kbptr
       wofi
-      wolfram-engine
+      wpsoffice
+      #wolfram-engine
       wshowkeys
       # xautolock
       xdg-ninja
@@ -274,12 +287,16 @@
       xsettingsd
       # yq
       zeal
-      zed-editor
+      #zed-editor
       zig
       zls
       zotero
     ]++
-    (with pkgs.python312Packages; [compiledb])
+    (with pkgs.python312Packages; [
+      compiledb
+      manim
+      pymupdf
+    ])
     ++
     (with pkgs.xfce; [thunar]);
 
@@ -330,7 +347,7 @@
     };
     emacs = {
       enable = true;
-      package = pkgs.emacs30;
+      package = pkgs.emacs-git;
       extraPackages = epkgs: [
         # pkgs.emacsPackages.jinx
         # pkgs.emacsPackages.rime
@@ -393,9 +410,9 @@
     neovim = {
       enable = true;
     };
-    obs-studio = {
-      enable = true;
-    };
+#    obs-studio = {
+#      enable = true;
+#    };
     # opam = {
     #   enable = true;
     #   enableBashIntegration = true;
@@ -418,15 +435,8 @@
       enable = true;
       extraPackages = tpkgs: {
         inherit (tpkgs)
-          amsmath
-          capt-of
-          dvipng # for preview and export as html
-          dvisvgm
-          hyperref
-          mylatexformat
-          scheme-basic
-          ulem
-          wrapfig
+          
+          scheme-full
           ;
       };
     };
@@ -487,9 +497,13 @@
     configFile = {
       "redshift/redshift.conf".source = ./redshift.conf;
       "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
+      "sway/binds.sway".source = ./binds.sway;
+      "sway/modes.sway".source = ./modes.sway;
       "i3/config".source = ./i3-config;
       "yazi/yazi.toml".source=./yazi.toml;
-      #"git/config".source = ./git-config;
+      "waybar/config".source=./waybar-config;
+      "waybar/style.css".source=./style.css;
+      
     };
     
     desktopEntries = {
@@ -505,6 +519,7 @@
       #       "application/pdf"
       #     ];
       #   };
+
       VScode = {
         name = "VSCode";
         genericName = "Text Editor";

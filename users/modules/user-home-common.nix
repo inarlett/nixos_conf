@@ -16,7 +16,8 @@
       rr
       ripgrep
       tree
-      # wget
+      wget
+      units
       unzip
       volume
       xdg-utils

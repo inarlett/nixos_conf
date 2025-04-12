@@ -5,6 +5,8 @@
 }:
 
 {
+  
+  nixpkgs.config.allowUnfree = true;
   documentation = {
     dev = {
       enable = true;
@@ -24,16 +26,12 @@
         let
           base = pkgs.appimageTools.defaultFhsEnvArgs;
         in
-        pkgs.buildFHSUserEnv (
+        pkgs.buildFHSEnv (
           base
           // {
             name = "fhs";
             targetPkgs =
               pkgs:
-              # pkgs.buildFHSUserEnv 只提供一个最小的 FHS 环境，缺少很多常用软件所必须的基础包
-              # 所以直接使用它很可能会报错
-              #
-              # pkgs.appimageTools 提供了大多数程序常用的基础包，所以我们可以直接用它来补充
               (base.targetPkgs pkgs)
               ++ (with pkgs; [
                 pkg-config
@@ -58,8 +56,6 @@
       jdk8
       lazydocker
       libgcc
-      SDL2
-      openblas
       libglvnd
       linuxHeaders
       linux-manual
@@ -70,9 +66,15 @@
       mesa
       ncurses
       ntfs3g
+      openal
+      openblas
       polkit_gnome
       readline
       redsocks
+      SDL2
+      vulkan-validation-layers
+      vulkan-extension-layer
+      vulkan-loader
       wayland-utils
       waydroid
       vulkan-tools
@@ -120,6 +122,7 @@
     nix-ld = {
       enable = true;
       libraries = with pkgs; [
+        readline
       ];
     };
     waybar = {
@@ -134,21 +137,21 @@
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
   services = {
-    auto-cpufreq = {
-      enable = true;
-      settings = {
-        battery = {
-          energy_performance_preference = "power";
-          governor = "powersave";  
-          turbo = "auto";
-        };
-        charger = {
-          energy_performance_preference = "balance_power";
-          governor = "powersave";  
-          turbo = "auto";
-        };
-      };
-    };
+#    auto-cpufreq = {
+#      enable = true;
+#      settings = {
+#        battery = {
+#          energy_performance_preference = "power";
+#          governor = "powersave";  
+#          turbo = "auto";
+#        };
+#        charger = {
+#          energy_performance_preference = "balance_power";
+#          governor = "powersave";  
+#          turbo = "auto";
+#        };
+#      };
+#    };
     acpid = {
       enable = true;
       logEvents = true;
@@ -329,6 +332,8 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking = {
     firewall.interfaces."docker0".allowedTCPPorts = [ 7890 ];
+    firewall.allowedTCPPorts = [ 22 ];
+    
     networkmanager = {
       enable = true;
     };

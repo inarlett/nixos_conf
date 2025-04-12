@@ -39,6 +39,7 @@
       overlays = [
         (import ./pkgs)
         inputs.emacs-overlay.overlays.default
+        inputs.nur.overlays.default
       ];
     in
     {
