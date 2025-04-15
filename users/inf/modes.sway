@@ -1,0 +1,167 @@
+mode $mouse_mode {
+  bindsym --to-code {
+    $left  seat - cursor move -10  0
+    $down  seat - cursor move  0   10
+    $up    seat - cursor move  0  -10
+    $right seat - cursor move  10  0
+    Left   seat - cursor move -10  0
+    Down   seat - cursor move  0   10
+    Up     seat - cursor move  0  -10
+    Right  seat - cursor move  10  0
+    t      seat - cursor press button1
+    s      seat - cursor press button2
+    g      seat - cursor press button3
+
+    p exec wl-kbptr;                 mode "default"
+    d exec wl-kbptr-sway-active-win; mode "default"
+    # back to normal: Enter or Escape
+    Escape mode "default"
+  }
+  bindsym --release {
+    t      seat - cursor release button1
+    s      seat - cursor release button2
+    g      seat - cursor release button3
+  }
+}
+mode $resize_mode {
+  bindsym --to-code {
+    # These bindings trigger as soon as you enter the resize mode
+
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    h resize shrink width 10 px or 10 ppt
+    j resize shrink height 10 px or 10 ppt
+    k resize grow height 10 px or 10 ppt
+    l resize grow width 10 px or 10 ppt
+    # same bindings, but for the arrow keys
+    Left resize shrink width 10 px or 10 ppt
+    Down resize shrink height 10 px or 10 ppt
+    Up resize grow height 10 px or 10 ppt
+    Right resize grow width 10 px or 10 ppt
+
+    # back to normal: Enter or Escape or $mod+r
+    Escape mode "default"
+  
+  }
+}
+mode $gaps_mode {
+  bindsym --to-code {
+    o      mode "$mode_gaps_outer"
+    i      mode "$mode_gaps_inner"
+    h      mode "$mode_gaps_horiz"
+    v      mode "$mode_gaps_verti"
+    t      mode "$mode_gaps_top"
+    r      mode "$mode_gaps_right"
+    b      mode "$mode_gaps_bottom"
+    l      mode "$mode_gaps_left"
+    Escape mode "default"
+  }
+}
+mode "$screenshot_mode" {
+  bindsym --to-code {
+    s exec /home/inf/Documents/scripts/window/wayland/screenshot.sh;mode "default"
+    q exec /home/inf/Documents/scripts/window/wayland/scan.sh;mode "default"
+    t exec /home/inf/Documents/scripts/window/wayland/latex.sh;mode "default"
+    Escape mode "default"
+  }
+}
+
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_horiz" {
+        bindsym plus  gaps horizontal current plus 5
+        bindsym minus gaps horizontal current minus 5
+        bindsym 0     gaps horizontal current set 0
+
+        bindsym Shift+plus  gaps horizontal all plus 5
+        bindsym Shift+minus gaps horizontal all minus 5
+        bindsym Shift+0     gaps horizontal all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_verti" {
+        bindsym plus  gaps vertical current plus 5
+        bindsym minus gaps vertical current minus 5
+        bindsym 0     gaps vertical current set 0
+
+        bindsym Shift+plus  gaps vertical all plus 5
+        bindsym Shift+minus gaps vertical all minus 5
+        bindsym Shift+0     gaps vertical all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_top" {
+        bindsym plus  gaps top current plus 5
+        bindsym minus gaps top current minus 5
+        bindsym 0     gaps top current set 0
+
+        bindsym Shift+plus  gaps top all plus 5
+        bindsym Shift+minus gaps top all minus 5
+        bindsym Shift+0     gaps top all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_right" {
+        bindsym plus  gaps right current plus 5
+        bindsym minus gaps right current minus 5
+        bindsym 0     gaps right current set 0
+
+        bindsym Shift+plus  gaps right all plus 5
+        bindsym Shift+minus gaps right all minus 5
+        bindsym Shift+0     gaps right all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_bottom" {
+        bindsym plus  gaps bottom current plus 5
+        bindsym minus gaps bottom current minus 5
+        bindsym 0     gaps bottom current set 0
+
+        bindsym Shift+plus  gaps bottom all plus 5
+        bindsym Shift+minus gaps bottom all minus 5
+        bindsym Shift+0     gaps bottom all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_left" {
+        bindsym plus  gaps left current plus 5
+        bindsym minus gaps left current minus 5
+        bindsym 0     gaps left current set 0
+
+        bindsym Shift+plus  gaps left all plus 5
+        bindsym Shift+minus gaps left all minus 5
+        bindsym Shift+0     gaps left all set 0
+
+        bindsym Return mode $gaps_mode
+        bindsym Escape mode "default"
+}
+

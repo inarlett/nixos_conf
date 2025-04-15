@@ -1,0 +1,7 @@
+bindsym --to-code {
+
+  $mod+Shift+g mode $gaps_mode
+  $mod+r       mode $resize_mode
+  $mod+s       mode $mouse_mode
+  Mod1+s       mode $screenshot_mode
+}
