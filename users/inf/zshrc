@@ -58,7 +58,7 @@ fi
 
 #microsoft c# runtime support
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
-
+export VISUAL=nvim
 export NVBOARD_HOME=/home/inf/repos/ysyx-workbench/nvboard
 export NPC_HOME=/home/inf/repos/ysyx-workbench/npc
 

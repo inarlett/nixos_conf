@@ -165,6 +165,7 @@
       hledger
       hledger-web
       hmcl
+      home-manager
       html-tidy
       hugo
       imagemagick
@@ -212,6 +213,7 @@
       obs-studio
       obs-studio-plugins.obs-pipewire-audio-capture
       obs-studio-plugins.wlrobs
+      openutau
       peazip
       pipx
       plantuml
@@ -227,11 +229,12 @@
       rm-improved
       #redshift
       rocmPackages.rocm-smi
+      rocmPackages.rocm-runtime
       rsshub
       rsync
       ruff-lsp # python lsp
       # rustlings
-      #rustdesk
+      # rustdesk-flutter
       rustup
       sbt
       vlc
@@ -286,6 +289,9 @@
       xss-lock
       xsettingsd
       # yq
+      yosys
+      zathura
+      
       zeal
       #zed-editor
       zig
@@ -456,6 +462,9 @@
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
+    };
+    zathura = {
+      enable = true;
     };
     zsh = {
       autosuggestion = {

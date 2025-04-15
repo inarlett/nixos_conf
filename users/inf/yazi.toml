@@ -10,7 +10,7 @@
     { run = 'xdg-open "$@"', desc = "Open" },
   ]
   read = [
-    {run= 'mupdf "$@"',block=true,for="unix"},
+    {run= 'zathura "$@"',block=true,for="unix"},
   ]
 [open]
   rules=[

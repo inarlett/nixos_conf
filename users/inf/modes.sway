@@ -57,9 +57,17 @@ mode $gaps_mode {
     b      mode "$mode_gaps_bottom"
     l      mode "$mode_gaps_left"
     Escape mode "default"
-
   }
 }
+mode "$screenshot_mode" {
+  bindsym --to-code {
+    s exec /home/inf/Documents/scripts/window/wayland/screenshot.sh;mode "default"
+    q exec /home/inf/Documents/scripts/window/wayland/scan.sh;mode "default"
+    t exec /home/inf/Documents/scripts/window/wayland/latex.sh;mode "default"
+    Escape mode "default"
+  }
+}
+
 mode "$mode_gaps_outer" {
         bindsym plus  gaps outer current plus 5
         bindsym minus gaps outer current minus 5

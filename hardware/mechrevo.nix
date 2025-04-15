@@ -31,6 +31,17 @@
       fsType = "vfat";
     };
   };
+  powerManagement = {
+    cpuFreqGovernor = "performance";
+    powertop = {
+      enable = true;
+    };
+  };
+  services = {
+    tlp = {
+      enable = true;  
+    };
+  };
   hardware.graphics={
     extraPackages = with pkgs; [
       rocmPackages.clr.icd

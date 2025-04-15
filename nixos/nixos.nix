@@ -55,7 +55,6 @@
       icu
       jdk8
       lazydocker
-      libgcc
       libglvnd
       linuxHeaders
       linux-manual
@@ -85,7 +84,13 @@
     wordlist = {
       enable = true;
     };
+#    variables = rec {
+#      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+#      VISUAL = "nvim";
+#    };
+    
   };
+
 
   i18n = {
     inputMethod = {
@@ -208,6 +213,8 @@
     };
     ollama = {
       enable = true;
+      package = pkgs.ollama-rocm;
+      acceleration = "rocm";
     };
     # Enable CUPS to print documents.
     printing = {
@@ -278,6 +285,7 @@
           TimeoutStopSec = 10;
         };
       };
+      
       apache-kafka.wantedBy = lib.mkForce [ ];
       distccd.wantedBy = lib.mkForce [ ];
       docker.wantedBy = lib.mkForce [ ];
@@ -331,8 +339,18 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking = {
-    firewall.interfaces."docker0".allowedTCPPorts = [ 7890 ];
-    firewall.allowedTCPPorts = [ 22 ];
+    firewall={
+      interfaces."docker0".allowedTCPPorts = [ 7890 ];
+      interfaces.waydroid0 = {
+        allowedUDPPorts = [ 67 53 ]; # 允许 DHCP 和 DNS
+      };
+      allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ 67 53 ];
+      extraCommands = ''
+        iptables -A FORWARD -j ACCEPT
+        ip6tables -A FORWARD -j ACCEPT
+      '';
+    };
     
     networkmanager = {
       enable = true;

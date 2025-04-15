@@ -113,7 +113,8 @@
       };
     };
     ollama = {
-      enable = true;  
+      enable = true;
+      
     };
     # Enable CUPS to print documents.
     printing = {

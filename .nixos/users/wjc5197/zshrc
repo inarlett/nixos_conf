@@ -1,2 +1,0 @@
-export PS1="%n:%m %~ %F{#8963b7}λ%f "
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#717171"
