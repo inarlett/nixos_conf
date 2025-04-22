@@ -16,10 +16,12 @@
         "xhci_pci"
       ];
       kernelModules = [
-	"amdgpu"
-	"kvm_amd"
+	      "amdgpu"
+	      "kvm_amd"
       ];
     };
+    kernelParams = [ "processor.max_cstate=1" ];
+
   };
   fileSystems = {
     "/" = {
@@ -31,12 +33,21 @@
       fsType = "vfat";
     };
   };
-  hardware.graphics={
-    extraPackages = with pkgs; [
-      rocmPackages.clr.icd
-      amdvlk
-      mesa
-    ];
+  powerManagement = {
+    cpuFreqGovernor = "performance";
+    powertop = {
+      enable = true;
+    };
+  };
+  hardware={
+    cpu.amd.updateMicrocode = true;
+    graphics={
+      extraPackages = with pkgs; [
+        rocmPackages.clr.icd
+        amdvlk
+        mesa
+      ];
+    };
   };
   imports = [
     (import ./modules/grub2-theme-uefi-grub.nix {

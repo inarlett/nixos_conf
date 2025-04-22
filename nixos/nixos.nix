@@ -44,17 +44,12 @@
           }
         )
       )
-      autotiling
-      coreboot-toolchain.riscv
       #davinci-resolv
-      docker-compose
-      gammastep
       gcc
       glibc
       #haskellPackages.ghcup
       icu
       jdk8
-      lazydocker
       libglvnd
       linuxHeaders
       linux-manual
@@ -64,6 +59,7 @@
       man-pages-posix
       mesa
       ncurses
+      nss
       ntfs3g
       openal
       openblas
@@ -75,7 +71,6 @@
       vulkan-extension-layer
       vulkan-loader
       wayland-utils
-      waydroid
       vulkan-tools
       xsel
       xdg-desktop-portal
@@ -84,14 +79,13 @@
     wordlist = {
       enable = true;
     };
-#    variables = rec {
-#      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
-#      VISUAL = "nvim";
-#    };
+    variables = rec {
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+      VISUAL = "nvim";
+      XCURSOR_SIZE = "64";
+    };
     
   };
-
-
   i18n = {
     inputMethod = {
       fcitx5 = {
@@ -119,10 +113,6 @@
     sway = {
       enable = true;
       wrapperFeatures.gtk = true;
-    };
-    yazi = {
-      enable = true;
-
     };
     nix-ld = {
       enable = true;
@@ -157,6 +147,9 @@
 #        };
 #      };
 #    };
+    
+    
+    
     acpid = {
       enable = true;
       logEvents = true;
@@ -179,6 +172,7 @@
       sddm = {
         enable = true;
         wayland.enable = true;
+        
       };
     };
     distccd = {
@@ -242,8 +236,18 @@
         enable = true;
       };
     };
+    snapper = {
+      configs = {
+        root = {   # 为根分区创建配置
+          SUBVOLUME = "/";
+        };
+      };
+    };
     sunshine = {
       enable = true;
+    };
+    tlp = {
+      enable = true;  
     };
     # touchegg = {
     #   enable = false;

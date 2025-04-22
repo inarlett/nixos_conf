@@ -108,6 +108,7 @@
     pam = {
       sshAgentAuth.enable = true;
       services.sudo.sshAgentAuth = true;
+      
     };
     sudo = {
       wheelNeedsPassword = false;

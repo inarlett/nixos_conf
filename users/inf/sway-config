@@ -37,7 +37,7 @@ exec swayidle -w \
           timeout 1200 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
           before-sleep 'swaylock -f -c 000000'
 #output * bg ~/Pictures/Wallpapers/OGAS.png fill
-exec linux-wallpaperengine --screen-root eDP-1 1340331899
+exec linux-wallpaperengine --screen-root eDP-1 822829466
 exec --no-startup-id clash-meta -f ~/.config/mihomo/clash.yaml
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.

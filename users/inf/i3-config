@@ -243,3 +243,4 @@ gaps inner 10px
 # set background
 
 # add polybar
+exec_always --no-startup-id ~/.config/polybar/launch.sh

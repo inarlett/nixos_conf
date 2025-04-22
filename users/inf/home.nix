@@ -59,252 +59,269 @@
       #   org.gradle.console=verbose
       #   org.gradle.daemon.idletimeout=3600000
       # '';
+      ".Xresources"={
+        enable = true;
+        source = ./.Xresources;
+      };
     };
     homeDirectory = "/home/inf";
     #packages = with pkgs.python312Packages; [
     #  compiledb
     #];
-    packages = with pkgs; [
-      # # Adds the 'hello' command to your environment. It prints a friendly
-      # # "Hello, world!" when run.
-      # pkgs.hello
-      # # It is sometimes useful to fine-tune packages, for example, by applying
-      # # overrides. You can do that directly here, just don't forget the
-      # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-      # # fonts?
-      # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    packages =
+      with pkgs;
+      [
+        # # Adds the 'hello' command to your environment. It prints a friendly
+        # # "Hello, world!" when run.
+        # pkgs.hello
+        # # It is sometimes useful to fine-tune packages, for example, by applying
+        # # overrides. You can do that directly here, just don't forget the
+        # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+        # # fonts?
+        # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-      # # You can also create simple shell scripts directly inside your
-      # # configuration. For example, this adds a command 'my-hello' to your
-      # # environment:
-      # (pkgs.writeShellScriptBin "my-hello" ''
-      #   echo "Hello, ${config.home.username}!"
-      # '')
+        # # You can also create simple shell scripts directly inside your
+        # # configuration. For example, this adds a command 'my-hello' to your
+        # # environment:
+        # (pkgs.writeShellScriptBin "my-hello" ''
+        #   echo "Hello, ${config.home.username}!"
+        # '')
 
-      # archivebox # insecure
-      agda
-      aichat
-      alacritty
-      aider-chat
-      anki-bin
-      anydesk
-      ardour
-      (aspellWithDicts (
-        dicts: with dicts; [
-          en
-          en-computers
-          en-science
-        ]
-      ))
-      audacity
-      bear
-      go-musicfox
-      betterlockscreen
-      bleachbit
-      blender-hip
-      blueman
-      cabal-install
-      cachix
-      ccache
-      clinfo
-      clang
-      clang-tools
-      clash-verge-rev
-      clipmenu
-      clojure
-      clojure-lsp
-      cloudflare-warp
-      cmake
-      code-cursor
-      conan
-      conda
-      coursier
-      #davinci-resolve-studio
-      dbeaver-bin
-      dconf
-      deno
-      discord
-      # dmd
-      dotnet-sdk
-      dunst
-      element-web
-      espeak
-      evtest
-      ffmpeg-full
-      filezilla
-      firejail
-      flameshot
-      fluent-reader
-      fontforge
-      freecad-wayland
-      git-lfs
-      gh
-      ghc
-      ghidra
-      ghostscript
-      gimp
-      glew
-      glfw
-      # glib
-      goldendict-ng
-      google-chrome
-      
-      # google-cloud-sdk
-      gopls
-      gparted
-      gperf
-      # gping
-      gradle
-      graphviz
-      gsl
-      gtest
-      gtkwave
-      guile
-      # haskellPackages.ghcup
-      haskell-language-server
-      hledger
-      hledger-web
-      hmcl
-      home-manager
-      html-tidy
-      hugo
-      imagemagick
-      inkscape
-      jdt-language-server
-      jetbrains.idea-community-bin
-      jq
-      kdePackages.full
-      # kdePackages.okular
-      krita
-      leiningen
-      libllvm
-      libnotify
-      libreoffice-fresh
-      linux-wallpaperengine
-      listen1
-      # libsForQt5.full
-      lldb
-      # llvmPackages.libcxx
-      # llvmPackages.libcxxClang
-      # mariadb
-      jpm
-      mako
-      maven
-      mesa
-      meson
-      metals
-      mill
-      mindustry-wayland
-      moonlight-qt
-      motrix
-      musescore
-      nethack
-      nil
-      ninja
-      nodejs
-      nodePackages.gulp
-      nyxt
-      octave
-      onboard
-      onedrive
-      openconnect
-      libsForQt5.okular
-      # openai-whisper-cpp
-      obs-studio
-      obs-studio-plugins.obs-pipewire-audio-capture
-      obs-studio-plugins.wlrobs
-      openutau
-      peazip
-      pipx
-      plantuml
-      pnpm
-      podman
-      pwvucontrol
-      python3
-      qFlipper
-      qq
-      ra-multiplex
-      racket
-      rclone
-      rm-improved
-      #redshift
-      rocmPackages.rocm-smi
-      rocmPackages.rocm-runtime
-      rsshub
-      rsync
-      ruff-lsp # python lsp
-      # rustlings
-      # rustdesk-flutter
-      rustup
-      sbt
-      vlc
-      # rust-analyzer
-      sbcl
-      scala
-      scrcpy
-      screenkey
-      scrot
-      shotcut
-      showmethekey
-      slurp
-      snapper
-      solaar
-      speedtest-cli
-      spotify
-      styluslabs-write
-      tailscale
-      tailwindcss
-      # tdlib
-      telegram-desktop
-      tesseract
-      tigervnc
-      tokei
-      tor
-      #tor-browser
-      translate-shell
-      typescript
-      typescript-language-server
-      typst
-      maim
-      unrar
-      # volume
-      #nur.repos.lschuermann.vivado-2022_2
-      verilator
-      wayvnc
-      w3m
-      wechat-uos
-      wemeet
-      windsurf
-      wineWowPackages.full
-      winetricks
-      wl-clipboard
-      wl-kbptr
-      wofi
-      wpsoffice
-      #wolfram-engine
-      wshowkeys
-      # xautolock
-      xdg-ninja
-      xmake
-      xss-lock
-      xsettingsd
-      # yq
-      yosys
-      zathura
-      
-      zeal
-      #zed-editor
-      zig
-      zls
-      zotero
-    ]++
-    (with pkgs.python312Packages; [
-      compiledb
-      manim
-      pymupdf
-    ])
-    ++
-    (with pkgs.xfce; [thunar]);
+        # archivebox # insecure
+        
+        # dmd
+        # glib
+        # google-cloud-sdk
+        # gping
+        # haskellPackages.ghcup
+        # kdePackages.okular
+        # libsForQt5.full
+        # llvmPackages.libcxx
+        # llvmPackages.libcxxClang
+        # mariadb
+        # openai-whisper-cpp
+        # rust-analyzer
+        # rustdesk-flutter
+        # rustlings
+        # tdlib
+        # volume
+        # xautolock
+        # yq
+        #davinci-resolve-studio
+        #nur.repos.lschuermann.vivado-2022_2
+        #redshift
+        #tor-browser
+        #wolfram-engine
+        #zed-editor
+        agda
+        aichat
+        aider-chat
+        alacritty
+        anki-bin
+        anydesk
+        ardour
+        (aspellWithDicts (
+          dicts: with dicts; [
+            en
+            en-computers
+            en-science
+          ]
+        ))
+        audacity
+        autotiling
+        bear
+        betterlockscreen
+        bleachbit
+        blender-hip
+        blueman
+        cabal-install
+        cachix
+        ccache
+        clang
+        clang-tools
+        clash-verge-rev
+        clinfo
+        clipmenu
+        clojure
+        clojure-lsp
+        cloudflare-warp
+        cmake
+        code-cursor
+        conda
+        #coreboot-toolchain.riscv
+        coursier
+        dbeaver-bin
+        dconf
+        deno
+        dirstalk
+        discord
+        docker-compose
+        dotnet-sdk
+        dunst
+        element-web
+        espeak
+        evtest
+        ffmpeg-full
+        filezilla
+        firejail
+        flameshot
+        fluent-reader
+        fontforge
+        freecad-wayland
+        gammastep
+        gh
+        ghc
+        ghidra
+        ghostscript
+        gimp
+        git-lfs
+        glew
+        glfw
+        go-musicfox
+        goldendict-ng
+        google-chrome
+        gopls
+        gparted
+        gperf
+        gradle
+        graphviz
+        gsl
+        gtest
+        gtkwave
+        guile
+        haskell-language-server
+        hledger
+        hledger-web
+        hmcl
+        home-manager
+        html-tidy
+        hugo
+        imagemagick
+        inkscape
+        irssi
+        jdt-language-server
+        jetbrains.idea-community-bin
+        jpm
+        jq
+        kdePackages.full
+        krita
+        lazydocker
+        leiningen
+        libllvm
+        libnotify
+        libreoffice-fresh
+        libsForQt5.okular
+        libsForQt5.kdeconnect-kde
+        linux-wallpaperengine
+        listen1
+        lldb
+        lsb-release
+        maim
+        mako
+        maven
+        mesa
+        meson
+        metals
+        mill
+        mindustry-wayland
+        moonlight-qt
+        motrix
+        musescore
+        nethack
+        nil
+        ninja
+        nix-index
+        nodePackages.gulp
+        nodejs
+        nyxt
+        obs-studio
+        obs-studio-plugins.obs-pipewire-audio-capture
+        obs-studio-plugins.wlrobs
+        octave
+        onboard
+        onedrive
+        openconnect
+        openutau
+        peazip
+        pipx
+        plantuml
+        pnpm
+        podman
+        polybar
+        pwvucontrol
+        python3
+        qFlipper
+        qq
+        ra-multiplex
+        racket
+        rclone
+        rm-improved
+        rocmPackages.rocm-runtime
+        rocmPackages.rocm-smi
+        rsshub
+        rsync
+        ruff-lsp # python lsp
+        rustup
+        sbcl
+        sbt
+        scala
+        scrcpy
+        screenkey
+        scrot
+        shotcut
+        showmethekey
+        siji
+        slurp
+        snapper
+        solaar
+        speedtest-cli
+        spotify
+        styluslabs-write
+        tailscale
+        tailwindcss
+        telegram-desktop
+        tesseract
+        tigervnc
+        tokei
+        tor
+        translate-shell
+        typescript
+        typescript-language-server
+        typst
+        unifont
+        unrar
+        verilator
+        vlc
+        w3m
+        waydroid
+        wayvnc
+        wechat-uos
+        wemeet
+        windsurf
+        wineWowPackages.full
+        winetricks
+        wl-clipboard
+        wl-kbptr
+        wofi
+        wpsoffice
+        wshowkeys
+        xdg-ninja
+        xmake
+        xsettingsd
+        xss-lock
+        yosys
+        zathura
+        zeal
+        zig
+        zls
+        zotero
+      ]
+      ++ (with pkgs.python312Packages; [
+        compiledb
+        manim
+        pymupdf
+      ])
+      ++ (with pkgs.xfce; [ thunar ]);
 
     pointerCursor = {
       gtk.enable = true;
@@ -331,12 +348,13 @@
     #
     sessionVariables = {
       CM_HISTLENGTH = 31;
-      CM_LAUNCHER = "rofi";
       TERMINAL = "kitty";
+       
       MOZ_ENABLE_WAYLAND = 1;
-      NEMU_HOME = "/home/inf/repos/ics2024/nemu";
+    #  CM_LAUNCHER = "rofi";
+    #  NEMU_HOME = "/home/inf/repos/ics2024/nemu";
     };
-    stateVersion = "24.11"; # Please read the comment before changing.
+    stateVersion = "25.05"; # Please read the comment before changing.
     username = "inf";
   };
 
@@ -392,6 +410,7 @@
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     java = {
+      package = pkgs.jdk8;
       enable = true;
     };
     kitty = {
@@ -416,9 +435,9 @@
     neovim = {
       enable = true;
     };
-#    obs-studio = {
-#      enable = true;
-#    };
+    #    obs-studio = {
+    #      enable = true;
+    #    };
     # opam = {
     #   enable = true;
     #   enableBashIntegration = true;
@@ -441,14 +460,14 @@
       enable = true;
       extraPackages = tpkgs: {
         inherit (tpkgs)
-          
+
           scheme-full
           ;
       };
     };
     tmux = {
       enable = true;
-      extraConfig="set -g mouse on\nset -g prefix M-x";
+      extraConfig = "set -g mouse on\nset -g prefix M-x";
     };
     vscode = {
       enable = true;
@@ -509,12 +528,14 @@
       "sway/binds.sway".source = ./binds.sway;
       "sway/modes.sway".source = ./modes.sway;
       "i3/config".source = ./i3-config;
-      "yazi/yazi.toml".source=./yazi.toml;
-      "waybar/config".source=./waybar-config;
-      "waybar/style.css".source=./style.css;
-      
+      "polybar/config.ini".source = ./polybar-config.ini;
+      "polybar/launch.sh".source = ./polybar-launch.sh;
+      "yazi/yazi.toml".source = ./yazi.toml;
+      "waybar/config".source = ./waybar-config;
+      "waybar/style.css".source = ./style.css;
+
     };
-    
+
     desktopEntries = {
       #   mupdf = {
       #     name = "Mupdf";
@@ -541,7 +562,7 @@
           "application/develop"
         ];
       };
-      idea-community-bin= {
+      idea-community-bin = {
         name = "IDEA-CE";
         genericName = "Text Editor";
         exec = "idea-community -Dawt.toolkit.name=WLToolkit";
@@ -553,31 +574,35 @@
         ];
       };
       fluent-reader = {
-        name="fluent-reader";
-        genericName="reader";
+        name = "fluent-reader";
+        genericName = "reader";
         exec = "fluent-reader --proxy-server=socks5://127.0.0.1:7890";
         categories = [
           "Application"
         ];
       };
       Google-Chrome = {
-        name="Google-Chrome";
-        icon="google-chrome-stable";
-        genericName="Browser";
+        name = "Google-Chrome";
+        icon = "google-chrome-stable";
+        genericName = "Browser";
         exec = "google-chrome-stable --gtk-version=4";
         categories = [
           "Application"
         ];
       };
       spotifree = {
-        name="spotifree";
+        name = "spotifree";
         icon = "spotify";
-        genericName="Music Player";
+        genericName = "Music Player";
         exec = "/home/inf/.shell/spotify-starter.sh";
-        categories = [ "Audio" "Music" "Player" ];
+        categories = [
+          "Audio"
+          "Music"
+          "Player"
+        ];
       };
     };
-    
+
   };
 
   xresources = {
