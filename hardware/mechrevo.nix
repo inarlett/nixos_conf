@@ -16,8 +16,8 @@
         "xhci_pci"
       ];
       kernelModules = [
-	      "amdgpu"
-	      "kvm_amd"
+        "amdgpu"
+        "kvm_amd"
       ];
     };
     kernelParams = [ "processor.max_cstate=1" ];
@@ -33,15 +33,15 @@
       fsType = "vfat";
     };
   };
-  powerManagement = {
-    cpuFreqGovernor = "performance";
-    powertop = {
-      enable = true;
-    };
-  };
-  hardware={
+#  powerManagement = {
+#    cpuFreqGovernor = "powersave";
+#    powertop = {
+#      enable = true;
+#    };
+#  };
+  hardware = {
     cpu.amd.updateMicrocode = true;
-    graphics={
+    graphics = {
       extraPackages = with pkgs; [
         rocmPackages.clr.icd
         amdvlk
@@ -55,5 +55,11 @@
       theme = "tela";
     })
     ./modules/hardware-common.nix
+  ];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+    }
   ];
 }

@@ -79,6 +79,10 @@
     wordlist = {
       enable = true;
     };
+    sessionVariables = {
+      WLR_RENDERER = "vulkan";
+      AMD_VULKAN_ICD = "RADV";
+    };
     variables = rec {
       LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
       VISUAL = "nvim";
@@ -132,21 +136,21 @@
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
   services = {
-#    auto-cpufreq = {
-#      enable = true;
-#      settings = {
-#        battery = {
-#          energy_performance_preference = "power";
-#          governor = "powersave";  
-#          turbo = "auto";
-#        };
-#        charger = {
-#          energy_performance_preference = "balance_power";
-#          governor = "powersave";  
-#          turbo = "auto";
-#        };
-#      };
-#    };
+    auto-cpufreq = {
+      enable = true;
+      settings = {
+        battery = {
+          energy_performance_preference = "power";
+          governor = "powersave";  
+          turbo = "auto";
+        };
+        charger = {
+          energy_performance_preference = "balance_power";
+          governor = "powersave";  
+          turbo = "auto";
+        };
+      };
+    };
     
     
     
@@ -172,7 +176,6 @@
       sddm = {
         enable = true;
         wayland.enable = true;
-        
       };
     };
     distccd = {

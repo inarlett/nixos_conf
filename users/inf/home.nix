@@ -59,10 +59,6 @@
       #   org.gradle.console=verbose
       #   org.gradle.daemon.idletimeout=3600000
       # '';
-      ".Xresources"={
-        enable = true;
-        source = ./.Xresources;
-      };
     };
     homeDirectory = "/home/inf";
     #packages = with pkgs.python312Packages; [
@@ -139,8 +135,8 @@
         ccache
         clang
         clang-tools
-        clash-verge-rev
         clinfo
+        cling
         clipmenu
         clojure
         clojure-lsp
@@ -160,7 +156,9 @@
         dunst
         element-web
         espeak
+        evcxr
         evtest
+        feishu
         ffmpeg-full
         filezilla
         firejail
@@ -237,7 +235,7 @@
         obs-studio
         obs-studio-plugins.obs-pipewire-audio-capture
         obs-studio-plugins.wlrobs
-        octave
+        #octave
         onboard
         onedrive
         openconnect
@@ -265,6 +263,7 @@
         sbcl
         sbt
         scala
+        scilab-bin
         scrcpy
         screenkey
         scrot
@@ -297,7 +296,6 @@
         wayvnc
         wechat-uos
         wemeet
-        windsurf
         wineWowPackages.full
         winetricks
         wl-clipboard
@@ -462,6 +460,7 @@
         inherit (tpkgs)
 
           scheme-full
+          xecjk
           ;
       };
     };
@@ -529,11 +528,14 @@
       "sway/modes.sway".source = ./modes.sway;
       "i3/config".source = ./i3-config;
       "polybar/config.ini".source = ./polybar-config.ini;
-      "polybar/launch.sh".source = ./polybar-launch.sh;
+      "polybar/launch.sh"={
+        source = ./polybar-launch.sh;
+        executable = true;
+      };
       "yazi/yazi.toml".source = ./yazi.toml;
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./style.css;
-
+      #"zathura/zathurarc".source = ./zathurarc;
     };
 
     desktopEntries = {
@@ -608,7 +610,7 @@
   xresources = {
     properties = {
       "Xft.antialias" = 1;
-      "Xft.dpi" = dpi;
+      "Xft.dpi" = 192;
       "Xft.hinting" = 1;
       "Xft.hintstyle" = "hintfull";
       "Xft.rgba" = "rgb";
