@@ -1,5 +1,4 @@
-{ dpi }:
-{ pkgs, ... }:
+{ dpi,pkgs,inputs, ... }:
 {
   home = {
     homeDirectory = "/root";

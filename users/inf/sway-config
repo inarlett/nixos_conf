@@ -152,10 +152,6 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 
-input type:touchpad {
-    tap enabled
-    natural_scroll enabled
-}
 
 
 # focus the child container

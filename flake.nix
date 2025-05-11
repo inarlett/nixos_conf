@@ -22,6 +22,13 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
+
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
+
     # stylix.url = "github:danth/stylix";
   };
   outputs =
@@ -29,6 +36,8 @@
       self,
       nixpkgs,
       home-manager,
+      hyprland,
+      hyprland-plugins,
       nur,
       ...
     }:
@@ -43,6 +52,16 @@
       ];
     in
     {
+#      homeConfigurations."inf@inf-desktop" = home-manager.lib.homeManagerConfiguration {
+#        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+#        modules = [
+#          hyprland.homeManagerModules.default
+#          (import .users/inf/home.nix {
+#            inherit pkgs hyprland hyprland-plugins;
+#          })
+#        ];
+#      };
+
       nixosConfigurations =
         mkSystem "logos-morph" {
           dpi = 169;
@@ -112,7 +131,7 @@
             ./nixos/modules/zsh
             ./nixos/modules/localhost-http-proxy.nix
           ];
-          
+
           nixos = "nixos";
           system = "x86_64-linux";
           users = [

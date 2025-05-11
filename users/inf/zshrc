@@ -6,9 +6,6 @@ if pgrep -x sway > /dev/null; then
 	export XDG_CURRENT_DESKTOP=sway
 	export XDG_SESSION_DESKTOP=sway
   export USE_WAYLAND_GRIM=1
-	#exec sway
-else
-	echo "zsh_i3"
 fi
 # User configuration
 

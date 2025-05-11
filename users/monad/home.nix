@@ -1,8 +1,7 @@
 {
   dpi,
-}:
-{
   pkgs,
+  inputs,
   ...
 }:
 {

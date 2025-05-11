@@ -5,7 +5,7 @@
 }:
 
 {
-  
+
   nixpkgs.config.allowUnfree = true;
   documentation = {
     dev = {
@@ -22,28 +22,6 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      (
-        let
-          base = pkgs.appimageTools.defaultFhsEnvArgs;
-        in
-        pkgs.buildFHSEnv (
-          base
-          // {
-            name = "fhs";
-            targetPkgs =
-              pkgs:
-              (base.targetPkgs pkgs)
-              ++ (with pkgs; [
-                pkg-config
-                ncurses
-                # 如果你的 FHS 程序还有其他依赖，把它们添加在这里
-              ]);
-            profile = "export FHS=1";
-            runScript = "zsh";
-            extraOutputsToInstall = [ "dev" ];
-          }
-        )
-      )
       #davinci-resolv
       gcc
       glibc
@@ -88,7 +66,7 @@
       VISUAL = "nvim";
       XCURSOR_SIZE = "64";
     };
-    
+
   };
   i18n = {
     inputMethod = {
@@ -118,6 +96,9 @@
       enable = true;
       wrapperFeatures.gtk = true;
     };
+    hyprland ={
+      enable = true;
+    };
     nix-ld = {
       enable = true;
       libraries = with pkgs; [
@@ -141,19 +122,23 @@
       settings = {
         battery = {
           energy_performance_preference = "power";
-          governor = "powersave";  
+          governor = "powersave";
           turbo = "auto";
         };
         charger = {
           energy_performance_preference = "balance_power";
-          governor = "powersave";  
+          governor = "powersave";
           turbo = "auto";
         };
       };
     };
-    
-    
-    
+    cron = {
+      enable = true;
+      systemCronJobs = [
+        "45 23 * * * inf notify-send '休息准备时间"
+      ];
+    };
+
     acpid = {
       enable = true;
       logEvents = true;
@@ -165,8 +150,8 @@
         "zookeeper.connect" = "localhost:2181";
       };
     };
-    cloudflare-warp={
-      enable=true;
+    cloudflare-warp = {
+      enable = true;
     };
     # aria2 = {
     #   enable = true;
@@ -241,7 +226,8 @@
     };
     snapper = {
       configs = {
-        root = {   # 为根分区创建配置
+        root = {
+          # 为根分区创建配置
           SUBVOLUME = "/";
         };
       };
@@ -250,7 +236,7 @@
       enable = true;
     };
     tlp = {
-      enable = true;  
+      enable = true;
     };
     # touchegg = {
     #   enable = false;
@@ -260,7 +246,6 @@
     #     enable = true;
     #   };
     # };
-    # Enable the X11 windowing system.
     xserver = {
       enable = true;
       windowManager = {
@@ -268,7 +253,6 @@
           enable = true;
         };
       };
-      # videoDrivers = [ "intel" ];
     };
     zookeeper = {
       enable = true;
@@ -292,7 +276,7 @@
           TimeoutStopSec = 10;
         };
       };
-      
+
       apache-kafka.wantedBy = lib.mkForce [ ];
       distccd.wantedBy = lib.mkForce [ ];
       docker.wantedBy = lib.mkForce [ ];
@@ -346,19 +330,25 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking = {
-    firewall={
+    firewall = {
       interfaces."docker0".allowedTCPPorts = [ 7890 ];
       interfaces.waydroid0 = {
-        allowedUDPPorts = [ 67 53 ]; # 允许 DHCP 和 DNS
+        allowedUDPPorts = [
+          67
+          53
+        ]; # 允许 DHCP 和 DNS
       };
       allowedTCPPorts = [ 22 ];
-      allowedUDPPorts = [ 67 53 ];
+      allowedUDPPorts = [
+        67
+        53
+      ];
       extraCommands = ''
         iptables -A FORWARD -j ACCEPT
         ip6tables -A FORWARD -j ACCEPT
       '';
     };
-    
+
     networkmanager = {
       enable = true;
     };

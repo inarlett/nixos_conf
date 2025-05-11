@@ -1,8 +1,8 @@
 {
-  dpi,
-}:
-{
   config,
+  dpi,
+  inputs,
+  hyprland-plugins,
   lib,
   pkgs,
   ...
@@ -84,7 +84,7 @@
         # '')
 
         # archivebox # insecure
-        
+
         # dmd
         # glib
         # google-cloud-sdk
@@ -135,6 +135,7 @@
         ccache
         clang
         clang-tools
+        clash-verge-rev
         clinfo
         cling
         clipmenu
@@ -282,16 +283,13 @@
         tesseract
         tigervnc
         tokei
-        tor
-        translate-shell
-        typescript
-        typescript-language-server
         typst
         unifont
         unrar
         verilator
         vlc
         w3m
+        warpd
         waydroid
         wayvnc
         wechat-uos
@@ -301,7 +299,6 @@
         wl-clipboard
         wl-kbptr
         wofi
-        wpsoffice
         wshowkeys
         xdg-ninja
         xmake
@@ -347,13 +344,22 @@
     sessionVariables = {
       CM_HISTLENGTH = 31;
       TERMINAL = "kitty";
-       
+      NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = 1;
-    #  CM_LAUNCHER = "rofi";
-    #  NEMU_HOME = "/home/inf/repos/ics2024/nemu";
+      #  CM_LAUNCHER = "rofi";
+      #  NEMU_HOME = "/home/inf/repos/ics2024/nemu";
     };
     stateVersion = "25.05"; # Please read the comment before changing.
     username = "inf";
+  };
+  wayland.windowManager.hyprland = {
+    enable = true;
+    extraConfig = ''
+
+    '';
+    plugins = [
+      hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hy3
+    ];
   };
 
   imports = [
@@ -403,6 +409,9 @@
       enable = true;
     };
     helix = {
+      enable = true;
+    };
+    hyprlock = {
       enable = true;
     };
     # Let Home Manager install and manage itself.
@@ -523,12 +532,14 @@
   xdg = {
     configFile = {
       "redshift/redshift.conf".source = ./redshift.conf;
+      "hypr/hyprland.conf".source = ./hyprland.conf;
+      "hypr/hyprlock.conf".source = ./hyprlock.conf;
       "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
       "sway/binds.sway".source = ./binds.sway;
       "sway/modes.sway".source = ./modes.sway;
       "i3/config".source = ./i3-config;
       "polybar/config.ini".source = ./polybar-config.ini;
-      "polybar/launch.sh"={
+      "polybar/launch.sh" = {
         source = ./polybar-launch.sh;
         executable = true;
       };
@@ -581,26 +592,6 @@
         exec = "fluent-reader --proxy-server=socks5://127.0.0.1:7890";
         categories = [
           "Application"
-        ];
-      };
-      Google-Chrome = {
-        name = "Google-Chrome";
-        icon = "google-chrome-stable";
-        genericName = "Browser";
-        exec = "google-chrome-stable --gtk-version=4";
-        categories = [
-          "Application"
-        ];
-      };
-      spotifree = {
-        name = "spotifree";
-        icon = "spotify";
-        genericName = "Music Player";
-        exec = "/home/inf/.shell/spotify-starter.sh";
-        categories = [
-          "Audio"
-          "Music"
-          "Player"
         ];
       };
     };

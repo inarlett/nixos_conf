@@ -5,12 +5,12 @@
     // "width": 120, // Waybar width
     // Choose the order of the modules
     "modules-left": [
-        "sway/workspaces",
-        "sway/mode",
+        "hyprland/workspaces",
+        "hyprland/mode",
         "custom/media"
     ],
     "modules-center": [
-        "sway/window"
+        "hyprland/window"
     ],
     "modules-right": [
         "tray",
@@ -23,12 +23,16 @@
         "clock"
     ],
     // Modules configuration
-    "sway/workspaces": {
+    "hyprland/workspaces": {
         "disable-scroll": false,
         "disable-markup": false,
         "all-outputs": true,
+        "format": "{name}",
+        "format-active": "<b>{name}</b>",
+        "format-urgent": "<span color='red'>{name}</span>",
+        "format-inactive": "{name}"
     },
-    "sway/mode": {
+    "hyprland/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
     "idle_inhibitor": {

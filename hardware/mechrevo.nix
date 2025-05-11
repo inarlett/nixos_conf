@@ -20,7 +20,8 @@
         "kvm_amd"
       ];
     };
-    kernelParams = [ "processor.max_cstate=1" ];
+    kernelParams = [
+    ];
 
   };
   fileSystems = {
