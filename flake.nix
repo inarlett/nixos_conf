@@ -22,8 +22,13 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
-
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1&ref=v0.48.0";
+    hy3 = {
+      url = "github:outfoxxed/hy3?ref=hl0.48.0"; # where {version} is the hyprland release version
+      # or "github:outfoxxed/hy3" to follow the development branch.
+      # (you may encounter issues if you dont do the same for hyprland)
+      inputs.hyprland.follows = "hyprland";
+    };
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
@@ -37,6 +42,7 @@
       nixpkgs,
       home-manager,
       hyprland,
+      hy3,
       hyprland-plugins,
       nur,
       ...
@@ -52,16 +58,20 @@
       ];
     in
     {
-#      homeConfigurations."inf@inf-desktop" = home-manager.lib.homeManagerConfiguration {
-#        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-#        modules = [
-#          hyprland.homeManagerModules.default
-#          (import .users/inf/home.nix {
-#            inherit pkgs hyprland hyprland-plugins;
-#          })
-#        ];
-#      };
+      homeConfigurations."inf@inf-desktop" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
+        modules = [
+          hyprland.homeManagerModules.default
+
+          {
+            wayland.windowManager.hyprland = {
+              enable = true;
+              plugins = [ hy3.packages.x86_64-linux.hy3 ];
+            };
+          }
+        ];
+      };
       nixosConfigurations =
         mkSystem "logos-morph" {
           dpi = 169;

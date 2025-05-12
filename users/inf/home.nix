@@ -2,12 +2,14 @@
   config,
   dpi,
   inputs,
-  hyprland-plugins,
   lib,
   pkgs,
   ...
 }:
-
+let
+  hyprland_path = "../modules/gui/hypr";
+  waybar_path = "../modules/gui/waybar";
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -59,6 +61,8 @@
       #   org.gradle.console=verbose
       #   org.gradle.daemon.idletimeout=3600000
       # '';
+      ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink hyprland_path;
+      ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink waybar_path;
     };
     homeDirectory = "/home/inf";
     #packages = with pkgs.python312Packages; [
@@ -352,15 +356,11 @@
     stateVersion = "25.05"; # Please read the comment before changing.
     username = "inf";
   };
-  wayland.windowManager.hyprland = {
-    enable = true;
-    extraConfig = ''
-
-    '';
-    plugins = [
-      hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hy3
-    ];
-  };
+  #  wayland.windowManager.hyprland = {
+  #    enable = true;
+  #    extraConfig = ''
+  #    '';
+  #  };
 
   imports = [
     ../modules/user-home-common.nix
@@ -480,6 +480,42 @@
     vscode = {
       enable = true;
     };
+    wlogout = {
+      enable = true;
+      layout = [
+        {
+          label = "lock";
+          action = "hyprlock";
+          text = "Lock";
+        }
+
+        {
+          label = "hibernate";
+          action = "systemctl hibernate";
+          text = "Hibernate";
+        }
+        {
+          label = "logout";
+          action = "hyprctl dispatch exit";
+          text = "Logout";
+        }
+        {
+          label = "shutdown";
+          action = "systemctl poweroff";
+          text = "Shutdown";
+        }
+        {
+          label = "suspend";
+          action = "systemctl suspend";
+          text = "Suspend";
+        }
+        {
+          label = "reboot";
+          action = "systemctl reboot";
+          text = "Reboot";
+        }
+      ];
+    };
     yazi = {
       enable = true;
       #enableBashIntegration = true;
@@ -518,6 +554,11 @@
       };
     };
   };
+  services = {
+    hypridle = {
+      enable = true;
+    };
+  };
 
   # qt = {
   #   enable = true;
@@ -532,8 +573,6 @@
   xdg = {
     configFile = {
       "redshift/redshift.conf".source = ./redshift.conf;
-      "hypr/hyprland.conf".source = ./hyprland.conf;
-      "hypr/hyprlock.conf".source = ./hyprlock.conf;
       "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
       "sway/binds.sway".source = ./binds.sway;
       "sway/modes.sway".source = ./modes.sway;
@@ -544,8 +583,6 @@
         executable = true;
       };
       "yazi/yazi.toml".source = ./yazi.toml;
-      "waybar/config".source = ./waybar-config;
-      "waybar/style.css".source = ./style.css;
       #"zathura/zathurarc".source = ./zathurarc;
     };
 
