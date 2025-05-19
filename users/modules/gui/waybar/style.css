@@ -144,6 +144,9 @@ window#waybar {
 #window {
     color: bisque;
 }
+#submap {
+    color: bisque;
+}
 
 #workspaces,
 #taskbar {

@@ -16,7 +16,7 @@
       groff
       # inetutils # too old
       libgcc
-      # openssl
+      openssl
       pkg-config
     ];
     wordlist = {
@@ -47,6 +47,7 @@
       noto-fonts-emoji
       sarasa-gothic
       symbola
+      wqy_zenhei
     ];
   };
   # Select internationalisation properties.

@@ -61,6 +61,7 @@ in
           home-manager.users = usersHomeConfig;
           home-manager.useUserPackages = true;
         }
+        inputs.daeuniverse.nixosModules.daed
         nixosConfig
       ];
     specialArgs = { inherit inputs; };

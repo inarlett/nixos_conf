@@ -7,8 +7,16 @@
   ...
 }:
 let
-  hyprland_path = "../modules/gui/hypr";
-  waybar_path = "../modules/gui/waybar";
+  modules_path_base = "${config.home.homeDirectory}/.nixos/users/modules";
+  gui_path_base = "${modules_path_base}/gui";
+  tools_path_base = "${modules_path_base}/tools";
+
+  i3_path = "${gui_path_base}/i3";
+  polybar_path = "${gui_path_base}/polybar";
+  hyprland_path = "${gui_path_base}/hypr";
+  waybar_path = "${gui_path_base}/waybar";
+  yazi_path = "${tools_path_base}/yazi";
+  wpaperd_path = "${gui_path_base}/wpaperd";
 in
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -61,11 +69,17 @@ in
       #   org.gradle.console=verbose
       #   org.gradle.daemon.idletimeout=3600000
       # '';
+      ".profile".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.nixos/users/inf/.profile";
       ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink hyprland_path;
       ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink waybar_path;
+      ".config/i3".source = config.lib.file.mkOutOfStoreSymlink i3_path;
+      ".config/polybar".source = config.lib.file.mkOutOfStoreSymlink polybar_path;
+      ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink wpaperd_path;
+      ".config/yazi".source = config.lib.file.mkOutOfStoreSymlink yazi_path;
     };
     homeDirectory = "/home/inf";
-    #packages = with pkgs.python312Packages; [
+    #packages = with pkgs.python312Packages;
     #  compiledb
     #];
     packages =
@@ -109,7 +123,6 @@ in
         # yq
         #davinci-resolve-studio
         #nur.repos.lschuermann.vivado-2022_2
-        #redshift
         #tor-browser
         #wolfram-engine
         #zed-editor
@@ -133,7 +146,7 @@ in
         betterlockscreen
         bleachbit
         blender-hip
-        blueman
+        bluetuith
         cabal-install
         cachix
         ccache
@@ -143,8 +156,6 @@ in
         clinfo
         cling
         clipmenu
-        clojure
-        clojure-lsp
         cloudflare-warp
         cmake
         code-cursor
@@ -188,6 +199,7 @@ in
         gperf
         gradle
         graphviz
+        grim
         gsl
         gtest
         gtkwave
@@ -226,7 +238,6 @@ in
         meson
         metals
         mill
-        mindustry-wayland
         moonlight-qt
         motrix
         musescore
@@ -248,6 +259,7 @@ in
         peazip
         pipx
         plantuml
+        playerctl
         pnpm
         podman
         polybar
@@ -280,6 +292,7 @@ in
         solaar
         speedtest-cli
         spotify
+        spotify
         styluslabs-write
         tailscale
         tailwindcss
@@ -303,6 +316,7 @@ in
         wl-clipboard
         wl-kbptr
         wofi
+        wpaperd
         wshowkeys
         xdg-ninja
         xmake
@@ -417,20 +431,20 @@ in
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     java = {
-      package = pkgs.jdk8;
+      package = pkgs.jdk11;
       enable = true;
     };
     kitty = {
       enable = true;
       settings = {
-        enable_audio_bell = false;
+        enable_audio_bell = true;
       };
       # extraConfig = builtins.readFile ./kitty.conf;
     };
-    mbsync = {
+    lazygit = {
       enable = true;
     };
-    mpv = {
+    mbsync = {
       enable = true;
     };
     msmtp = {
@@ -518,7 +532,7 @@ in
     };
     yazi = {
       enable = true;
-      #enableBashIntegration = true;
+      enableBashIntegration = true;
       enableZshIntegration = true;
     };
     zoxide = {
@@ -572,18 +586,10 @@ in
   # };
   xdg = {
     configFile = {
-      "redshift/redshift.conf".source = ./redshift.conf;
-      "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
-      "sway/binds.sway".source = ./binds.sway;
-      "sway/modes.sway".source = ./modes.sway;
-      "i3/config".source = ./i3-config;
-      "polybar/config.ini".source = ./polybar-config.ini;
-      "polybar/launch.sh" = {
-        source = ./polybar-launch.sh;
-        executable = true;
-      };
-      "yazi/yazi.toml".source = ./yazi.toml;
-      #"zathura/zathurarc".source = ./zathurarc;
+      #      "sway/config".source = pkgs.lib.mkOverride 10 ./sway-config;
+      #      "sway/binds.sway".source = ./binds.sway;
+      #      "sway/modes.sway".source = ./modes.sway;
+      #      "zathura/zathurarc".source = ./zathurarc;
     };
 
     desktopEntries = {
@@ -626,10 +632,26 @@ in
       fluent-reader = {
         name = "fluent-reader";
         genericName = "reader";
-        exec = "fluent-reader --proxy-server=socks5://127.0.0.1:7890";
+        exec = "fluent-reader";
         categories = [
           "Application"
         ];
+      };
+    };
+    mimeApps = {
+      enable = true;
+      defaultApplications = {
+        # 文本文件
+        "text/plain" = [ "VSCode.desktop" ];
+
+        "image/png" = [ "firefox.desktop" ];
+        "image/jpeg" = [ "firefox.desktop" ];
+
+        "video/mp4" = [ "vlc.desktop" ]; # VLC
+        "video/x-matroska" = [ "vlc.desktop" ];
+
+        "application/pdf"  = [ "zathura.desktop" ];
+        "application/epub" = [ "zathura.desktop" ];
       };
     };
 
@@ -654,4 +676,5 @@ in
   #     };
   #   };
   # };
+
 }

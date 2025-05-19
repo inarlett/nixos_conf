@@ -1,0 +1,122 @@
+global {
+    tproxy_port: 12345
+
+   
+    tproxy_port_protect: true
+
+    pprof_port: 0
+
+    so_mark_from_dae: 0
+
+    log_level: info
+
+    disable_waiting_network: false
+
+    enable_local_tcp_fast_redirect: false
+
+
+    wan_interface: auto#wlp2s0 wan口设备
+
+    auto_config_kernel_parameter: true
+
+    tcp_check_url: 'http://cp.cloudflare.com,1.1.1.1,2606:4700:4700::1111'
+
+    tcp_check_http_method: HEAD
+
+    udp_check_dns: 'dns.google:53,8.8.8.8,2001:4860:4860::8888'
+
+    check_interval: 30s
+
+    check_tolerance: 50ms
+
+
+    ##### Connecting options.
+
+    # Optional values of dial_mode are:
+    # 1. "ip". Dial proxy using the IP from DNS directly. This allows your ipv4, ipv6 to choose the optimal path
+    #       respectively, and makes the IP version requested by the application meet expectations. For example, if you
+    #       use curl -4 ip.sb, you will request IPv4 via proxy and get a IPv4 echo. And curl -6 ip.sb will request IPv6.
+    #       This may solve some wierd full-cone problem if your are be your node support that. Sniffing will be disabled
+    #       in this mode.
+    # 2. "domain". Dial proxy using the domain from sniffing. This will relieve DNS pollution problem to a great extent
+    #       if have impure DNS environment. Generally, this mode brings faster proxy response time because proxy will
+    #       re-resolve the domain in remote, thus get better IP result to connect. This policy does not impact routing.
+    #       That is to say, domain rewrite will be after traffic split of routing and dae will not re-route it.
+    # 3. "domain+". Based on domain mode but do not check the reality of sniffed domain. It is useful for users whose
+    #       DNS requests do not go through dae but want faster proxy response time. Notice that, if DNS requests do not
+    #       go through dae, dae cannot split traffic by domain.
+    # 4. "domain++". Based on domain+ mode but force to re-route traffic using sniffed domain to partially recover
+    #       domain based traffic split ability. It doesn't work for direct traffic and consumes more CPU resources.
+    dial_mode: domain
+
+    # Allow insecure TLS certificates. It is not recommended to turn it on unless you have to.
+    allow_insecure: false
+
+    # Timeout to waiting for first data sending for sniffing. It is always 0 if dial_mode is ip. Set it higher is useful
+    # in high latency LAN network.
+    sniffing_timeout: 100ms
+
+    # TLS implementation. tls is to use Go's crypto/tls. utls is to use uTLS, which can imitate browser's Client Hello.
+    tls_implementation: utls
+
+    # The Client Hello ID for uTLS to imitate. This takes effect only if tls_implementation is utls.
+    # See more: https://github.com/daeuniverse/dae/blob/331fa23c16/component/outbound/transport/tls/utls.go#L17
+    utls_imitate: chrome_auto
+
+    # Multipath TCP (MPTCP) support. If is true, dae will try to use MPTCP to connect all nodes, but it will only take
+    # effects when the node supports MPTCP. It can use for load balance and failover to multiple interfaces and IPs.
+    mptcp: false
+
+    # The maximum bandwidth for accessing the Internet. It is useful for some specific protocols (e.g., Hysteria2),
+    # which will perform better with bandwith information provided. The unit can be b, kb, mb, gb, tb or bytes per second.
+    # supported formats: https://v2.hysteria.network/docs/advanced/Full-Client-Config/#bandwidth
+    bandwidth_max_tx: '200 mbps' # uplink, or '200 m' or '200 mb' or '200 mbps' or 25000000(which is 200/8*1000*1000)
+    bandwidth_max_rx: '1 gbps' # downlink, or '1 g' or '1 gb' or '1 gbps' or 125000000(which is 1000/8*1000*1000)
+}
+
+# Subscriptions defined here will be resolved as nodes and merged as a part of the global node pool.
+# Support to give the subscription a tag, and filter nodes from a given subscription in the group section.
+subscription {
+    # Add your subscription links here.
+    my_sub: ''
+    another_sub: 'https://example.com/another_sub'
+    'https://example.com/no_tag_link'
+    'file://relative/path/to/mysub.sub' # Put subscription content in /etc/dae/relative/path/to/mysub.sub
+
+    # Subscriptions with '-file' will be saved to 'config_dir/persist.d/your_sub_tag.sub'.
+    # This file will serve as a fallback when fetching the subscription via a link fails.
+    # It will be updated automatically once the fetch is successful.
+    persist_sub: 'https-file://www.example.com/persist_sub/link'
+}
+
+# Nodes defined here will be merged as a part of the global node pool.
+node {
+    'socks5://localhost:7890'
+}
+
+dns {
+  upstream {
+    alidns: 'udp://223.5.5.5:53'
+  }
+  routing {
+    request {
+      fallback: alidns
+    }
+  }   
+}
+
+# Node group (outbound).
+group {
+  elden_proxy{
+    policy: fixed(0)
+  }
+}
+
+# See https://github.com/daeuniverse/dae/blob/main/docs/en/configuration/routing.md for full examples.
+routing {
+  pname(clash-meta) -> must_direct
+  domain(geosite:cn) -> direct
+	ip(geoip:private) -> direct
+	ip(geoip:cn) -> direct
+  fallback: elden_proxy
+}

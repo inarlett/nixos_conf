@@ -4,6 +4,7 @@
 }:
 {
   boot = {
+    kernelPackages = pkgs.linuxPackages_6_14;
     extraModulePackages = [ ];
     kernelModules = [ ];
     initrd = {
@@ -21,6 +22,7 @@
       ];
     };
     kernelParams = [
+      "amdgpu.dcdebugmask=0x10"
     ];
 
   };

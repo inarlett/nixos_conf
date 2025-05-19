@@ -52,7 +52,12 @@ fi
 #        fi
 #    done
 #fi
-
+docker() {
+    if ! systemctl --user is-active --quiet docker; then
+        systemctl --user start docker
+    fi
+    command docker "$@"
+}
 #microsoft c# runtime support
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export VISUAL=nvim
@@ -60,7 +65,7 @@ export NVBOARD_HOME=/home/inf/repos/ysyx-workbench/nvboard
 export NPC_HOME=/home/inf/repos/ysyx-workbench/npc
 
 
-export AM_HOME=/home/inf/Downloads/repos/ics2024/abstract-machine
+export AM_HOME=/home/inf/repos/ics2024/abstract-machine
 export AMO_API_KEY=user:18894069:904
 export AMO_API_SECRET=8fe2f1767c0c3fb2f56b8199147e85e83ed0de80532aa8e5fa541fdaaba827cc
 export NEMU_HOME=/home/inf/repos/ics2024/nemu

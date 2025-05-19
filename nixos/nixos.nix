@@ -25,8 +25,11 @@
       #davinci-resolv
       gcc
       glibc
+      gtest
       #haskellPackages.ghcup
       icu
+      jdk11
+      jdk21
       jdk8
       libglvnd
       linuxHeaders
@@ -62,7 +65,6 @@
       AMD_VULKAN_ICD = "RADV";
     };
     variables = rec {
-      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
       VISUAL = "nvim";
       XCURSOR_SIZE = "64";
     };
@@ -92,11 +94,7 @@
     steam = {
       enable = true;
     };
-    sway = {
-      enable = true;
-      wrapperFeatures.gtk = true;
-    };
-    hyprland ={
+    hyprland = {
       enable = true;
     };
     nix-ld = {
@@ -132,13 +130,6 @@
         };
       };
     };
-    cron = {
-      enable = true;
-      systemCronJobs = [
-        "45 23 * * * inf notify-send '休息准备时间"
-      ];
-    };
-
     acpid = {
       enable = true;
       logEvents = true;
@@ -151,12 +142,26 @@
       };
     };
     cloudflare-warp = {
+      enable = false;
+    };
+    cron = {
       enable = true;
+      systemCronJobs = [
+        "45 23 * * * inf notify-send '休息准备时间"
+      ];
     };
     # aria2 = {
     #   enable = true;
     #   rpcSecretFile = /run/secrets/aria2-rpc-token.txt;
     # };
+
+    daed = {
+      enable = true;
+      openFirewall = {
+        enable = true;
+        port = 12345;
+      };
+    };
     displayManager = {
       sddm = {
         enable = true;
@@ -301,11 +306,16 @@
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
   virtualisation = {
+
     waydroid = {
       enable = true;
     };
     docker = {
       enable = true;
+      rootless = {
+        enable = true;
+        setSocketVariable = true;
+      };
     };
     libvirtd = {
       enable = true;
@@ -330,8 +340,9 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking = {
+
     firewall = {
-      interfaces."docker0".allowedTCPPorts = [ 7890 ];
+      interfaces."docker0".allowedTCPPorts = [ 12345 ];
       interfaces.waydroid0 = {
         allowedUDPPorts = [
           67
@@ -352,6 +363,10 @@
     networkmanager = {
       enable = true;
     };
+
+#    nameservers = [
+#
+#    ];
   };
   # Or disable the firewall altogether.
 

@@ -2,6 +2,7 @@
   description = "NixOS configuration";
 
   inputs = {
+    daeuniverse.url = "github:daeuniverse/flake.nix";
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
