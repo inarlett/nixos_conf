@@ -238,7 +238,7 @@
       # volume
       w3m
       wineWowPackages.full
-      wolfram-engine
+      #wolfram-engine
       # xautolock
       xdg-ninja
       xmake

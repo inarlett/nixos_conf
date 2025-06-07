@@ -6,6 +6,7 @@
 {
   environment = {
     systemPackages = with pkgs; [
+      alsa-utils
       autoconf
       automake
       bison
@@ -44,6 +45,8 @@
       iosevka
       nerd-fonts.symbols-only
       noto-fonts
+      noto-fonts-cjk-serif
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       sarasa-gothic
       symbola
@@ -77,7 +80,7 @@
   nix = {
     gc = {
       automatic = true;
-      dates = "weekly";
+      dates = "monthly";
       
     };
     settings = {

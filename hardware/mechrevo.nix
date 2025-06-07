@@ -65,4 +65,5 @@
       size = 16 * 1024;
     }
   ];
+  virtualisation.docker.storageDriver = "btrfs";
 }

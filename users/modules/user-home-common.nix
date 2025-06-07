@@ -12,6 +12,7 @@
       gdb
       mupdf
       nixfmt-rfc-style
+      nmap
       p7zip
       rr
       ripgrep
@@ -24,9 +25,7 @@
     ];
     sessionVariables = {
       EDITOR = "nvim";
-      GTK_IM_MODULE = "fcitx";
-      QT_IM_MODULE = "fcitx";
-      XMODIFIERS = "@im=fcitx";
+      
     };
   };
   i18n = {

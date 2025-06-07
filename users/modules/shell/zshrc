@@ -8,7 +8,7 @@
 #  export USE_WAYLAND_GRIM=1
 #fi
 case "$XDG_SESSION_DESKTOP" in
-  i3)
+  *i3*)
     export GTK_IM_MODULE="fcitx"
     export QT_IM_MODULE="fcitx"
     export XMODIFIERS="@im=fcitx"
@@ -19,6 +19,8 @@ case "$XDG_SESSION_DESKTOP" in
     export SDL_VIDEODRIVER="wayland"
     export CLUTTER_BACKEND="wayland"
     ;;
+  *)
+    echo "no session"
 esac
 # User configuration
 

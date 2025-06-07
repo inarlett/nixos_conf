@@ -24,13 +24,13 @@
     systemPackages = with pkgs; [
       #davinci-resolv
       gcc
-      glibc
       gtest
       #haskellPackages.ghcup
       icu
       jdk11
       jdk21
       jdk8
+      libcxx
       libglvnd
       linuxHeaders
       linux-manual
@@ -42,18 +42,11 @@
       ncurses
       nss
       ntfs3g
-      openal
-      openblas
       polkit_gnome
-      readline
       redsocks
-      SDL2
-      vulkan-validation-layers
-      vulkan-extension-layer
-      vulkan-loader
+      tldr
+      util-linux.lib
       wayland-utils
-      vulkan-tools
-      xsel
       xdg-desktop-portal
       xdg-desktop-portal-wlr
     ];
@@ -61,6 +54,7 @@
       enable = true;
     };
     sessionVariables = {
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.util-linux.lib}/lib";
       WLR_RENDERER = "vulkan";
       AMD_VULKAN_ICD = "RADV";
     };
@@ -103,12 +97,17 @@
         readline
       ];
     };
-    waybar = {
-      enable = true;
-    };
     virt-manager = {
       enable = true;
     };
+    waybar = {
+      enable = true;
+    };
+    ydotool = {
+      group = "users";
+      enable = true;
+    };
+    
   };
 
   # Configure keymap in X11
@@ -155,13 +154,13 @@
     #   rpcSecretFile = /run/secrets/aria2-rpc-token.txt;
     # };
 
-    daed = {
-      enable = true;
-      openFirewall = {
-        enable = true;
-        port = 12345;
-      };
-    };
+#    daed = {
+#      enable = true;
+#      openFirewall = {
+#        enable = true;
+#        port = 12345;
+#      };
+#    };
     displayManager = {
       sddm = {
         enable = true;
@@ -170,6 +169,12 @@
     };
     distccd = {
       enable = true;
+    };
+    fail2ban = {
+      enable = true;
+      jails = {
+             
+      };
     };
     fwupd = {
       enable = true;
@@ -231,10 +236,24 @@
     };
     snapper = {
       configs = {
-        root = {
-          # 为根分区创建配置
-          SUBVOLUME = "/";
-        };
+#        docs={
+#          SUBVOLUME = "/home/inf/Documents";
+#          ALLOW_USERS = [ "root" "inf" ]; # 允许哪些用户管理快照
+#          TIMELINE_CREATE = true;
+#          TIMELINE_CLEANUP = true;
+#        };
+#        roam={
+#          SUBVOLUME = "/home/inf/Roam";
+#          ALLOW_USERS = [ "root" "inf" ];
+#          TIMELINE_CREATE = true;
+#          TIMELINE_CLEANUP = true;
+#        };
+#        code={
+#          SUBVOLUME = "/home/inf/code";
+#          ALLOW_USERS = [ "root" "inf" ];
+#          TIMELINE_CREATE = true;
+#          TIMELINE_CLEANUP = true;
+#        };
       };
     };
     sunshine = {
@@ -340,16 +359,23 @@
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking = {
-
     firewall = {
-      interfaces."docker0".allowedTCPPorts = [ 12345 ];
+      trustedInterfaces = [
+        "docker0"
+      ];
       interfaces.waydroid0 = {
         allowedUDPPorts = [
           67
           53
         ]; # 允许 DHCP 和 DNS
       };
-      allowedTCPPorts = [ 22 ];
+      # ssh,vnc,livelinkface
+      allowedTCPPorts = [
+        22
+        5900
+        5901
+        11111
+      ];
       allowedUDPPorts = [
         67
         53
@@ -360,13 +386,14 @@
       '';
     };
 
-    networkmanager = {
-      enable = true;
-    };
+#    networkmanager = {
+#      enable = true;
+#      dns ="none";
+#    };
 
-#    nameservers = [
-#
-#    ];
+    nameservers = [
+      "127.0.0.1"
+    ];
   };
   # Or disable the firewall altogether.
 

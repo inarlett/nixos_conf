@@ -6,18 +6,7 @@
   pkgs,
   ...
 }:
-let
-  modules_path_base = "${config.home.homeDirectory}/.nixos/users/modules";
-  gui_path_base = "${modules_path_base}/gui";
-  tools_path_base = "${modules_path_base}/tools";
 
-  i3_path = "${gui_path_base}/i3";
-  polybar_path = "${gui_path_base}/polybar";
-  hyprland_path = "${gui_path_base}/hypr";
-  waybar_path = "${gui_path_base}/waybar";
-  yazi_path = "${tools_path_base}/yazi";
-  wpaperd_path = "${gui_path_base}/wpaperd";
-in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -69,14 +58,9 @@ in
       #   org.gradle.console=verbose
       #   org.gradle.daemon.idletimeout=3600000
       # '';
-      ".profile".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.nixos/users/inf/.profile";
-      ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink hyprland_path;
-      ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink waybar_path;
-      ".config/i3".source = config.lib.file.mkOutOfStoreSymlink i3_path;
-      ".config/polybar".source = config.lib.file.mkOutOfStoreSymlink polybar_path;
-      ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink wpaperd_path;
-      ".config/yazi".source = config.lib.file.mkOutOfStoreSymlink yazi_path;
+
+      #      ".config/i3".source = config.lib.file.mkOutOfStoreSymlink i3_path;
+      #      ".config/polybar".source = config.lib.file.mkOutOfStoreSymlink polybar_path;
     };
     homeDirectory = "/home/inf";
     #packages = with pkgs.python312Packages;
@@ -124,7 +108,6 @@ in
         #davinci-resolve-studio
         #nur.repos.lschuermann.vivado-2022_2
         #tor-browser
-        #wolfram-engine
         #zed-editor
         agda
         aichat
@@ -149,10 +132,10 @@ in
         bluetuith
         cabal-install
         cachix
+        calcurse
         ccache
         clang
         clang-tools
-        clash-verge-rev
         clinfo
         cling
         clipmenu
@@ -251,7 +234,11 @@ in
         obs-studio
         obs-studio-plugins.obs-pipewire-audio-capture
         obs-studio-plugins.wlrobs
-        #octave
+        (octaveFull.withPackages (opkgs: [
+          opkgs.optim
+          opkgs.statistics
+          opkgs.matgeom
+        ]))
         onboard
         onedrive
         openconnect
@@ -316,6 +303,7 @@ in
         wl-clipboard
         wl-kbptr
         wofi
+        #wolfram-engine
         wpaperd
         wshowkeys
         xdg-ninja
@@ -331,8 +319,12 @@ in
       ]
       ++ (with pkgs.python312Packages; [
         compiledb
+        tkinter
         manim
-        pymupdf
+        jupyter
+        ipykernel
+        matplotlib
+        scipy
       ])
       ++ (with pkgs.xfce; [ thunar ]);
 
@@ -364,6 +356,7 @@ in
       TERMINAL = "kitty";
       NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = 1;
+      GTK_IM_MODULE = lib.mkForce "";
       #  CM_LAUNCHER = "rofi";
       #  NEMU_HOME = "/home/inf/repos/ics2024/nemu";
     };
@@ -377,6 +370,7 @@ in
   #  };
 
   imports = [
+    ../modules
     ../modules/user-home-common.nix
   ];
 
@@ -402,6 +396,15 @@ in
         # epkgs.w3m
       ];
     };
+    direnv = {
+      enable = true;
+      # enableBashIntegration =true;
+      # enableFishIntegration = true;
+      nix-direnv.enable = true;
+      config = {
+        hide_env_diff = true;
+      };
+    };
     feh = {
       enable = true;
     };
@@ -423,9 +426,6 @@ in
       enable = true;
     };
     helix = {
-      enable = true;
-    };
-    hyprlock = {
       enable = true;
     };
     # Let Home Manager install and manage itself.
@@ -494,42 +494,6 @@ in
     vscode = {
       enable = true;
     };
-    wlogout = {
-      enable = true;
-      layout = [
-        {
-          label = "lock";
-          action = "hyprlock";
-          text = "Lock";
-        }
-
-        {
-          label = "hibernate";
-          action = "systemctl hibernate";
-          text = "Hibernate";
-        }
-        {
-          label = "logout";
-          action = "hyprctl dispatch exit";
-          text = "Logout";
-        }
-        {
-          label = "shutdown";
-          action = "systemctl poweroff";
-          text = "Shutdown";
-        }
-        {
-          label = "suspend";
-          action = "systemctl suspend";
-          text = "Suspend";
-        }
-        {
-          label = "reboot";
-          action = "systemctl reboot";
-          text = "Reboot";
-        }
-      ];
-    };
     yazi = {
       enable = true;
       enableBashIntegration = true;
@@ -550,9 +514,9 @@ in
       defaultKeymap = "emacs";
       enable = true;
       enableCompletion = true;
-      initExtra = builtins.readFile ./zshrc;
+      initExtra = builtins.readFile ../modules/shell/zshrc;
       history = {
-        size = 10000000;
+        size = 100000;
       };
       oh-my-zsh = {
         enable = true;
@@ -566,11 +530,6 @@ in
       syntaxHighlighting = {
         enable = true;
       };
-    };
-  };
-  services = {
-    hypridle = {
-      enable = true;
     };
   };
 
@@ -650,7 +609,7 @@ in
         "video/mp4" = [ "vlc.desktop" ]; # VLC
         "video/x-matroska" = [ "vlc.desktop" ];
 
-        "application/pdf"  = [ "zathura.desktop" ];
+        "application/pdf" = [ "zathura.desktop" ];
         "application/epub" = [ "zathura.desktop" ];
       };
     };
