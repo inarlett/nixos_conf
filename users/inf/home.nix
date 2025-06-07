@@ -201,6 +201,7 @@
         jetbrains.idea-community-bin
         jpm
         jq
+        just
         kdePackages.full
         krita
         lazydocker
@@ -235,7 +236,7 @@
         obs-studio-plugins.obs-pipewire-audio-capture
         obs-studio-plugins.wlrobs
         (octaveFull.withPackages (opkgs: [
-          opkgs.optim
+          #opkgs.optim
           opkgs.statistics
           opkgs.matgeom
         ]))
@@ -262,7 +263,7 @@
         rocmPackages.rocm-smi
         rsshub
         rsync
-        ruff-lsp # python lsp
+        #ruff-lsp # python lsp
         rustup
         sbcl
         sbt
@@ -453,9 +454,6 @@
     mu = {
       enable = true;
     };
-    neovim = {
-      enable = true;
-    };
     #    obs-studio = {
     #      enable = true;
     #    };
@@ -514,7 +512,7 @@
       defaultKeymap = "emacs";
       enable = true;
       enableCompletion = true;
-      initExtra = builtins.readFile ../modules/shell/zshrc;
+      initContent = builtins.readFile ../modules/shell/zshrc;
       history = {
         size = 100000;
       };
@@ -564,7 +562,31 @@
       #       "application/pdf"
       #     ];
       #   };
-
+      anki = {
+        name = "Anki";
+        comment = "An intelligent spaced-repetition memory training program";
+        genericName = "Flashcards";
+        exec = "env QT_QUICK_BACKEND=software anki %f";
+        icon = "anki";
+        categories = [
+          "Education"
+          "Languages"
+          "KDE"
+          "Qt"
+        ];
+        terminal = false;
+        type = "Application";
+        mimeType = [
+          "application/x-apkg"
+          "application/x-anki"
+          "application/x-ankiaddon"
+        ];
+        settings = {
+          X-GNOME-SingleWindow = "true";
+          SingleMainWindow = "true";
+          StartupWMClass = "anki";
+        };
+      };
       VScode = {
         name = "VSCode";
         genericName = "Text Editor";
@@ -575,6 +597,53 @@
         ];
         mimeType = [
           "application/develop"
+        ];
+      };
+      yazi = {
+        name = "Yazi";
+        icon = "yazi";
+        comment = "Blazing fast terminal file manager written in Rust, based on async I/O";
+        terminal = false;
+        exec = "kitty --class yazi-terminal yazi %f";
+        type = "Application";
+        mimeType = [ "inode/directory" ];
+        categories = [
+          "Utility"
+          "Core"
+          "System"
+          "FileTools"
+          "FileManager"
+          "ConsoleOnly"
+        ];
+      };
+      nvim = {
+        name = "Neovim";
+        genericName ="Text Editor";
+        exec = "kitty --class nvim-terminal nvim %f";
+        terminal = false;
+        type = "Application";
+        icon = "nvim";
+        categories = [
+          "Utility"
+          "TextEditor"
+        ];
+        startupNotify = false;
+        mimeType = [
+          "text/english"
+          "text/plain"
+          "text/x-makefile"
+          "text/x-c++hdr"
+          "text/x-c++src"
+          "text/x-chdr"
+          "text/x-csrc"
+          "text/x-java"
+          "text/x-moc"
+          "text/x-pascal"
+          "text/x-tcl"
+          "text/x-tex"
+          "application/x-shellscript"
+          "text/x-c"
+          "text/x-c++"
         ];
       };
       idea-community-bin = {

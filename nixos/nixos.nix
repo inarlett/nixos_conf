@@ -6,7 +6,10 @@
 
 {
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config={
+    allowUnfree = true;
+    allowBroken = true;
+  };
   documentation = {
     dev = {
       enable = true;

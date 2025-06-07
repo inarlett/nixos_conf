@@ -53,10 +53,11 @@
     };
   };
   imports = [
-    (import ./modules/grub2-theme-uefi-grub.nix {
-      efiSysMountPoint = "/efi";
-      theme = "tela";
-    })
+#    (import ./modules/grub2-theme-uefi-grub.nix {
+#      efiSysMountPoint = "/efi";
+#      theme = "tela";
+#    })
+#
     ./modules/hardware-common.nix
   ];
   swapDevices = [
