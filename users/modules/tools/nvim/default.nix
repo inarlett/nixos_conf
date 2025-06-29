@@ -51,7 +51,7 @@
       {
         mode = "n";
         key = "<leader>sg";
-        action = ":Telescope fd<CR>";
+        action = ":Telescope live_grep<CR>";
         options = {
           silent = true;
           desc = "Search words (live grep)";
