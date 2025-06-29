@@ -1,5 +1,5 @@
 {
   networking = {
-#    firewall.interfaces."virbr0".allowedTCPPorts = [ 7890 ];
+    #    firewall.interfaces."virbr0".allowedTCPPorts = [ 7890 ];
   };
 }

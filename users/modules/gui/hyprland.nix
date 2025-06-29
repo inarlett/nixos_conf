@@ -30,7 +30,6 @@ in{
           action = "hyprlock";
           text = "Lock";
         }
-
         {
           label = "hibernate";
           action = "systemctl hibernate";
@@ -48,8 +47,8 @@ in{
         }
         {
           label = "suspend";
-          action = "systemctl suspend";
-          text = "Suspend";
+          action = "systemctl suspend && hyprlock";
+          text = "Sleep";
         }
         {
           label = "reboot";

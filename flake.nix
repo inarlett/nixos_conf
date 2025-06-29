@@ -3,12 +3,13 @@
 
   inputs = {
     #daeuniverse.url = "github:daeuniverse/flake.nix";
+    nix-alien.url="github:thiagokokada/nix-alien";
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs-overlay.url = "github:nix-community/emacs-overlay";
-    #grub2-themes.url = "github:vinceliuice/grub2-themes";
+    grub2-themes.url = "github:vinceliuice/grub2-themes";
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager";
@@ -41,7 +42,12 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
 
+      # Optional but recommended to limit the size of your system closure.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # stylix.url = "github:danth/stylix";
   };
   outputs =
@@ -56,6 +62,8 @@
       ...
     }:
     let
+      username = "inf";
+      hostname = "inf-desktop";
       mkSystem = import ./lib/mksystem.nix {
         inherit inputs nixpkgs overlays;
       };
@@ -66,19 +74,20 @@
       ];
     in
     {
-      homeConfigurations."inf@inf-desktop" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-
-        modules = [
-          hyprland.homeManagerModules.default
-
-          {
-            wayland.windowManager.hyprland = {
-              enable = true;
-              plugins = [ hy3.packages.x86_64-linux.hy3 ];
-            };
-          }
-        ];
+      homeConfigurations = {
+        "${username}@${hostname}" =
+          home-manager.lib.homeManagerConfiguration {
+            modules = [
+              hyprland.homeManagerModules.default
+              {
+                wayland.windowManager.hyprland = {
+                  enable = true;
+                  plugins = [ hy3.packages.x86_64-linux.hy3 ];
+                };
+              }
+              
+            ];
+          };
       };
       nixosConfigurations =
         mkSystem "logos-morph" {

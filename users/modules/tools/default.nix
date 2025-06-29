@@ -13,5 +13,6 @@ in
   };
   imports = [
     ./nvim
+    ./rime
   ];
 }

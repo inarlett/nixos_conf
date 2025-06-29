@@ -67,6 +67,13 @@ esac
 #        fi
 #    done
 #fi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
 docker() {
     if ! systemctl --user is-active --quiet docker; then
         systemctl --user start docker
@@ -86,3 +93,4 @@ export AMO_API_SECRET=8fe2f1767c0c3fb2f56b8199147e85e83ed0de80532aa8e5fa541fdaab
 export NEMU_HOME=/home/inf/repos/ics2024/nemu
 #export JAVA_OPTS="-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7890 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=7890"
 #export SBT_OPTS="$SBT_OPTS -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7890"
+alias nrs="cd ~/.nixos && sudo nixos-rebuild switch --flake .#inf-desktop"

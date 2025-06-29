@@ -3,5 +3,7 @@
 {
   imports = [
     ./hyprland.nix
+    ./utils
+    ./xdg
   ];
 }

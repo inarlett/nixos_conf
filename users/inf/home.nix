@@ -99,7 +99,6 @@
         # mariadb
         # openai-whisper-cpp
         # rust-analyzer
-        # rustdesk-flutter
         # rustlings
         # tdlib
         # volume
@@ -157,6 +156,7 @@
         espeak
         evcxr
         evtest
+	eww
         feishu
         ffmpeg-full
         filezilla
@@ -164,7 +164,7 @@
         flameshot
         fluent-reader
         fontforge
-        freecad-wayland
+        #freecad-wayland
         gammastep
         gh
         ghc
@@ -211,7 +211,7 @@
         libreoffice-fresh
         libsForQt5.okular
         libsForQt5.kdeconnect-kde
-        linux-wallpaperengine
+        #linux-wallpaperengine
         listen1
         lldb
         lsb-release
@@ -236,7 +236,7 @@
         obs-studio-plugins.obs-pipewire-audio-capture
         obs-studio-plugins.wlrobs
         (octaveFull.withPackages (opkgs: [
-          #opkgs.optim
+          opkgs.symbolic
           opkgs.statistics
           opkgs.matgeom
         ]))
@@ -263,7 +263,7 @@
         rocmPackages.rocm-smi
         rsshub
         rsync
-        #ruff-lsp # python lsp
+        rustdesk-flutter
         rustup
         sbcl
         sbt
@@ -301,7 +301,6 @@
         wemeet
         wineWowPackages.full
         winetricks
-        wl-clipboard
         wl-kbptr
         wofi
         #wolfram-engine
@@ -418,10 +417,8 @@
       enableZshIntegration = true;
     };
     git = {
-      enable = true;
-      lfs.enable = true;
-      userEmail = "insnath@outlook.com";
-      userName = "inarlett";
+      enable = false;
+      #lfs.enable = true;
     };
     go = {
       enable = true;
@@ -604,7 +601,7 @@
         icon = "yazi";
         comment = "Blazing fast terminal file manager written in Rust, based on async I/O";
         terminal = false;
-        exec = "kitty --class yazi-terminal yazi %f";
+        exec = "kitty --class yazi-terminal y %f";
         type = "Application";
         mimeType = [ "inode/directory" ];
         categories = [
@@ -666,21 +663,22 @@
         ];
       };
     };
-    mimeApps = {
-      enable = true;
-      defaultApplications = {
-        # 文本文件
-        "text/plain" = [ "VSCode.desktop" ];
-
-        "image/png" = [ "firefox.desktop" ];
-        "image/jpeg" = [ "firefox.desktop" ];
-
-        "video/mp4" = [ "vlc.desktop" ]; # VLC
-        "video/x-matroska" = [ "vlc.desktop" ];
-
-        "application/pdf" = [ "zathura.desktop" ];
-        "application/epub" = [ "zathura.desktop" ];
-      };
+#    mimeApps = {
+#      enable = true;
+#      defaultApplications = {
+#        # 文本文件
+#        "text/plain" = [ "VSCode.desktop" ];
+#
+#        "image/png" = [ "firefox.desktop" ];
+#        "image/jpeg" = [ "firefox.desktop" ];
+#
+#        "video/mp4" = [ "vlc.desktop" ]; # VLC
+#        "video/x-matroska" = [ "vlc.desktop" ];
+#
+#        "application/pdf" = [ "zathura.desktop" ];
+#	"x-scheme-handler/http" = "firefox.desktop";
+#  	"x-scheme-handler/https" = "firefox.desktop";
+#      };
     };
 
   };

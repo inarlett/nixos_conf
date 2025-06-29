@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -53,11 +54,19 @@
     };
   };
   imports = [
-#    (import ./modules/grub2-theme-uefi-grub.nix {
+    (import ./modules/grub2-theme-uefi-grub.nix {
+      efiSysMountPoint = "/efi";
+      theme = "tela";
+    })
+#    (import ./modules/limine-uefi-boot.nix {
 #      efiSysMountPoint = "/efi";
-#      theme = "tela";
 #    })
-#
+#    (import ./modules/lanzaboote.nix{
+#      efiSysMountPoint = "/efi";
+#    })
+    inputs.lanzaboote.nixosModules.lanzaboote
+
+
     ./modules/hardware-common.nix
   ];
   swapDevices = [

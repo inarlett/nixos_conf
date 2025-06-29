@@ -262,6 +262,12 @@
     sunshine = {
       enable = true;
     };
+    timesyncd={
+      enable = true;
+      servers = [
+        "ntp.aliyun.com"
+      ];
+    };
     tlp = {
       enable = true;
     };
