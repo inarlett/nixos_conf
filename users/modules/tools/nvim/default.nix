@@ -69,7 +69,7 @@
         };
       }
       {
-      	mode = "n";
+        mode = "n";
         key = "<leader>p";
         action = ":Telescope project<CR>";
         options = {
@@ -79,7 +79,16 @@
       }
 
     ];
+
     plugins = {
+      lsp = {
+        enable = true;
+        servers = {
+          clangd.enable = true;
+          pyright.enable = true;
+
+        };
+      };
       bufferline.enable = true;
       flash.enable = true;
       lazy.enable = true;
@@ -148,7 +157,6 @@
       lualine.enable = true;
       nui.enable = true;
       lint.enable = true;
-      lspconfig.enable = true;
       treesitter = {
         enable = true;
         folding = true;
@@ -156,14 +164,7 @@
       web-devicons.enable = true;
       render-markdown.enable = true;
       molten.enable = true;
-      rustaceanvim.enable = true;
-      lsp = {
-        servers = {
-          clangd.enable = true;
-          pyright.enable = true;
 
-        };
-      };
     };
 
   };
