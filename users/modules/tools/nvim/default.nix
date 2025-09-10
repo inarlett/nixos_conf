@@ -10,19 +10,41 @@
   programs.nixvim = {
     enable = true;
     extraConfigLua = ''
-            vim.g.clipboard = {
-      	name = "wl-clipboard",
-      	copy = {
-      	["+"] = { "wl-copy", "--type", "text/plain" },
-      	["*"] = { "wl-copy", "--primary", "--type", "text/plain" },
-      	},
-      	paste = {
-      	["+"] = { "wl-paste", "--no-newline" },
-      	["*"] = { "wl-paste", "--primary", "--no-newline" },
-      	},
-      	cache_enabled = true,
-            }
-            vim.opt.clipboard = "unnamedplus"
+      onAttach = function(bufnr)
+          local api = require("nvim-tree.api")
+          local function opts(desc)
+            return { desc = "nvim-tree: "..desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+          end
+          
+          vim.keymap.set('n', '<leader>E', api.tree.change_root_to_node, opts('CD'))
+          vim.keymap.set('n', '-', api.tree.change_root_to_parent, opts('Up'))
+          vim.keymap.set('n', '<leader>R', function()
+            vim.cmd("NvimTreeCollapse")
+            vim.cmd("NvimTreeRefresh")
+          end, opts('Refresh'))
+      end
+
+      vim.opt.expandtab = true   -- Use spaces instead of tabs
+      vim.opt.tabstop = 2       -- A tab character will be displayed as 4 spaces
+      vim.opt.shiftwidth = 2    -- Automatic indentation will use 4 spaces
+      vim.opt.softtabstop = 2   -- Tab key inserts/deletes 4 spaces
+      vim.opt.autoindent = true
+      vim.opt.smartindent = true
+      vim.opt.fileencodings = "ucs-bom,utf-8,cp936,default,latin1"
+      vim.opt.encoding = "utf-8"
+      vim.g.clipboard = {
+          name = "wl-clipboard",
+          copy = {
+              ["+"] = { "wl-copy", "--type", "text/plain" },
+              ["*"] = { "wl-copy", "--primary", "--type", "text/plain" },
+          },
+          paste = {
+              ["+"] = { "wl-paste", "--no-newline" },
+              ["*"] = { "wl-paste", "--primary", "--no-newline" },
+          },
+          cache_enabled = true,
+      }
+      vim.opt.clipboard = "unnamedplus"
     '';
     extraPackages = with pkgs; [
       # LazyVim
@@ -85,10 +107,14 @@
         enable = true;
         servers = {
           clangd.enable = true;
-          pyright.enable = true;
-
+          pyright = {
+            enable = true;
+            settings = {
+            };
+          };
         };
       };
+      auto-save.enable = true;
       bufferline.enable = true;
       flash.enable = true;
       lazy.enable = true;
@@ -143,7 +169,9 @@
           };
         };
       };
-      nvim-tree.enable = true;
+      nvim-tree = {
+        enable = true;       
+      };
       todo-comments.enable = true;
       trouble.enable = true;
       ts-comments.enable = true;

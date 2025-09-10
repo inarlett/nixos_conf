@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 
 let
   modules_path_base = "${config.home.homeDirectory}/.nixos/users/modules";
@@ -13,6 +13,9 @@ in{
       ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink waybar_path;
       ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink wpaperd_path;
     };
+    packages = [
+    	#inputs.hy3.packages.x86_64-linux.hy3
+    ];
     sessionVariables = {
       ANKI_WAYLAND = "1";
       QT_QPA_PLATFORM = "wayland";
@@ -63,4 +66,9 @@ in{
       enable = true;
     };
   };
+  wayland.windowManager.hyprland={
+  extraConfig = ''
+    plugin = ${inputs.hy3.packages.x86_64-linux.hy3}/lib/libhy3.so
+  '';
+};
 }

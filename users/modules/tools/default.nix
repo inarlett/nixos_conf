@@ -8,11 +8,12 @@ in
 {
   home = {
     file = {
-      ".config/yazi".source = config.lib.file.mkOutOfStoreSymlink yazi_path;
+      #".config/yazi".source = config.lib.file.mkOutOfStoreSymlink yazi_path;
     };
   };
   imports = [
-    ./nvim
     ./rime
+    #./nvim
+    #./yazi
   ];
 }

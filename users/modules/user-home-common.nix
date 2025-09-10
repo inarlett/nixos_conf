@@ -41,7 +41,6 @@
               rime-ice
             ];
           })
-          fcitx5-chinese-addons
           fcitx5-with-addons
           fcitx5-configtool
           fcitx5-gtk

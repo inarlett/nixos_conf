@@ -10,8 +10,6 @@
         "hyprland/window"
     ],
     "modules-right": [
-        "cava",
-        "custom/gotobed",
         "group/sysinfo",
         "group/control",
         "pulseaudio",
@@ -53,12 +51,14 @@
             "network",
             "bluetooth",
             "backlight",
+            "custom/gaps",
             "custom/wallpaper",
         ],
     },
     //TODO:add self-defined symbol to show machine status bluetooth,etc.
     //module configs
     "pulseaudio": {
+    	"backend": "pipewire",//use pipewire for backend
         "scroll-step": 1, // %, can be a float
         "format": "{volume}% {icon}",
         "format-alt": "{format_source}",
@@ -209,6 +209,14 @@
         "exec": "~/scripts/gotobed.sh", 
         // "tooltip": false, // 如果脚本输出中包含 tooltip，可以设为 false，避免 Waybar 默认行为干扰
         // "escape": true, // 如果你的文本包含特殊字符，可能需要开启
+    },
+    
+    "custom/gaps": {
+        "format": "{}",
+        "exec": "~/.config/waybar/gap_control.sh",
+        "on-scroll-up": "~/.config/waybar/gap_control.sh scroll-up",
+        "on-scroll-down": "~/.config/waybar/gap_control.sh scroll-down",
+        "interval": 1
     },
     "custom/wallpaper":{
         "format": "󰸉 ",

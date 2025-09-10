@@ -24,8 +24,30 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
+#    etc={
+#      "btrbk/btrbk.conf".text = ''
+#        timestamp_format long
+#        snapshot_preserve_min 2d
+#        snapshot_preserve 14d
+#
+#        volume /
+#          snapshot_dir snapshots
+#          target /backup/btrbk
+#          subvolume .
+#            snapshot_filter /etc/btrbk/exclude.filter
+#      '';
+#      "btrbk/exclude.filter".text=''
+#        - /nix/store/
+#        - /srv/
+#        - /var/lib/portables/
+#        - /var/lib/machines/
+#        - /tmp/
+#        - /var/tmp/
+#      '';
+#    };
     systemPackages = with pkgs; [
       #davinci-resolv
+      btrbk
       gcc
       gtest
       #haskellPackages.ghcup
@@ -35,6 +57,7 @@
       jdk8
       libcxx
       libglvnd
+      libsndfile
       linuxHeaders
       linux-manual
       livecaptions
@@ -46,6 +69,7 @@
       nss
       ntfs3g
       polkit_gnome
+      portaudio
       redsocks
       tldr
       util-linux.lib
@@ -57,7 +81,8 @@
       enable = true;
     };
     sessionVariables = {
-      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.util-linux.lib}/lib";
+      # LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.util-linux.lib}/lib";
+      NIXOS_OZONE_WL = "1";
       WLR_RENDERER = "vulkan";
       AMD_VULKAN_ICD = "RADV";
     };
@@ -79,6 +104,7 @@
   imports = [
     ./modules/nixos-common.nix
     ./modules/zsh
+    ./modules/gui
   ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -87,6 +113,23 @@
     appimage = {
       enable = true;
       binfmt = true;
+    };
+    gamemode={
+      enable = true;
+      settings = {
+        general = {
+        renice = 10;
+        ioprio = 0;
+        };
+        gpu={
+          apply_gpu_optimisations = "accept-responsibility";
+          gpu_device = 1;
+        };
+      };
+    };
+    kdeconnect={
+      enable=true;
+      package=pkgs.valent;
     };
     steam = {
       enable = true;
@@ -126,8 +169,8 @@
           turbo = "auto";
         };
         charger = {
-          energy_performance_preference = "balance_power";
-          governor = "powersave";
+          energy_performance_preference = "performance";
+          governor = "performance";
           turbo = "auto";
         };
       };
@@ -237,8 +280,6 @@
         enable = true;
       };
     };
-    snapper = {
-      configs = {
 #        docs={
 #          SUBVOLUME = "/home/inf/Documents";
 #          ALLOW_USERS = [ "root" "inf" ]; # 允许哪些用户管理快照
@@ -257,8 +298,6 @@
 #          TIMELINE_CREATE = true;
 #          TIMELINE_CLEANUP = true;
 #        };
-      };
-    };
     sunshine = {
       enable = true;
     };
@@ -340,10 +379,10 @@
     };
     docker = {
       enable = true;
-      rootless = {
-        enable = true;
-        setSocketVariable = true;
-      };
+#      rootless = {
+#        enable = true;
+#        setSocketVariable = true;
+#      };
     };
     libvirtd = {
       enable = true;
@@ -384,10 +423,12 @@
         5900
         5901
         11111
+        60752
       ];
       allowedUDPPorts = [
         67
         53
+        60752
       ];
       extraCommands = ''
         iptables -A FORWARD -j ACCEPT

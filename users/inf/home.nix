@@ -27,7 +27,7 @@
         color-scheme = "prefer-dark";
       };
       "org/gnome/desktop/sound" = {
-        event-sounds = false;
+        event-sounds = true;
       };
     };
   };
@@ -156,7 +156,7 @@
         espeak
         evcxr
         evtest
-	eww
+        eww
         feishu
         ffmpeg-full
         filezilla
@@ -174,7 +174,7 @@
         git-lfs
         glew
         glfw
-        go-musicfox
+        #go-musicfox
         goldendict-ng
         google-chrome
         gopls
@@ -190,7 +190,6 @@
         haskell-language-server
         hledger
         hledger-web
-        hmcl
         home-manager
         html-tidy
         hugo
@@ -202,21 +201,19 @@
         jpm
         jq
         just
-        kdePackages.full
         krita
         lazydocker
         leiningen
         libllvm
         libnotify
         libreoffice-fresh
-        libsForQt5.okular
-        libsForQt5.kdeconnect-kde
         #linux-wallpaperengine
         listen1
         lldb
         lsb-release
         maim
         mako
+        matlab
         maven
         mesa
         meson
@@ -225,6 +222,7 @@
         moonlight-qt
         motrix
         musescore
+        neovim
         nethack
         nil
         ninja
@@ -235,11 +233,6 @@
         obs-studio
         obs-studio-plugins.obs-pipewire-audio-capture
         obs-studio-plugins.wlrobs
-        (octaveFull.withPackages (opkgs: [
-          opkgs.symbolic
-          opkgs.statistics
-          opkgs.matgeom
-        ]))
         onboard
         onedrive
         openconnect
@@ -252,6 +245,7 @@
         podman
         polybar
         pwvucontrol
+        pyright
         python3
         qFlipper
         qq
@@ -276,7 +270,7 @@
         showmethekey
         siji
         slurp
-        snapper
+        #snapper
         solaar
         speedtest-cli
         spotify
@@ -293,6 +287,7 @@
         unrar
         verilator
         vlc
+        #voice2sub
         w3m
         warpd
         waydroid
@@ -321,6 +316,7 @@
         compiledb
         tkinter
         manim
+        numpy
         jupyter
         ipykernel
         matplotlib
@@ -354,9 +350,8 @@
     sessionVariables = {
       CM_HISTLENGTH = 31;
       TERMINAL = "kitty";
-      NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = 1;
-      GTK_IM_MODULE = lib.mkForce "";
+      
       #  CM_LAUNCHER = "rofi";
       #  NEMU_HOME = "/home/inf/repos/ics2024/nemu";
     };
@@ -372,11 +367,17 @@
   imports = [
     ../modules
     ../modules/user-home-common.nix
+    ../modules/tools/nvim/lazy-path.nix
   ];
 
   programs = {
     aria2 = {
       enable = true;
+    };
+    bash = {
+      enable =true;
+      enableCompletion = true;
+      historySize = 100000;
     };
     bun = {
       enable = true;
@@ -459,9 +460,9 @@
     #   enableBashIntegration = true;
     #   enableZshIntegration = true;
     # };
-    pandoc = {
-      enable = true;
-    };
+#    pandoc = {
+#      enable = true;
+#    };
     rofi = {
       cycle = true;
       enable = true;
@@ -487,6 +488,7 @@
       extraConfig = "set -g mouse on\nset -g prefix M-x";
     };
     vscode = {
+      package = pkgs.vscode-fhs;
       enable = true;
     };
     yazi = {
@@ -568,7 +570,6 @@
         categories = [
           "Education"
           "Languages"
-          "KDE"
           "Qt"
         ];
         terminal = false;
@@ -583,6 +584,19 @@
           SingleMainWindow = "true";
           StartupWMClass = "anki";
         };
+      };
+      firefox-profile-manager ={
+        name = "Firefox Profile Manager";
+        genericName = "Web Browser Profile Manager";
+        exec = "firefox -P";
+        icon = "${pkgs.firefox}/share/icons/hicolor/16x16/apps/firefox.png";
+        categories = [
+          "Application"
+          "Network"
+          "WebBrowser"
+        ];
+        terminal = false;
+        type = "Application";
       };
       VScode = {
         name = "VSCode";
@@ -601,7 +615,7 @@
         icon = "yazi";
         comment = "Blazing fast terminal file manager written in Rust, based on async I/O";
         terminal = false;
-        exec = "kitty --class yazi-terminal y %f";
+        exec = "kitty --class yazi-terminal y";
         type = "Application";
         mimeType = [ "inode/directory" ];
         categories = [
@@ -615,7 +629,7 @@
       };
       nvim = {
         name = "Neovim";
-        genericName ="Text Editor";
+        genericName = "Text Editor";
         exec = "kitty --class nvim-terminal nvim %f";
         terminal = false;
         type = "Application";
@@ -662,24 +676,33 @@
           "Application"
         ];
       };
+      zathura = {
+        name = "Zathura";
+        icon = "zathura";
+        genericName = "reader";
+        exec = "zathura %f";
+        categories = [
+          "Application"
+        ];
+      };
     };
-#    mimeApps = {
-#      enable = true;
-#      defaultApplications = {
-#        # 文本文件
-#        "text/plain" = [ "VSCode.desktop" ];
-#
-#        "image/png" = [ "firefox.desktop" ];
-#        "image/jpeg" = [ "firefox.desktop" ];
-#
-#        "video/mp4" = [ "vlc.desktop" ]; # VLC
-#        "video/x-matroska" = [ "vlc.desktop" ];
-#
-#        "application/pdf" = [ "zathura.desktop" ];
-#	"x-scheme-handler/http" = "firefox.desktop";
-#  	"x-scheme-handler/https" = "firefox.desktop";
-#      };
-#    };
+    #    mimeApps = {
+    #      enable = true;
+    #      defaultApplications = {
+    #        # 文本文件
+    #        "text/plain" = [ "VSCode.desktop" ];
+    #
+    #        "image/png" = [ "firefox.desktop" ];
+    #        "image/jpeg" = [ "firefox.desktop" ];
+    #
+    #        "video/mp4" = [ "vlc.desktop" ]; # VLC
+    #        "video/x-matroska" = [ "vlc.desktop" ];
+    #
+    #        "application/pdf" = [ "zathura.desktop" ];
+    #	"x-scheme-handler/http" = "firefox.desktop";
+    #  	"x-scheme-handler/https" = "firefox.desktop";
+    #      };
+    #    };
 
   };
 

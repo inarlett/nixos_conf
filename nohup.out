@@ -1,0 +1,21 @@
+[2025-07-21 09:13:35.424] [info] Using configuration file /home/inf/.config/waybar/config
+[2025-07-21 09:13:35.437] [info] Discovered appearance 'dark'
+[2025-07-21 09:13:35.437] [info] Using CSS file /home/inf/.config/waybar/style.css
+[2025-07-21 09:13:35.447] [info] Hyprland IPC starting
+[2025-07-21 09:13:35.448] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-21 09:13:35.449] [warning] 'swap-icon-label' must be a bool.
+sh: line 1: /home/inf/scripts/gotobed.sh: No such file or directory
+[2025-07-21 09:13:35.471] [warning] module audio: Unknown module: audio
+[2025-07-21 09:13:35.654] [warning] Requested height: 32 is less than the minimum height: 38 required by the modules
+[2025-07-21 09:13:35.654] [info] Bar configured (width: 1440, height: 38) for output: eDP-1
+[2025-07-21 09:13:41.021] [info] Quitting.
+[2025-07-21 09:13:41.042] [info] Hyprland IPC stopping...
+[2025-08-03 15:54:10.235] [info] Using configuration file /home/inf/.config/waybar/config
+[2025-08-03 15:54:10.245] [info] Discovered appearance 'dark'
+[2025-08-03 15:54:10.245] [info] Using CSS file /home/inf/.config/waybar/style.css
+[2025-08-03 15:54:10.254] [info] Hyprland IPC starting
+[2025-08-03 15:54:10.255] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-08-03 15:54:10.256] [warning] 'swap-icon-label' must be a bool.
+[2025-08-03 15:54:10.469] [warning] Requested height: 32 is less than the minimum height: 38 required by the modules
+[2025-08-03 15:54:10.469] [info] Bar configured (width: 1440, height: 38) for output: eDP-1
+[2025-08-03 15:54:10.469] [error] Item '': No icon name or pixmap given.

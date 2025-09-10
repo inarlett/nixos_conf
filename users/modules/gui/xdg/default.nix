@@ -12,6 +12,7 @@
 
       # --- PDF ---
       "application/pdf" = "zathura.desktop";
+      "application/epub" = "zathura.desktop";
 
       # --- Word,PPT,Excel ---
       # Word (.doc, .docx)
