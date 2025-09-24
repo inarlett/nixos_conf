@@ -351,7 +351,7 @@
       CM_HISTLENGTH = 31;
       TERMINAL = "kitty";
       MOZ_ENABLE_WAYLAND = 1;
-      
+
       #  CM_LAUNCHER = "rofi";
       #  NEMU_HOME = "/home/inf/repos/ics2024/nemu";
     };
@@ -375,7 +375,7 @@
       enable = true;
     };
     bash = {
-      enable =true;
+      enable = true;
       enableCompletion = true;
       historySize = 100000;
     };
@@ -438,7 +438,7 @@
       settings = {
         enable_audio_bell = true;
       };
-      # extraConfig = builtins.readFile ./kitty.conf;
+      extraConfig = builtins.readFile ./kitty.conf;
     };
     lazygit = {
       enable = true;
@@ -460,9 +460,9 @@
     #   enableBashIntegration = true;
     #   enableZshIntegration = true;
     # };
-#    pandoc = {
-#      enable = true;
-#    };
+    #    pandoc = {
+    #      enable = true;
+    #    };
     rofi = {
       cycle = true;
       enable = true;
@@ -585,10 +585,36 @@
           StartupWMClass = "anki";
         };
       };
-      firefox-profile-manager ={
-        name = "Firefox Profile Manager";
-        genericName = "Web Browser Profile Manager";
-        exec = "firefox -P";
+      firefox = {
+        name = "Firefox";
+        genericName = "Web Browser";
+        exec = "firefox";
+        icon = "firefox";
+        categories = [
+          "Application"
+          "Network"
+          "WebBrowser"
+        ];
+        mimeType = [
+          "text/html"
+          "application/xhtml+xml"
+          "application/xml"
+          "application/rss+xml"
+          "application/rdf+xml"
+          "image/svg+xml"
+          "x-scheme-handler/http"
+          "x-scheme-handler/https"
+          "x-scheme-handler/ftp"
+          "x-scheme-handler/chrome"
+          "x-scheme-handler/about"
+          "x-scheme-handler/moz-icon"
+        ];
+        type = "Application";
+      };
+      firefox-profile-hack = {
+        name = "Firefox profile_hack_secure";
+        genericName = "Web Browser Profile";
+        exec = "firefox -p \"hack_secure\"";
         icon = "${pkgs.firefox}/share/icons/hicolor/16x16/apps/firefox.png";
         categories = [
           "Application"

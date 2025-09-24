@@ -8,7 +8,6 @@
 
   nixpkgs.config={
     allowUnfree = true;
-    allowBroken = true;
   };
   documentation = {
     dev = {
@@ -65,6 +64,7 @@
       man-pages
       man-pages-posix
       mesa
+      mono
       ncurses
       nss
       ntfs3g
@@ -76,6 +76,8 @@
       wayland-utils
       xdg-desktop-portal
       xdg-desktop-portal-wlr
+
+      xorg.libXScrnSaver
     ];
     wordlist = {
       enable = true;
@@ -113,6 +115,9 @@
     appimage = {
       enable = true;
       binfmt = true;
+    };
+    firejail = {
+      enable = true;
     };
     gamemode={
       enable = true;
@@ -426,6 +431,7 @@
         60752
       ];
       allowedUDPPorts = [
+        22
         67
         53
         60752

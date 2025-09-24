@@ -10,6 +10,10 @@
       "x-scheme-handler/about" = "firefox.desktop";
       "x-scheme-handler/unknown" = "firefox.desktop";
 
+      # --- Text ---
+      "text/plain" = "nvim.desktop";
+      "text/plain;charset=utf-8" = "nvim.desktop";
+
       # --- PDF ---
       "application/pdf" = "zathura.desktop";
       "application/epub" = "zathura.desktop";

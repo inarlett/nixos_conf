@@ -173,6 +173,7 @@
           extraModules = [
             ./nixos/modules/zsh
             ./nixos/modules/localhost-http-proxy.nix
+            ./nixos/modules/libvirt-guest-http-proxy.nix
           ];
 
           nixos = "nixos";
@@ -183,5 +184,6 @@
             "inf"
           ];
         };
+        
     };
 }

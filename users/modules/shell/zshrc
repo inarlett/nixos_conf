@@ -91,6 +91,7 @@ export AM_HOME=/home/inf/repos/ysyx-workbench/abstract-machine
 export AMO_API_KEY=user:18894069:904
 export AMO_API_SECRET=8fe2f1767c0c3fb2f56b8199147e85e83ed0de80532aa8e5fa541fdaaba827cc
 export AVANTE_GEMINI_API_KEY=AIzaSyAuxWAnC2-hryzNFTDa1hRBV8B-QtiW-iY
+export TAVILY_API_KEY=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
 export NEMU_HOME=/home/inf/repos/ics2024/nemu
 
 #export JAVA_OPTS="-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7890 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=7890"
