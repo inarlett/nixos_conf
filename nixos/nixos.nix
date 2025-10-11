@@ -68,6 +68,7 @@
       ncurses
       nss
       ntfs3g
+      polkit_gnome
       portaudio
       redsocks
       tldr
@@ -258,17 +259,6 @@
       package = pkgs.ollama-rocm;
       acceleration = "rocm";
     };
-    open-webui = {
-      package = pkgs.open-webui; # pkgs must be from stable, for example nixos-24.11
-      enable = true;
-      environment = {
-        ANONYMIZED_TELEMETRY = "False";
-        DO_NOT_TRACK = "True";
-        SCARF_NO_ANALYTICS = "True";
-        OLLAMA_API_BASE_URL = "http://127.0.0.1:11434/api";
-        OLLAMA_BASE_URL = "http://127.0.0.1:11434";
-      };
-    };
     # Enable CUPS to print documents.
     printing = {
       enable = true;
@@ -402,10 +392,18 @@
     libvirtd = {
       enable = true;
       qemu = {
+        ovmf = {
+          enable = true;
+          packages = [
+            (pkgs.OVMF.override {
+              secureBoot = true;
+              tpmSupport = true;
+            }).fd
+          ];
+        };
         package = pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
-        vhostUserPackages = [ pkgs.virtiofsd ];
       };
     };
     spiceUSBRedirection.enable = true;

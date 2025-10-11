@@ -159,7 +159,6 @@
         eww
         feishu
         ffmpeg-full
-        fhs-env#fhs-env pkg custom
         filezilla
         firejail
         flameshot
@@ -244,7 +243,6 @@
         playerctl
         pnpm
         podman
-        polkit-gnome-agent
         polybar
         pwvucontrol
         pyright
@@ -275,6 +273,8 @@
         #snapper
         solaar
         speedtest-cli
+        spotify
+        spotify
         styluslabs-write
         tailscale
         tailwindcss

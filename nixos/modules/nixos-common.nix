@@ -31,12 +31,9 @@
       enable = true;
       defaultFonts = {
         emoji = [ "Noto Sans Emoji" ];
-        monospace = [
-          "Fira Code"
-          "Sarasa Mono SC"
-        ];
-        sansSerif = ["Sarasa Gothic SC"];
-        serif = ["Sarasa Mono Slab SC"];
+        monospace = [ "Fira Code" ];
+        sansSerif = [ "Noto Sans" ];
+        serif = [ "Noto Serif" ];
       };
     };
     fontDir = {
@@ -141,9 +138,9 @@
     logind = {
       #lidSwitch ="ignore";
       #lidSwitchDocked = "ignore";
-      settings.Login={
-        HandlePowerKey="lock";
-      };
+      extraConfig = ''
+        HandlePowerKey=lock
+      '';
     };
     # Enable the OpenSSH daemon.
     openssh = {
