@@ -63,9 +63,6 @@
       #      ".config/polybar".source = config.lib.file.mkOutOfStoreSymlink polybar_path;
     };
     homeDirectory = "/home/inf";
-    #packages = with pkgs.python312Packages;
-    #  compiledb
-    #];
     packages =
       with pkgs;
       [
@@ -241,6 +238,7 @@
         pipx
         plantuml
         playerctl
+        polkit-gnome-agent
         pnpm
         podman
         polybar
@@ -430,7 +428,7 @@
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     java = {
-      package = pkgs.jdk11;
+      package = pkgs.jdk17;
       enable = true;
     };
     kitty = {

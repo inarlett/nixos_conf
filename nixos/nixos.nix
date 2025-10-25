@@ -54,6 +54,7 @@
       jdk11
       jdk21
       jdk8
+      kdePackages.qtmultimedia
       libcxx
       libglvnd
       libsndfile
@@ -71,6 +72,7 @@
       polkit_gnome
       portaudio
       redsocks
+      sddm-astronaut
       tldr
       util-linux.lib
       wayland-utils
@@ -215,6 +217,8 @@
     displayManager = {
       sddm = {
         enable = true;
+        package = pkgs.kdePackages.sddm;
+        theme="sddm-astronaut-theme";
         wayland.enable = true;
       };
     };
@@ -340,20 +344,7 @@
   };
   systemd = {
     services = {
-      polkit-gnome-authentication-agent-1 = {
-        description = "polkit-gnome-authentication-agent-1";
-        wantedBy = [ "graphical-session.target" ];
-        wants = [ "graphical-session.target" ];
-        after = [ "graphical-session.target" ];
-        serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
-      };
-
+      
       apache-kafka.wantedBy = lib.mkForce [ ];
       distccd.wantedBy = lib.mkForce [ ];
       docker.wantedBy = lib.mkForce [ ];
@@ -392,6 +383,7 @@
     libvirtd = {
       enable = true;
       qemu = {
+        vhostUserPackages = with pkgs; [ virtiofsd ];
         ovmf = {
           enable = true;
           packages = [

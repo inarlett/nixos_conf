@@ -32,12 +32,12 @@
       "application/vnd.openxmlformats-officedocument.presentationml.presentation" = "libreoffice-impress.desktop";     
 
       # --- Picture ---
-      "image/jpeg" = "feh.desktop"; # JPG, JPEG
-      "image/png"  = "feh.desktop"; # PNG
-      "image/gif"  = "feh.desktop"; # GIF
-      "image/bmp"  = "feh.desktop"; # BMP
-      "image/tiff" = "feh.desktop"; # TIFF
-      "image/webp" = "feh.desktop"; # WebP
+      "image/jpeg" = "imv.desktop"; # JPG, JPEG
+      "image/png"  = "imv.desktop"; # PNG
+      "image/gif"  = "imv.desktop"; # GIF
+      "image/bmp"  = "imv.desktop"; # BMP
+      "image/tiff" = "imv.desktop"; # TIFF
+      "image/webp" = "imv.desktop"; # WebP
 
       # --- Video ---
       "video/mp4"  = "mpv.desktop";

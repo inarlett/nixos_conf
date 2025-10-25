@@ -139,7 +139,6 @@
       #lidSwitch ="ignore";
       #lidSwitchDocked = "ignore";
       extraConfig = ''
-        HandlePowerKey=lock
       '';
     };
     # Enable the OpenSSH daemon.
