@@ -1,0 +1,211 @@
+# Hyprland configuration converted from Sway
+
+#----------------
+# Global Settings
+#----------------
+
+$scale = 2
+monitor = , highres, auto, $scale
+
+#xwayland {
+#  force_zero_scaling = true
+#}
+#env = GDK_SCALE,$scale
+#env = XCURSOR_SIZE,32
+$mod = SUPER
+general {
+  resize_on_border = true
+}
+misc{
+  force_default_wallpaper = 0
+}
+# Autostart
+env = QT_QPA_PLATFORM,wayland;xcb
+env = GTK_IM_MODULE,fcitx
+env = QT_IM_MODULE,fcitx
+env = XMODIFIERS,@im=fcitx
+env = INPUT_METHOD,fcitx
+env = SDL_IM_MODULE,fcitx
+
+exec-once = hypridle
+exec-once = waybar
+exec-once = dunst
+exec-once = fcitx5 -r
+exec-once = polkit-gnome-agent
+exec-once = systemctl --user import-environment XDG_SESSION_TYPE XDG_CURRENT_DESKTOP
+exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=hyprland
+# exec-once = linux-wallpaperengine --screen-root eDP-1 822829466
+exec-once = gammastep
+exec-once = killall -9 clash-meta;sudo clash-meta -d ~/.config/mihomo/
+exec-once = wpaperd
+
+windowrulev2 = float,size 800 600, class:(GoldenDict-ng)
+exec-once = goldendict
+exec-once = clipse -listen
+#----------------
+# Window Rules  
+#----------------
+windowrulev2 = float, class:^(one\.alynx\.showmethekey)$
+windowrulev2 = pin, class:^(one\.alynx\.showmethekey)$
+
+windowrule = float, class:(clipse)
+windowrule = size 622 652, class:(clipse)
+windowrule = stayfocused, class:(clipse)
+
+bind = CONTROL, semicolon, exec, kitty --class clipse -e clipse
+#----------------
+# Key Bindings
+#----------------
+# Application shortcuts
+bind = $mod, RETURN, exec, kitty
+bind = $mod, D, exec, wofi --show drun --allow-images
+bind = $mod, T, exec, goldendict $(wl-paste)
+
+# Window control
+bind = $mod SHIFT, Q, killactive
+bind = ALT, F4, killactive
+bind = $mod, F, fullscreen
+bind = CTRL ALT, Delete, exec, hyprctl dispatch exit 0
+
+# Movement
+bind = $mod, H, movefocus, l
+bind = $mod, J, movefocus, d 
+bind = $mod, K, movefocus, u
+bind = $mod, L, movefocus, r
+bind = $mod SHIFT, H, movewindow, l
+bind = $mod SHIFT, L, movewindow, r
+bind = $mod SHIFT, K, movewindow, u
+bind = $mod SHIFT, J, movewindow, d
+bind = $mod SHIFT, Space, togglefloating
+# Layout control
+bind = $mod, G, togglesplit
+bind = $mod, W, layoutmsg, orientationtop
+bind = $mod, E, layoutmsg, orientationcenter
+
+# Workspaces
+bind = $mod, 1, workspace, 1
+bind = $mod, 2, workspace, 2
+bind = $mod, 3, workspace, 3
+bind = $mod, 4, workspace, 4
+bind = $mod, 5, workspace, 5
+bind = $mod, 6, workspace, 6
+bind = $mod, 7, workspace, 7
+bind = $mod, 8, workspace, 8
+bind = $mod, 9, workspace, 9
+bind = $mod, 0, workspace, 10
+
+bind = $mod SHIFT, 1, movetoworkspace, 1
+bind = $mod SHIFT, 2, movetoworkspace, 2
+bind = $mod SHIFT, 3, movetoworkspace, 3
+bind = $mod SHIFT, 4, movetoworkspace, 4
+bind = $mod SHIFT, 5, movetoworkspace, 5
+bind = $mod SHIFT, 6, movetoworkspace, 6
+bind = $mod SHIFT, 7, movetoworkspace, 7
+bind = $mod SHIFT, 8, movetoworkspace, 8
+bind = $mod SHIFT, 9, movetoworkspace, 9
+bind = $mod SHIFT, 0, movetoworkspace, 10
+
+# Media controls
+
+bind = ,XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bind = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bind = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bind = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bind = ,XF86MonBrightnessDown, exec, brightnessctl set 5%-
+bind = ,XF86MonBrightnessUp, exec, brightnessctl set 5%+
+bind = ,XF86AudioPlay, exec, playerctl play-pause
+bind = ,XF86AudioNext, exec, playerctl next
+bind = ,XF86AudioPrev, exec, playerctl previous
+# Advanced
+bind = $mod, R, exec, hyprctl reload
+bind = $mod SHIFT, E, exec, wlogout
+bind = ,XF86Sleep, exec, hyprlock
+
+
+
+
+#----------------
+# Appearance
+#----------------
+animations {
+  enabled = false
+#  animation = windows, 1, 2, default
+#  animation = border, 1, 10, default
+}
+debug {
+    disable_logs = false
+}
+decoration {
+  blur {
+    enabled = false
+  }
+  rounding = 0
+  shadow {
+    enabled = false
+  }
+}
+
+
+
+#----------------
+# Input Settings
+#----------------
+input {
+  kb_layout = us
+  follow_mouse = 1
+  touchpad {
+    natural_scroll = yes
+  }
+}
+bindm = SUPER, mouse:272, movewindow
+bindm = SUPER, mouse:273, resizewindow
+
+
+$resize = resize:(h,j,k,l)
+$mouse = mouse:(f)loating,(t)tiling
+$screenshot = screenshot:(s)creenshot,(q)uote,(l)atex
+bind = $mod, R, submap, $resize
+# 定义 resize 子映射中的按键绑定
+submap = $resize
+binde = , h, resizeactive, -40 0
+binde = , l, resizeactive, 40 0
+binde = , k, resizeactive, 0 40
+binde = , j, resizeactive, 0 -40
+# 退出子映射模式
+bind = , escape, submap, reset
+bind = , return, submap, reset
+submap = reset
+
+bind = $mod, M, submap,$mouse
+submap=$mouse
+bind = ,f, exec,hyprctl dispatch submap reset && wl-kbptr -o modes=floating,click -o mode_floating.source=detect
+bind = ,t, exec,hyprctl dispatch submap reset && wl-kbptr -o modes=tile,bisect
+bind = ,z, exec, ydotool click 0xC0
+bind = ,x, exec, ydotool click 0xC1
+bind = ,c, exec, ydotool click 0xC2
+binde = , h, exec, ydotool mousemove -- -10 0
+binde = , j, exec, ydotool mousemove -- 0 10
+binde = , k, exec, ydotool mousemove -- 0 -10
+binde = , l, exec, ydotool mousemove -- 10 0
+binde = SHIFT, h, exec, ydotool mousemove -- -50 0
+binde = SHIFT, j, exec, ydotool mousemove -- 0 50
+binde = SHIFT, k, exec, ydotool mousemove -- 0 -50
+binde = SHIFT, l, exec, ydotool mousemove -- 50 0
+bind = , escape, submap, reset
+bind = , return, submap, reset
+submap = reset
+
+bind = $mod, S, submap,$screenshot
+submap=$screenshot
+bind = ,s, exec,hyprctl dispatch submap reset && ~/Documents/scripts/window/wayland/screenshot.sh
+bind = ,q, exec,hyprctl dispatch submap reset && ~/Documents/scripts/window/wayland/scan.sh
+bind = ,l, exec,hyprctl dispatch submap reset && ~/Documents/scripts/window/wayland/latex.sh
+bind = , escape, submap, reset
+bind = , return, submap, reset
+submap = reset
+
+#----------------
+# Include Sub-configs
+#----------------
+#source = ~/.config/hypr/binds.conf
+#source = ~/.config/hypr/modes.conf

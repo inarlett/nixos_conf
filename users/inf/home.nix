@@ -356,11 +356,6 @@
     stateVersion = "25.05"; # Please read the comment before changing.
     username = "inf";
   };
-  #  wayland.windowManager.hyprland = {
-  #    enable = true;
-  #    extraConfig = ''
-  #    '';
-  #  };
 
   imports = [
     ../modules

@@ -72,7 +72,7 @@
       polkit_gnome
       portaudio
       redsocks
-      sddm-astronaut
+      sddm-theme
       tldr
       util-linux.lib
       wayland-utils
@@ -218,7 +218,10 @@
       sddm = {
         enable = true;
         package = pkgs.kdePackages.sddm;
-        theme="sddm-astronaut-theme";
+        extraPackages = [
+          pkgs.kdePackages.qtmultimedia
+        ];
+        theme="sddm-theme";
         wayland.enable = true;
       };
     };

@@ -38,12 +38,6 @@
 	    url = "gitlab:doronbehar/nix-matlab";
 	  };
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1&ref=refs/tags/v0.50.1";
-    hy3 = {
-      url = "github:outfoxxed/hy3?ref=hl0.50.0"; # where {version} is the hyprland release version
-      # or "github:outfoxxed/hy3" to follow the development branch.
-      # (you may encounter issues if you dont do the same for hyprland)
-      inputs.hyprland.follows = "hyprland";
-    };
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
@@ -66,7 +60,6 @@
       nixpkgs,
       home-manager,
       hyprland,
-      hy3,
       hyprland-plugins,
       nur,
       nix-matlab,
@@ -93,15 +86,7 @@
         "${username}@${hostname}" =
           home-manager.lib.homeManagerConfiguration {
             modules = [
-	      nixvim.homeManagerModules.nixvim
               hyprland.homeManagerModules.default
-              {
-                wayland.windowManager.hyprland = {
-                  enable = true;
-		  #plugins = [ hy3.packages.x86_64-linux.hy3 ];
-               };
-              }
-              
             ];
           };
       };
