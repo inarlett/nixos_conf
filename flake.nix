@@ -20,10 +20,6 @@
       url = "github:nix-community/NixOS-WSL";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,7 +33,7 @@
 	    inputs.nixpkgs.follows = "nixpkgs";
 	    url = "gitlab:doronbehar/nix-matlab";
 	  };
-    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1&ref=refs/tags/v0.50.1";
+    hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
@@ -63,7 +59,6 @@
       hyprland-plugins,
       nur,
       nix-matlab,
-      nixvim,
       ...
     }:
     let

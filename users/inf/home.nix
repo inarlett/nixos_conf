@@ -305,7 +305,6 @@
         xss-lock
         yosys
         zathura
-        zeal
         zig
         zls
         zotero
@@ -313,7 +312,6 @@
       ++ (with pkgs.python312Packages; [
         compiledb
         tkinter
-        manim
         numpy
         jupyter
         ipykernel
@@ -734,7 +732,6 @@
       "Xft.rgba" = "rgb";
     };
   };
-
   # xsession = {
   #   enable = true;
   #   windowManager = {

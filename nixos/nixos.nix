@@ -387,15 +387,6 @@
       enable = true;
       qemu = {
         vhostUserPackages = with pkgs; [ virtiofsd ];
-        ovmf = {
-          enable = true;
-          packages = [
-            (pkgs.OVMF.override {
-              secureBoot = true;
-              tpmSupport = true;
-            }).fd
-          ];
-        };
         package = pkgs.qemu_kvm;
         runAsRoot = true;
         swtpm.enable = true;
