@@ -7,19 +7,16 @@
 #	export XDG_SESSION_DESKTOP=sway
 #  export USE_WAYLAND_GRIM=1
 #fi
-case "$XDG_SESSION_DESKTOP" in
-  i3)
+if [[ "$XDG_SESSION_DESKTOP" == *i3* ]] || [[ "$XDG_CURRENT_DESKTOP" == *i3* ]]; then
     export GTK_IM_MODULE="fcitx"
     export QT_IM_MODULE="fcitx"
     export XMODIFIERS="@im=fcitx"
-    ;;
-  Hyprland)
-    export GDK_BACKEND="wayland"
-    export QT_QPA_PLATFORM="wayland"
-    export SDL_VIDEODRIVER="wayland"
-    export CLUTTER_BACKEND="wayland"
-    ;;
-esac
+elif [[ "$XDG_SESSION_DESKTOP" == *[Hh]yprland* ]] || [[ "$XDG_CURRENT_DESKTOP" == *[Hh]yprland* ]] || [[ "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+    # Hyprland 环境 - 保持变量未设置或设置为系统默认
+    :
+else
+    echo "no recognized session: XDG_SESSION_DESKTOP=$XDG_SESSION_DESKTOP, XDG_CURRENT_DESKTOP=$XDG_CURRENT_DESKTOP"
+fi
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -85,10 +82,17 @@ export NVBOARD_HOME=/home/inf/repos/ysyx-workbench/nvboard
 export NPC_HOME=/home/inf/repos/ysyx-workbench/npc
 
 
-export AM_HOME=/home/inf/repos/ics2024/abstract-machine
-export AMO_API_KEY=user:18894069:904
-export AMO_API_SECRET=8fe2f1767c0c3fb2f56b8199147e85e83ed0de80532aa8e5fa541fdaaba827cc
+export AM_HOME=/home/inf/repos/ysyx-workbench/abstract-machine
+
+#replace APIKEY with external sources
+source /home/inf/Documents/scripts/env/api.sh
+
 export NEMU_HOME=/home/inf/repos/ics2024/nemu
-export NEMU_NPC_HOME=/home/inf/repos/ics2024/nemu_npc
+
 #export JAVA_OPTS="-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7890 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=7890"
 #export SBT_OPTS="$SBT_OPTS -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7890"
+
+export PATH=~/.npm-global/bin:$PATH
+alias xclip="wl-copy"
+alias nrs="cd ~/.nixos && sudo nixos-rebuild switch --flake .#inf-desktop"
+alias sm="safe-rm"

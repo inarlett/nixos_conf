@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   pkgs,
   ...
@@ -153,9 +154,6 @@
     virt-manager = {
       enable = true;
     };
-    waybar = {
-      enable = true;
-    };
     ydotool = {
       group = "users";
       enable = true;
@@ -266,6 +264,9 @@
       package = pkgs.ollama-rocm;
       acceleration = "rocm";
     };
+    open-webui = {
+      enable = true;
+    };
     # Enable CUPS to print documents.
     printing = {
       enable = true;
@@ -310,9 +311,7 @@
 #          TIMELINE_CREATE = true;
 #          TIMELINE_CLEANUP = true;
 #        };
-    sunshine = {
-      enable = true;
-    };
+    
     timesyncd={
       enable = true;
       servers = [
@@ -362,7 +361,6 @@
       ollama.wantedBy = lib.mkForce [ ];
       rabbitmq.wantedBy = lib.mkForce [ ];
       redis-logos.wantedBy = lib.mkForce [ ];
-      sunshine.wantedBy = lib.mkForce [ ];
       zookeeper.wantedBy = lib.mkForce [ ];
     };
   };
@@ -393,6 +391,18 @@
       };
     };
     spiceUSBRedirection.enable = true;
+  };
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config = {
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+      };
+    };
   };
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

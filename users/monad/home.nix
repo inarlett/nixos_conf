@@ -1,4 +1,5 @@
 {
+  config,
   dpi,
   pkgs,
   inputs,

@@ -1,8 +1,12 @@
 {
   pkgs,
+  inputs,
   ...
 }:
 {
+  imports=[
+    inputs.zen-browser.homeModules.beta
+  ];
   home = {
     packages = with pkgs; [
       brightnessctl
@@ -10,7 +14,7 @@
       fastfetch
       fd
       gdb
-      git
+      gitFull
       mupdf
       nixfmt-rfc-style
       nmap
@@ -62,12 +66,10 @@
     mpv = {
       enable = true;  
     };
+    zen-browser.enable = true;
   };
   xdg = {
     enable = true;
-    # portal = {
-    #   enable = true;  
-    # };
     userDirs = {
       enable = true;
     };

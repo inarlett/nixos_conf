@@ -11,15 +11,22 @@ let
   hyprland_path = "${gui_path_base}/hypr";
   waybar_path = "${gui_path_base}/waybar";
   wpaperd_path = "${gui_path_base}/wpaperd";
+
+  system = pkgs.system;
 in
 {
   home = {
     file = {
-      ".config/hypr".source = config.lib.file.mkOutOfStoreSymlink hyprland_path;
+      ".config/hypr/hypridle.conf".source = config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/hypridle.conf";
+      ".config/hypr/hyprlock.conf".source = config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/hyprlock.conf";
+      ".config/hypr/pyprland.toml".source = config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/pyprland.toml";
       ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink waybar_path;
       ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink wpaperd_path;
     };
-    packages = [
+    packages = with pkgs;[
+      playerctl
+      waybar
+      inputs.pyprland.packages.${system}.pyprland
       #inputs.hy3.packages.x86_64-linux.hy3
     ];
     sessionVariables = {
@@ -73,9 +80,11 @@ in
     };
   };
   wayland.windowManager.hyprland = {
-    enable = true;
+    enable=true;
+    package=inputs.hyprland.packages.${system}.hyprland;
     plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprscrolling
+      inputs.hyprland-plugins.packages.${system}.hyprscrolling
+      inputs.hyprland-plugins.packages.${system}.hyprexpo
     ];
     extraConfig = ''
       source=${gui_path_base}/conf/hyprland.conf

@@ -34,6 +34,19 @@
 
   gtk = {
     enable = true;
+    gtk2.extraConfig=''
+      gtk-application-prefer-dark-theme=1
+      gtk-im-module="fcitx"
+    '';
+    gtk3.extraConfig={
+      gtk-application-prefer-dark-theme=1;
+      gtk-im-module="fcitx";
+    };
+    gtk4.extraConfig={
+      gtk-application-prefer-dark-theme=1;
+      gtk-im-module="fcitx";
+    };
+
     font = {
       name = "Iosevka";
       # size = 10;
@@ -131,6 +144,7 @@
         calcurse
         ccache
         clang
+        #clash-for-windows
         clang-tools
         clinfo
         cling
@@ -215,7 +229,6 @@
         mesa
         meson
         metals
-        mill
         moonlight-qt
         motrix
         musescore
@@ -375,7 +388,7 @@
     };
     emacs = {
       enable = true;
-      package = pkgs.emacs-git;
+      package = pkgs.emacs-pgtk;
       extraPackages = epkgs: [
         # pkgs.emacsPackages.jinx
         # pkgs.emacsPackages.rime
@@ -407,10 +420,6 @@
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-    };
-    git = {
-      enable = false;
-      #lfs.enable = true;
     };
     go = {
       enable = true;
