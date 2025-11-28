@@ -47,7 +47,7 @@
       noto-fonts
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       sarasa-gothic
       symbola
       wqy_zenhei
@@ -70,6 +70,7 @@
   };
   networking = {
     networkmanager.enable = true; # Easiest to use and most distros use this by default.
+    nftables.enable = true;
     # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
     # (the default) this is the recommended approach. When using systemd-networkd it's
     # still possible to use this option, but it's recommended to use it in conjunction

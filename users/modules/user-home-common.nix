@@ -45,10 +45,10 @@
               rime-ice
             ];
           })
-          fcitx5-with-addons
-          fcitx5-configtool
+          qt6Packages.fcitx5-with-addons
+          qt6Packages.fcitx5-configtool
           fcitx5-gtk
-          kdePackages.fcitx5-qt
+          qt6Packages.fcitx5-qt
         ];
       };
     };

@@ -373,6 +373,7 @@
 
     waydroid = {
       enable = true;
+      #package = pkgs.waydroid-nftables#if networking.nftables.enable=true
     };
     docker = {
       enable = true;
@@ -432,10 +433,10 @@
         53
         60752
       ];
-      extraCommands = ''
-        iptables -A FORWARD -j ACCEPT
-        ip6tables -A FORWARD -j ACCEPT
-      '';
+#      extraCommands = ''
+#        iptables -A FORWARD -j ACCEPT
+#        ip6tables -A FORWARD -j ACCEPT
+#      '';
     };
 
 #    networkmanager = {

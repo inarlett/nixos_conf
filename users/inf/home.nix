@@ -6,8 +6,13 @@
   pkgs,
   ...
 }:
-
-{
+let
+  neovideWrapped = pkgs.writeShellScriptBin "neovide" ''
+    #!${pkgs.bash}/bin/bash
+    source /home/inf/Documents/scripts/env/api.sh
+    exec ${pkgs.neovide}/bin/neovide "$@"
+  '';
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
 
@@ -34,17 +39,17 @@
 
   gtk = {
     enable = true;
-    gtk2.extraConfig=''
+    gtk2.extraConfig = ''
       gtk-application-prefer-dark-theme=1
       gtk-im-module="fcitx"
     '';
-    gtk3.extraConfig={
-      gtk-application-prefer-dark-theme=1;
-      gtk-im-module="fcitx";
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+      gtk-im-module = "fcitx";
     };
-    gtk4.extraConfig={
-      gtk-application-prefer-dark-theme=1;
-      gtk-im-module="fcitx";
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+      gtk-im-module = "fcitx";
     };
 
     font = {
@@ -232,6 +237,7 @@
         moonlight-qt
         motrix
         musescore
+        neovideWrapped
         neovim
         nethack
         nil
@@ -260,7 +266,7 @@
         python3
         qFlipper
         qq
-        ra-multiplex
+        lspmux
         racket
         rclone
         rm-improved
@@ -303,7 +309,7 @@
         warpd
         waydroid
         wayvnc
-        wechat-uos
+        wechat
         wemeet
         wineWowPackages.full
         winetricks
@@ -653,6 +659,36 @@
           "ConsoleOnly"
         ];
       };
+      neovide = {
+        name = "Neovide";
+        genericName = "Neovim GUI";
+        exec = "${neovideWrapped}/bin/neovide %F";
+        type = "Application";
+        icon = "${pkgs.neovide}/share/icons/hicolor/256x256/apps/neovide.png";
+        terminal = false;
+        comment = "No Nonsense Neovim Client in Rust";
+        categories = [
+          "Utility"
+          "TextEditor"
+        ];
+        mimeType = [
+          "text/english"
+          "text/plain"
+          "text/x-makefile"
+          "text/x-c++hdr"
+          "text/x-c++src"
+          "text/x-chdr"
+          "text/x-csrc"
+          "text/x-java"
+          "text/x-moc"
+          "text/x-pascal"
+          "text/x-tcl"
+          "text/x-tex"
+          "application/x-shellscript"
+          "text/x-c"
+          "text/x-c++"
+        ];
+      };
       nvim = {
         name = "Neovim";
         genericName = "Text Editor";
@@ -683,6 +719,7 @@
           "text/x-c++"
         ];
       };
+
       idea-community-bin = {
         name = "IDEA-CE";
         genericName = "Text Editor";
