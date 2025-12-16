@@ -4,7 +4,13 @@
   pkgs,
   ...
 }:
+let
+  rustdesk_tcp = lib.range 21115 21119;
+  rustdesk_udp = [ 21116 ];
+  steam_tcp = [ 27036 27037 ];
+  steam_udp = [ 10400 10401 27031 27036 ];#vr port and basic
 
+in
 {
 
   nixpkgs.config={
@@ -48,6 +54,7 @@
     systemPackages = with pkgs; [
       #davinci-resolv
       btrbk
+      ffmpeg_4
       gcc
       gtest
       #haskellPackages.ghcup
@@ -75,18 +82,20 @@
       redsocks
       sddm-theme
       tldr
+      touchegg
       util-linux.lib
       wayland-utils
       xdg-desktop-portal
       xdg-desktop-portal-wlr
 
       xorg.libXScrnSaver
+      yubioath-flutter
     ];
     wordlist = {
       enable = true;
     };
     sessionVariables = {
-      # LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.util-linux.lib}/lib";
+      LD_LIBRARY_PATH = lib.makeLibraryPath(with pkgs; [ ffmpeg_4 alsa-lib pulseaudio ]);
       NIXOS_OZONE_WL = "1";
       WLR_RENDERER = "vulkan";
       AMD_VULKAN_ICD = "RADV";
@@ -107,6 +116,9 @@
   };
 
   imports = [
+    ./modules/docker.nix
+    ./modules/libvirt.nix
+    ./modules/waydroid.nix
     ./modules/nixos-common.nix
     ./modules/zsh
     ./modules/gui
@@ -212,17 +224,7 @@
 #        port = 12345;
 #      };
 #    };
-    displayManager = {
-      sddm = {
-        enable = true;
-        package = pkgs.kdePackages.sddm;
-        extraPackages = [
-          pkgs.kdePackages.qtmultimedia
-        ];
-        theme="sddm-theme";
-        wayland.enable = true;
-      };
-    };
+    
     distccd = {
       enable = true;
     };
@@ -321,6 +323,9 @@
     tlp = {
       enable = true;
     };
+    touchegg = {
+      enable = true;
+    };
     # touchegg = {
     #   enable = false;
     # };
@@ -349,13 +354,9 @@
       
       apache-kafka.wantedBy = lib.mkForce [ ];
       distccd.wantedBy = lib.mkForce [ ];
-      docker.wantedBy = lib.mkForce [ ];
-      waydroid-container.wantedBy = lib.mkForce [ ];
       fwupd.wantedBy = lib.mkForce [ ];
       geth-logos.wantedBy = lib.mkForce [ ];
       guix-daemon.wantedBy = lib.mkForce [ ];
-      libvirtd.wantedBy = lib.mkForce [ ];
-      libvirt-guests.wantedBy = lib.mkForce [ ];
       mysql.wantedBy = lib.mkForce [ ];
       nginx.wantedBy = lib.mkForce [ ];
       ollama.wantedBy = lib.mkForce [ ];
@@ -365,34 +366,12 @@
     };
   };
 
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
-  virtualisation = {
-
-    waydroid = {
-      enable = true;
-      #package = pkgs.waydroid-nftables#if networking.nftables.enable=true
-    };
-    docker = {
-      enable = true;
-#      rootless = {
-#        enable = true;
-#        setSocketVariable = true;
-#      };
-    };
-    libvirtd = {
-      enable = true;
-      qemu = {
-        vhostUserPackages = with pkgs; [ virtiofsd ];
-        package = pkgs.qemu_kvm;
-        runAsRoot = true;
-        swtpm.enable = true;
-      };
-    };
-    spiceUSBRedirection.enable = true;
-  };
+  virtualisation.spiceUSBRedirection.enable = true;
+  
   xdg.portal = {
     enable = true;
     extraPortals = [
@@ -410,15 +389,8 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   networking = {
     firewall = {
-      trustedInterfaces = [
-        "docker0"
-      ];
-      interfaces.waydroid0 = {
-        allowedUDPPorts = [
-          67
-          53
-        ]; # 允许 DHCP 和 DNS
-      };
+      #switch to nftables
+      
       # ssh,vnc,livelinkface
       allowedTCPPorts = [
         22
@@ -426,17 +398,14 @@
         5901
         11111
         60752
-      ];
+      ]++rustdesk_tcp++steam_tcp;
       allowedUDPPorts = [
         22
         67
         53
         60752
-      ];
-#      extraCommands = ''
-#        iptables -A FORWARD -j ACCEPT
-#        ip6tables -A FORWARD -j ACCEPT
-#      '';
+      ]++rustdesk_udp++steam_udp;
+
     };
 
 #    networkmanager = {

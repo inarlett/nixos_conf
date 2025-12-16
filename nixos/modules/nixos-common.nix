@@ -70,7 +70,66 @@
   };
   networking = {
     networkmanager.enable = true; # Easiest to use and most distros use this by default.
-    nftables.enable = true;
+    nftables = {
+      enable = true;
+#      ruleset = ''
+#        table inet filter {
+#
+#          set trusted_ifaces {
+#            type ifname;
+#            elements = { "lo", "docker0" }
+#          }
+#
+#          set allowed_tcp_ports {
+#            type inet_service;
+#            elements = { 22, 5900, 5901, 11111, 60752, 80, 443, 5222 }
+#          }
+#
+#          set allowed_udp_ports {
+#            type inet_service;
+#            elements = { 22, 53, 67, 60752, 443, 20000-20099 }  # Telegram + Waydroid + DHCP/DNS
+#          }
+#
+#          set waydroid_udp_ports {
+#            type inet_service;
+#            elements = { 53, 67 }   # DHCP/DNS
+#          }
+#
+#          chain input {
+#            type filter hook input priority filter; policy drop;
+#
+#            # trusted interfaces
+#            iifname @trusted_ifaces accept
+#
+#            # established connections
+#            ct state established,related accept
+#
+#            # LAN access
+#            ip saddr 172.20.10.0/28 accept
+#
+#            # global allowed ports
+#            tcp dport @allowed_tcp_ports accept
+#            udp dport @allowed_udp_ports accept
+#
+#            # per-interface (Waydroid)
+#            iifname "waydroid0" udp dport @waydroid_udp_ports accept
+#
+#            # ping
+#            icmp type echo-request accept
+#            icmpv6 type echo-request accept
+#          }
+#
+#          chain forward {
+#            type filter hook forward priority filter; policy drop;
+#          }
+#
+#          chain output {
+#            type filter hook output priority filter; policy accept;
+#          }
+#        }
+#
+#      '';
+    };
     # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
     # (the default) this is the recommended approach. When using systemd-networkd it's
     # still possible to use this option, but it's recommended to use it in conjunction
@@ -82,12 +141,12 @@
     gc = {
       automatic = true;
       dates = "monthly";
-      
+
     };
     settings = {
       auto-optimise-store = true;
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
 
       experimental-features = [
         "nix-command"
@@ -114,11 +173,11 @@
   security = {
     pam = {
       sshAgentAuth.enable = true;
-      services={
+      services = {
         sudo.sshAgentAuth = true;
-        hyprlock = {};
+        hyprlock = { };
       };
-      
+
     };
     sudo = {
       wheelNeedsPassword = false;
@@ -136,13 +195,13 @@
     };
     libinput = {
       enable = true;
-      touchpad.tapping=true;
+      touchpad.tapping = true;
     };
     logind = {
       #lidSwitch ="ignore";
       #lidSwitchDocked = "ignore";
       settings.Login = {
-        HandlePowerKey="lock";
+        HandlePowerKey = "lock";
       };
     };
     # Enable the OpenSSH daemon.

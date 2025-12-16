@@ -99,7 +99,7 @@
           dpi = 169;
           hardware = "surface-pro-8";
           extraModules = [
-            ./nixos/modules/libvirt-host-firewall.nix
+            ./nixos/modules/libvirt.nix
             ./nixos/modules/localhost-http-proxy.nix
           ];
           nixos = "logos";
@@ -113,7 +113,7 @@
         // mkSystem "thoth-vm" {
           hardware = "vm";
           extraModules = [
-            ./nixos/modules/libvirt-guest-http-proxy.nix
+            ./nixos/modules/libvirt.nix
           ];
           nixos = "thoth";
           system = "x86_64-linux";
@@ -160,9 +160,10 @@
         // mkSystem "inf-desktop" {
           hardware = "mechrevo";
           extraModules = [
+            ./nixos/modules/authenticator.nix
             ./nixos/modules/zsh
             ./nixos/modules/localhost-http-proxy.nix
-            ./nixos/modules/libvirt-guest-http-proxy.nix
+            ./nixos/modules/libvirt.nix
           ];
 
           nixos = "nixos";

@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   pkgs,
   ...
@@ -20,30 +21,63 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      docker-compose
-      lazydocker
+      bpftrace
+      cpu-x
       linuxHeaders
       linux-manual
       lm_sensors
       man-pages
       man-pages-posix
+      rr
       wayland-utils
+      wl-clipboard
+      valgrind-light
       vulkan-tools
       xsel
     ];
   };
 
+  fonts = {
+    packages = with pkgs; [
+      jetbrains-mono
+      lxgw-wenkai
+      maple-mono.NF
+      monolisa
+      sf-pro
+    ];
+  };
+
   imports = [
+    ./modules/docker.nix
+    ./modules/libvirt.nix
     ./modules/nixos-common.nix
-    ./modules/zsh
+    ./modules/waydroid.nix
+    ./modules/zsh.nix
+    inputs.nix-index-database.nixosModules.nix-index
   ];
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
   programs = {
+    kdeconnect = {
+      enable = true;
+      package = pkgs.valent;
+    };
+    # when using nix-index-database, do not also include nix-index
+    nix-index-database.comma = {
+      enable = true;
+    };
+    nix-ld = {
+      enable = true;
+    };
     steam = {
-      enable = true;  
+      enable = true;
     };
     sway = {
       enable = true;
@@ -66,13 +100,38 @@
     apache-kafka = {
       enable = true;
       settings = {
-        "log.dirs" = ["/var/lib/apache-kafka"];
+        "log.dirs" = [ "/var/lib/apache-kafka" ];
         "zookeeper.connect" = "localhost:2181";
       };
     };
     # aria2 = {
-    #   enable = true;   
+    #   enable = true;
     #   rpcSecretFile = /run/secrets/aria2-rpc-token.txt;
+    # };
+    avahi = {
+      enable = true;
+    };
+    # service caddy doesn't provide binary
+    # caddy = {
+    #   enable = true;
+    # };
+    clamav = {
+      daemon.enable = true;
+      updater = {
+        enable = true;
+        frequency = 3;
+        interval = "weekly";
+      };
+    };
+    # cloudflare-warp = {
+    #   enable = true;
+    # };
+    # dictd = {
+    #   enable = true;
+    #   DBs = with pkgs.dictdDBs; [
+    #     wiktionary
+    #     wordnet
+    #   ];
     # };
     displayManager = {
       ly = {
@@ -83,22 +142,31 @@
       };
     };
     distccd = {
-      enable = true;  
+      enable = true;
+    };
+    elasticsearch = {
+      enable = true;
     };
     fwupd = {
       enable = true;
     };
     geth = {
       logos = {
-        enable = true;  
-      }; 
+        enable = true;
+      };
     };
     guix = {
-      enable = true;  
-    };
-    nginx = {
       enable = true;
     };
+    jenkins = {
+      enable = true;
+    };
+    k3s = {
+      enable = true;
+    };
+    # nginx = {
+    #   enable = true;
+    # };
     mysql = {
       enable = true;
       package = pkgs.mariadb;
@@ -114,11 +182,21 @@
     };
     ollama = {
       enable = true;
-      
+    };
+    # picom = {
+    #   enable = true;
+    # };
+    postgresql = {
+      enable = true;
     };
     # Enable CUPS to print documents.
     printing = {
       enable = true;
+      drivers = with pkgs; [
+        gutenprint
+        hplip
+        splix
+      ];
     };
     rabbitmq = {
       enable = true;
@@ -128,15 +206,26 @@
         enable = true;
       };
     };
+    # stirling-pdf = {
+    #   enable = true;
+    #   environment = {
+    #     INSTALL_BOOK_AND_ADVANCED_HTML_OPS = "true";
+    #     SERVER_PORT = 8070;
+    #   };
+    # };
     sunshine = {
-      enable = true;  
+      autoStart = false;
+      enable = true;
+    };
+    tailscale = {
+      enable = true;
     };
     # touchegg = {
     #   enable = false;
     # };
     # tts.servers = {
     #   logos = {
-    #     enable = true;  
+    #     enable = true;
     #   };
     # };
     # Enable the X11 windowing system.
@@ -151,60 +240,53 @@
       # videoDrivers = [ "intel" ];
     };
     zookeeper = {
-      enable = true;  
+      enable = true;
     };
   };
 
-  systemd.services = {
-    apache-kafka.wantedBy = lib.mkForce [ ];
-    distccd.wantedBy = lib.mkForce [ ];
-    docker.wantedBy = lib.mkForce [ ];
-    fwupd.wantedBy = lib.mkForce [ ]; 
-    geth-logos.wantedBy = lib.mkForce [ ];
-    guix-daemon.wantedBy = lib.mkForce [ ];
-    libvirtd.wantedBy = lib.mkForce [ ];
-    libvirt-guests.wantedBy = lib.mkForce [ ];
-    mysql.wantedBy = lib.mkForce [ ];
-    nginx.wantedBy = lib.mkForce [ ];
-    ollama.wantedBy = lib.mkForce [ ];
-    rabbitmq.wantedBy = lib.mkForce [ ];
-    redis-logos.wantedBy = lib.mkForce [ ];
-    sunshine.wantedBy = lib.mkForce [ ];
-    zookeeper.wantedBy = lib.mkForce [ ];
+  systemd = {
+    services = {
+      apache-kafka.wantedBy = lib.mkForce [ ];
+      # caddy.wantedBy = lib.mkForce [ ];
+      clamav-daemon.wantedBy = lib.mkForce [ ];
+      # cloudflare-warp.wantedBy = lib.mkForce [ ];
+      distccd.wantedBy = lib.mkForce [ ];
+      elasticsearch.wantedBy = lib.mkForce [ ];
+      fwupd.wantedBy = lib.mkForce [ ];
+      geth-logos.wantedBy = lib.mkForce [ ];
+      guix-daemon.wantedBy = lib.mkForce [ ];
+      jenkins.wantedBy = lib.mkForce [ ];
+      k3s.wantedBy = lib.mkForce [ ];
+      mysql.wantedBy = lib.mkForce [ ];
+      # nginx.wantedBy = lib.mkForce [ ];
+      ollama.wantedBy = lib.mkForce [ ];
+      postgresql.wantedBy = lib.mkForce [ ];
+      rabbitmq.wantedBy = lib.mkForce [ ];
+      redis-logos.wantedBy = lib.mkForce [ ];
+      stirling-pdf.wantedBy = lib.mkForce [ ];
+      tailscale.wantedBy = lib.mkForce [ ];
+      tailscaled.wantedBy = lib.mkForce [ ];
+      zookeeper.wantedBy = lib.mkForce [ ];
+    };
   };
-
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
 
   virtualisation = {
-    docker = {
-      enable = true;  
-    };
-    libvirtd = {
+    lxc = {
       enable = true;
-      qemu = {
-        ovmf = {
-          enable = true;
-          packages = [
-            (pkgs.OVMF.override {
-              secureBoot = true;
-              tpmSupport = true;
-            }).fd
-          ];
-        };
-        package = pkgs.qemu_kvm;
-        runAsRoot = true;
-        swtpm.enable = true;
-      };
     };
     spiceUSBRedirection.enable = true;
+    # virtualbox = {
+    #   host = {
+    #     addNetworkInterface = false;
+    #     enable = true;
+    #     enableKvm = true;
+    #   };
+    # };
   };
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

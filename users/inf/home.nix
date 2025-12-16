@@ -165,7 +165,6 @@ in {
         deno
         dirstalk
         discord
-        docker-compose
         dotnet-sdk
         dunst
         element-web
@@ -218,7 +217,6 @@ in {
         jq
         just
         krita
-        lazydocker
         leiningen
         libllvm
         libnotify
@@ -341,8 +339,8 @@ in {
 
     pointerCursor = {
       gtk.enable = true;
-      name = "Adwaita";
-      package = pkgs.adwaita-icon-theme;
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
       # size = 51;
       x11.enable = true;
     };

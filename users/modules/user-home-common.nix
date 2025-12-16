@@ -5,6 +5,7 @@
 }:
 {
   imports=[
+    ./security
     inputs.zen-browser.homeModules.beta
   ];
   home = {

@@ -26,7 +26,8 @@ in
     packages = with pkgs;[
       playerctl
       waybar
-      inputs.pyprland.packages.${system}.pyprland
+      hyprshot
+      pyprland
       #inputs.hy3.packages.x86_64-linux.hy3
     ];
     sessionVariables = {
