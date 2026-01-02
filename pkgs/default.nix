@@ -4,6 +4,8 @@ final: prev: {
   volume = final.callPackage ./volume { };
   rime-ice = final.callPackage ./rime-ice { };
   polkit-gnome-agent = final.callPackage ./polkit-gnome-agent { };
+  openocd-spike = final.callPackage ./openocd-spike { };
+
   #sddm-theme = final.callPackage ./sddm-theme { };
   #clash-for-windows = final.callPackage ./clash-for-windows { };
   #voice2sub = final.callPackage ./voice2sub { };

@@ -160,10 +160,8 @@
         // mkSystem "inf-desktop" {
           hardware = "mechrevo";
           extraModules = [
-            ./nixos/modules/authenticator.nix
-            ./nixos/modules/zsh
             ./nixos/modules/localhost-http-proxy.nix
-            ./nixos/modules/libvirt.nix
+            ./nixos/modules/rocm.nix
           ];
 
           nixos = "nixos";

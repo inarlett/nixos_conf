@@ -7,7 +7,7 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = [ ];
-    kernelModules = [ ];
+    kernelModules = [];
     initrd = {
       availableKernelModules = [
         "ahci"
@@ -23,7 +23,12 @@
       ];
     };
     kernelParams = [
+      "amdgpu.dc=1"
+      "amdgpu.ppfeaturemask=0xffffffff"
       "amdgpu.dcdebugmask=0x10"
+      "amdgpu.runpm=0"
+      "amdgpu.gpu_recovery=1"
+      "amdgpu.lockup_timeout=10000"
     ];
 
   };
@@ -45,10 +50,22 @@
 #  };
   hardware = {
     cpu.amd.updateMicrocode = true;
+    firmware = [
+      (pkgs.linux-firmware.overrideAttrs (old: {
+        version = "20251111";
+        src = pkgs.fetchurl {
+          # https://www.kernel.org/pub/linux/kernel/firmware/
+          url = "https://www.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251111.tar.gz";
+          # > nix-prefetch-url https://www.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251111.tar.gz
+          sha256 = "0rp2ah8drcnl7fh9vbawa8p8c9lhvn1d8zkl48ckj20vba0maz2g";
+        };
+      }))
+    ];
     graphics = {
       extraPackages = with pkgs; [
-        rocmPackages.clr.icd
+        libva
         mesa
+        rocmPackages.clr.icd
       ];
     };
   };
@@ -68,6 +85,8 @@
 
     ./modules/hardware-common.nix
   ];
+  zramSwap.enable = true;
+  zramSwap.memoryPercent = 80; 
   swapDevices = [
     {
       device = "/var/lib/swapfile";

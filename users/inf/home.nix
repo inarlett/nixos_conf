@@ -7,12 +7,15 @@
   ...
 }:
 let
+  extra-libs-for-conda = with pkgs;[ libdrm ];
+  conda-withrocm = pkgs.conda.override { extraPkgs = extra-libs-for-conda; };
   neovideWrapped = pkgs.writeShellScriptBin "neovide" ''
     #!${pkgs.bash}/bin/bash
     source /home/inf/Documents/scripts/env/api.sh
     exec ${pkgs.neovide}/bin/neovide "$@"
   '';
-in {
+in
+{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
 
@@ -84,45 +87,9 @@ in {
     packages =
       with pkgs;
       [
-        # # Adds the 'hello' command to your environment. It prints a friendly
-        # # "Hello, world!" when run.
-        # pkgs.hello
-        # # It is sometimes useful to fine-tune packages, for example, by applying
-        # # overrides. You can do that directly here, just don't forget the
-        # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-        # # fonts?
-        # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+        #nur pkgs
 
-        # # You can also create simple shell scripts directly inside your
-        # # configuration. For example, this adds a command 'my-hello' to your
-        # # environment:
-        # (pkgs.writeShellScriptBin "my-hello" ''
-        #   echo "Hello, ${config.home.username}!"
-        # '')
-
-        # archivebox # insecure
-
-        # dmd
-        # glib
-        # google-cloud-sdk
-        # gping
-        # haskellPackages.ghcup
-        # kdePackages.okular
-        # libsForQt5.full
-        # llvmPackages.libcxx
-        # llvmPackages.libcxxClang
-        # mariadb
-        # openai-whisper-cpp
-        # rust-analyzer
-        # rustlings
-        # tdlib
-        # volume
-        # xautolock
-        # yq
-        #davinci-resolve-studio
-        #nur.repos.lschuermann.vivado-2022_2
-        #tor-browser
-        #zed-editor
+        #regular
         agda
         aichat
         aider-chat
@@ -146,7 +113,7 @@ in {
         bluetuith
         cabal-install
         cachix
-        calcurse
+        #calcurse
         ccache
         clang
         #clash-for-windows
@@ -157,7 +124,7 @@ in {
         cloudflare-warp
         cmake
         code-cursor
-        conda
+        conda-withrocm
         #coreboot-toolchain.riscv
         coursier
         dbeaver-bin
@@ -229,24 +196,22 @@ in {
         mako
         matlab
         maven
-        mesa
         meson
         metals
         moonlight-qt
         motrix
         musescore
+        nautilus
         neovideWrapped
         neovim
         nethack
         nil
         ninja
         nix-index
+        nix-ld
         nodePackages.gulp
         nodejs
         nyxt
-        obs-studio
-        obs-studio-plugins.obs-pipewire-audio-capture
-        obs-studio-plugins.wlrobs
         onboard
         onedrive
         openconnect
@@ -254,6 +219,7 @@ in {
         peazip
         pipx
         plantuml
+        planify
         playerctl
         polkit-gnome-agent
         pnpm
@@ -317,11 +283,12 @@ in {
         wpaperd
         wshowkeys
         xdg-ninja
-        xmake
         xsettingsd
         xss-lock
         yosys
         zathura
+        zathuraPkgs.zathura_djvu
+        zathuraPkgs.zathura_pdf_mupdf
         zig
         zls
         zotero
@@ -334,8 +301,7 @@ in {
         ipykernel
         matplotlib
         scipy
-      ])
-      ++ (with pkgs.xfce; [ thunar ]);
+      ]);
 
     pointerCursor = {
       gtk.enable = true;
@@ -615,24 +581,23 @@ in {
         ];
         type = "Application";
       };
-      firefox-profile-hack = {
-        name = "Firefox profile_hack_secure";
-        genericName = "Web Browser Profile";
-        exec = "firefox -p \"hack_secure\"";
-        icon = "${pkgs.firefox}/share/icons/hicolor/16x16/apps/firefox.png";
-        categories = [
-          "Application"
-          "Network"
-          "WebBrowser"
-        ];
+      QQ = {
+        name = "QQ";
+        exec = "steam-run qq %U";
         terminal = false;
         type = "Application";
+        icon = "qq";
+        settings = {
+          StartupWMClass = "QQ";
+        };
+        categories = [ "Network" ];
+        comment = "QQ";
       };
       VScode = {
         name = "VSCode";
         genericName = "Text Editor";
-        exec = "code --ozone-platform=wayland";
-        icon = "Vscode";
+        exec = "env QT_SCALE_FACTOR= code";
+        icon = "vscode";
         categories = [
           "Application"
         ];
@@ -774,6 +739,9 @@ in {
       "Xft.hinting" = 1;
       "Xft.hintstyle" = "hintfull";
       "Xft.rgba" = "rgb";
+      "qt.scale.factor" = 2;
+      "qt.autoScreenScaleFactor" = 1;
+      "qt.highDpiScaleFactorRoundingPolicy" = "PassThrough";
     };
   };
   # xsession = {

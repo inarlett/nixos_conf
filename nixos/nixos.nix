@@ -7,13 +7,21 @@
 let
   rustdesk_tcp = lib.range 21115 21119;
   rustdesk_udp = [ 21116 ];
-  steam_tcp = [ 27036 27037 ];
-  steam_udp = [ 10400 10401 27031 27036 ];#vr port and basic
+  steam_tcp = [
+    27036
+    27037
+  ];
+  steam_udp = [
+    10400
+    10401
+    27031
+    27036
+  ]; # vr port and basic
 
 in
 {
 
-  nixpkgs.config={
+  nixpkgs.config = {
     allowUnfree = true;
   };
   documentation = {
@@ -30,72 +38,94 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
-#    etc={
-#      "btrbk/btrbk.conf".text = ''
-#        timestamp_format long
-#        snapshot_preserve_min 2d
-#        snapshot_preserve 14d
-#
-#        volume /
-#          snapshot_dir snapshots
-#          target /backup/btrbk
-#          subvolume .
-#            snapshot_filter /etc/btrbk/exclude.filter
-#      '';
-#      "btrbk/exclude.filter".text=''
-#        - /nix/store/
-#        - /srv/
-#        - /var/lib/portables/
-#        - /var/lib/machines/
-#        - /tmp/
-#        - /var/tmp/
-#      '';
-#    };
-    systemPackages = with pkgs; [
-      #davinci-resolv
-      btrbk
-      ffmpeg_4
-      gcc
-      gtest
-      #haskellPackages.ghcup
-      icu
-      jdk11
-      jdk21
-      jdk8
-      kdePackages.qtmultimedia
-      libcxx
-      libglvnd
-      libsndfile
-      linuxHeaders
-      linux-manual
-      livecaptions
-      lm_sensors
-      man-pages
-      man-pages-posix
-      mesa
-      mono
-      ncurses
-      nss
-      ntfs3g
-      polkit_gnome
-      portaudio
-      redsocks
-      sddm-theme
-      tldr
-      touchegg
-      util-linux.lib
-      wayland-utils
-      xdg-desktop-portal
-      xdg-desktop-portal-wlr
-
-      xorg.libXScrnSaver
-      yubioath-flutter
-    ];
+    #    etc={
+    #      "btrbk/btrbk.conf".text = ''
+    #        timestamp_format long
+    #        snapshot_preserve_min 2d
+    #        snapshot_preserve 14d
+    #
+    #        volume /
+    #          snapshot_dir snapshots
+    #          target /backup/btrbk
+    #          subvolume .
+    #            snapshot_filter /etc/btrbk/exclude.filter
+    #      '';
+    #      "btrbk/exclude.filter".text=''
+    #        - /nix/store/
+    #        - /srv/
+    #        - /var/lib/portables/
+    #        - /var/lib/machines/
+    #        - /tmp/
+    #        - /var/tmp/
+    #      '';
+    #    };
+    systemPackages =
+      with pkgs;
+      [
+        #davinci-resolv
+        btrbk
+        ffmpeg_4
+        gcc
+        gtest
+        #haskellPackages.ghcup
+        icu
+        jdk11
+        jdk21
+        jdk8
+        kdePackages.qtmultimedia
+        krb5.lib
+        libcxx
+        libGL
+        libglvnd
+        libsndfile
+        libxcb
+        libva-utils
+        libdrm
+        linuxHeaders
+        linux-manual
+        livecaptions
+        lm_sensors
+        man-pages
+        man-pages-posix
+        mesa
+        mono
+        ncurses
+        nss
+        ntfs3g
+        polkit_gnome
+        portaudio
+        radeontop
+        redsocks
+        tldr
+        touchegg
+        util-linux.lib
+        wayland-utils
+        xdg-desktop-portal
+        xdg-desktop-portal-wlr
+        yubioath-flutter
+      ]
+      ++ (with pkgs.xorg; [
+        libX11
+        libXcursor
+        libXrandr
+        libXinerama
+        libXcomposite
+        libXdamage
+        libXfixes
+        libXrender
+      ]);
     wordlist = {
       enable = true;
     };
     sessionVariables = {
-      LD_LIBRARY_PATH = lib.makeLibraryPath(with pkgs; [ ffmpeg_4 alsa-lib pulseaudio ]);
+      LD_LIBRARY_PATH = lib.makeLibraryPath (
+        with pkgs;
+        [
+          ffmpeg_4
+          alsa-lib
+          pulseaudio
+        ]
+      );
       NIXOS_OZONE_WL = "1";
       WLR_RENDERER = "vulkan";
       AMD_VULKAN_ICD = "RADV";
@@ -116,10 +146,12 @@ in
   };
 
   imports = [
+    ./modules/authenticator.nix
     ./modules/docker.nix
     ./modules/libvirt.nix
     ./modules/waydroid.nix
     ./modules/nixos-common.nix
+    ./modules/record
     ./modules/zsh
     ./modules/gui
   ];
@@ -134,22 +166,22 @@ in
     firejail = {
       enable = true;
     };
-    gamemode={
+    gamemode = {
       enable = true;
       settings = {
         general = {
-        renice = 10;
-        ioprio = 0;
+          renice = 10;
+          ioprio = 0;
         };
-        gpu={
+        gpu = {
           apply_gpu_optimisations = "accept-responsibility";
           gpu_device = 1;
         };
       };
     };
-    kdeconnect={
-      enable=true;
-      package=pkgs.valent;
+    kdeconnect = {
+      enable = true;
+      package = pkgs.valent;
     };
     steam = {
       enable = true;
@@ -161,7 +193,17 @@ in
       enable = true;
       libraries = with pkgs; [
         readline
+        xorg.libX11
+        libx11
+        libxcb
+        krb5.lib
+        #sta
+        libgcc.lib
       ];
+    };
+    nh = {
+      enable = true;
+      flake = "/home/inf/.nixos"; # sets NH_OS_FLAKE variable for you
     };
     virt-manager = {
       enable = true;
@@ -170,7 +212,7 @@ in
       group = "users";
       enable = true;
     };
-    
+
   };
 
   # Configure keymap in X11
@@ -217,21 +259,21 @@ in
     #   rpcSecretFile = /run/secrets/aria2-rpc-token.txt;
     # };
 
-#    daed = {
-#      enable = true;
-#      openFirewall = {
-#        enable = true;
-#        port = 12345;
-#      };
-#    };
-    
+    #    daed = {
+    #      enable = true;
+    #      openFirewall = {
+    #        enable = true;
+    #        port = 12345;
+    #      };
+    #    };
+
     distccd = {
       enable = true;
     };
     fail2ban = {
       enable = true;
       jails = {
-             
+
       };
     };
     fwupd = {
@@ -263,6 +305,7 @@ in
     };
     ollama = {
       enable = true;
+      rocmOverrideGfx = "11.0.0";
       package = pkgs.ollama-rocm;
       acceleration = "rocm";
     };
@@ -295,32 +338,35 @@ in
         enable = true;
       };
     };
-#        docs={
-#          SUBVOLUME = "/home/inf/Documents";
-#          ALLOW_USERS = [ "root" "inf" ]; # 允许哪些用户管理快照
-#          TIMELINE_CREATE = true;
-#          TIMELINE_CLEANUP = true;
-#        };
-#        roam={
-#          SUBVOLUME = "/home/inf/Roam";
-#          ALLOW_USERS = [ "root" "inf" ];
-#          TIMELINE_CREATE = true;
-#          TIMELINE_CLEANUP = true;
-#        };
-#        code={
-#          SUBVOLUME = "/home/inf/code";
-#          ALLOW_USERS = [ "root" "inf" ];
-#          TIMELINE_CREATE = true;
-#          TIMELINE_CLEANUP = true;
-#        };
-    
-    timesyncd={
+    #        docs={
+    #          SUBVOLUME = "/home/inf/Documents";
+    #          ALLOW_USERS = [ "root" "inf" ]; # 允许哪些用户管理快照
+    #          TIMELINE_CREATE = true;
+    #          TIMELINE_CLEANUP = true;
+    #        };
+    #        roam={
+    #          SUBVOLUME = "/home/inf/Roam";
+    #          ALLOW_USERS = [ "root" "inf" ];
+    #          TIMELINE_CREATE = true;
+    #          TIMELINE_CLEANUP = true;
+    #        };
+    #        code={
+    #          SUBVOLUME = "/home/inf/code";
+    #          ALLOW_USERS = [ "root" "inf" ];
+    #          TIMELINE_CREATE = true;
+    #          TIMELINE_CLEANUP = true;
+    #        };
+
+    timesyncd = {
       enable = true;
       servers = [
         "ntp.aliyun.com"
       ];
     };
     tlp = {
+      enable = true;
+    };
+    todesk = {
       enable = true;
     };
     touchegg = {
@@ -351,7 +397,6 @@ in
   };
   systemd = {
     services = {
-      
       apache-kafka.wantedBy = lib.mkForce [ ];
       distccd.wantedBy = lib.mkForce [ ];
       fwupd.wantedBy = lib.mkForce [ ];
@@ -364,6 +409,20 @@ in
       redis-logos.wantedBy = lib.mkForce [ ];
       zookeeper.wantedBy = lib.mkForce [ ];
     };
+    tmpfiles.rules =
+      let
+        rocmEnv = pkgs.symlinkJoin {
+          name = "rocm-combined";
+          paths = with pkgs.rocmPackages; [
+            rocblas
+            hipblas
+            clr
+          ];
+        };
+      in
+      [
+        "L+    /opt/rocm   -    -    -     -    ${rocmEnv}"
+      ];
   };
 
   system.stateVersion = "25.05"; # Did you read the comment?
@@ -371,7 +430,7 @@ in
   # Set your time zone.
   time.timeZone = "Asia/Shanghai";
   virtualisation.spiceUSBRedirection.enable = true;
-  
+
   xdg.portal = {
     enable = true;
     extraPortals = [
@@ -380,7 +439,10 @@ in
     ];
     config = {
       hyprland = {
-        default = [ "hyprland" "gtk" ];
+        default = [
+          "hyprland"
+          "gtk"
+        ];
       };
     };
   };
@@ -390,7 +452,12 @@ in
   networking = {
     firewall = {
       #switch to nftables
-      
+      checkReversePath = "loose";
+      trustedInterfaces = [ "wlp2s0" ];
+      #      extraInputRules = ''
+      #        iifname "wlp2s0" tcp dport 22 accept
+      #        iifname "lo" accept
+      #      '';
       # ssh,vnc,livelinkface
       allowedTCPPorts = [
         22
@@ -398,20 +465,24 @@ in
         5901
         11111
         60752
-      ]++rustdesk_tcp++steam_tcp;
+      ]
+      ++ rustdesk_tcp
+      ++ steam_tcp;
       allowedUDPPorts = [
         22
         67
         53
         60752
-      ]++rustdesk_udp++steam_udp;
+      ]
+      ++ rustdesk_udp
+      ++ steam_udp;
 
     };
 
-#    networkmanager = {
-#      enable = true;
-#      dns ="none";
-#    };
+    #    networkmanager = {
+    #      enable = true;
+    #      dns ="none";
+    #    };
 
     nameservers = [
       "127.0.0.1"

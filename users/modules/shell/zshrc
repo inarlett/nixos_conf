@@ -75,6 +75,9 @@ docker() {
     fi
     command docker "$@"
 }
+# rocm support for 780m
+export PYTORCH_ROCM_ARCH="gfx1103"
+export HSA_OVERRIDE_GFX_VERSION=11.0.3
 #microsoft c# runtime support
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 export VISUAL=nvim

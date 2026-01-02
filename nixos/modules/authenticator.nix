@@ -5,6 +5,8 @@
 }:
 {
   environment.systemPackages = with pkgs; [
+    pam_u2f
+    libu2f-host
     ccid
   ];
   services={
