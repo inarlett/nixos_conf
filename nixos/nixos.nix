@@ -85,6 +85,8 @@ in
         linux-manual
         livecaptions
         lm_sensors
+        libimobiledevice
+        ifuse
         man-pages
         man-pages-posix
         mesa
@@ -162,6 +164,9 @@ in
     appimage = {
       enable = true;
       binfmt = true;
+      package = pkgs.appimage-run.override {
+        extraPkgs = pkgs: [ pkgs.ffmpeg pkgs.imagemagick pkgs.webkitgtk_6_0 pkgs.webkitgtk_4_1 ];
+      };
     };
     firejail = {
       enable = true;
@@ -313,6 +318,9 @@ in
       enable = true;
     };
     # Enable CUPS to print documents.
+    playerctld = {
+      enable =true;
+    };
     printing = {
       enable = true;
     };
@@ -380,6 +388,9 @@ in
     #     enable = true;
     #   };
     # };
+    usbmuxd = {
+      enable = true;
+    };
     xserver = {
       enable = true;
       windowManager = {

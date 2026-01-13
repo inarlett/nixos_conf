@@ -1,6 +1,7 @@
 {
   inputs,
   nixpkgs,
+  nixpkgs_latest,
   overlays,
   ...
 }:

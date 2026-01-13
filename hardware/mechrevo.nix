@@ -1,13 +1,19 @@
 {
+  config,
   pkgs,
+  pkgs_latest,
   inputs,
   ...
 }:
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-    extraModulePackages = [ ];
-    kernelModules = [];
+    kernelPackages = pkgs_latest.linuxPackages_6_18;
+    extraModulePackages = with config.boot.kernelPackages; [
+      v4l2loopback
+    ];
+    kernelModules = [
+      "v4l2loopback"
+    ];
     initrd = {
       availableKernelModules = [
         "ahci"
@@ -27,6 +33,7 @@
       "amdgpu.ppfeaturemask=0xffffffff"
       "amdgpu.dcdebugmask=0x10"
       "amdgpu.runpm=0"
+      "amdgpu.cwsr_enable=0"
       "amdgpu.gpu_recovery=1"
       "amdgpu.lockup_timeout=10000"
     ];
@@ -51,15 +58,7 @@
   hardware = {
     cpu.amd.updateMicrocode = true;
     firmware = [
-      (pkgs.linux-firmware.overrideAttrs (old: {
-        version = "20251111";
-        src = pkgs.fetchurl {
-          # https://www.kernel.org/pub/linux/kernel/firmware/
-          url = "https://www.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251111.tar.gz";
-          # > nix-prefetch-url https://www.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251111.tar.gz
-          sha256 = "0rp2ah8drcnl7fh9vbawa8p8c9lhvn1d8zkl48ckj20vba0maz2g";
-        };
-      }))
+      pkgs.linux-firmware
     ];
     graphics = {
       extraPackages = with pkgs; [

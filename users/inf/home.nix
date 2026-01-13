@@ -220,7 +220,6 @@ in
         pipx
         plantuml
         planify
-        playerctl
         polkit-gnome-agent
         pnpm
         podman
@@ -230,20 +229,25 @@ in
         python3
         qFlipper
         qq
+        lesspipe
         lspmux
         racket
+        #resholve #i prefer to run it(insecure) in shell env
         rclone
+        ripgrep-all
         rm-improved
         rocmPackages.rocm-runtime
         rocmPackages.rocm-smi
         rsshub
         rsync
         rustdesk-flutter
-        rustup
+#rust toolchain
+        cargo
+        rust-analyzer
+        rustc
         sbcl
         sbt
         scala
-        scilab-bin
         scrcpy
         screenkey
         scrot
@@ -739,9 +743,8 @@ in
       "Xft.hinting" = 1;
       "Xft.hintstyle" = "hintfull";
       "Xft.rgba" = "rgb";
-      "qt.scale.factor" = 2;
-      "qt.autoScreenScaleFactor" = 1;
-      "qt.highDpiScaleFactorRoundingPolicy" = "PassThrough";
+      # "qt.scale.factor" = 2;
+      # "qt.autoScreenScaleFactor" = 1;
     };
   };
   # xsession = {

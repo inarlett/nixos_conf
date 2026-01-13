@@ -24,7 +24,6 @@ in
       ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink wpaperd_path;
     };
     packages = with pkgs;[
-      playerctl
       waybar
       hyprshot
       pyprland
