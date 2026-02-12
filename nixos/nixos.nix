@@ -23,6 +23,7 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
+    rocmSupport = true;
   };
   documentation = {
     dev = {
@@ -81,6 +82,7 @@ in
         libxcb
         libva-utils
         libdrm
+        libudev-zero
         linuxHeaders
         linux-manual
         livecaptions
@@ -101,10 +103,13 @@ in
         tldr
         touchegg
         util-linux.lib
+        vulkan-loader
+        vulkan-tools
         wayland-utils
         xdg-desktop-portal
         xdg-desktop-portal-wlr
         yubioath-flutter
+        ueberzugpp
       ]
       ++ (with pkgs.xorg; [
         libX11
@@ -289,9 +294,9 @@ in
         enable = true;
       };
     };
-    guix = {
-      enable = true;
-    };
+    # guix = {
+    #   enable = true;
+    # };
     nginx = {
       enable = true;
     };
@@ -312,7 +317,6 @@ in
       enable = true;
       rocmOverrideGfx = "11.0.0";
       package = pkgs.ollama-rocm;
-      acceleration = "rocm";
     };
     open-webui = {
       enable = true;
@@ -412,7 +416,7 @@ in
       distccd.wantedBy = lib.mkForce [ ];
       fwupd.wantedBy = lib.mkForce [ ];
       geth-logos.wantedBy = lib.mkForce [ ];
-      guix-daemon.wantedBy = lib.mkForce [ ];
+      # guix-daemon.wantedBy = lib.mkForce [ ];
       mysql.wantedBy = lib.mkForce [ ];
       nginx.wantedBy = lib.mkForce [ ];
       ollama.wantedBy = lib.mkForce [ ];

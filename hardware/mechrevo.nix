@@ -1,13 +1,12 @@
 {
   config,
   pkgs,
-  pkgs_latest,
   inputs,
   ...
 }:
 {
   boot = {
-    kernelPackages = pkgs_latest.linuxPackages_6_18;
+    kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = with config.boot.kernelPackages; [
       v4l2loopback
     ];
@@ -57,13 +56,11 @@
 #  };
   hardware = {
     cpu.amd.updateMicrocode = true;
-    firmware = [
-      pkgs.linux-firmware
-    ];
     graphics = {
       extraPackages = with pkgs; [
         libva
         mesa
+        vulkan-loader
         rocmPackages.clr.icd
       ];
     };

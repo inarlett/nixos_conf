@@ -20,7 +20,6 @@
       url = "github:nix-community/NixOS-WSL";
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs_latest.url = "github:nixos/nixpkgs/nixos-unstable";
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -62,7 +61,6 @@
     inputs@{
       self,
       nixpkgs,
-      nixpkgs_latest,
       home-manager,
       hyprland,
       hyprland-plugins,

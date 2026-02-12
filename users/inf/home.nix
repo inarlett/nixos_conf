@@ -7,8 +7,6 @@
   ...
 }:
 let
-  extra-libs-for-conda = with pkgs;[ libdrm ];
-  conda-withrocm = pkgs.conda.override { extraPkgs = extra-libs-for-conda; };
   neovideWrapped = pkgs.writeShellScriptBin "neovide" ''
     #!${pkgs.bash}/bin/bash
     source /home/inf/Documents/scripts/env/api.sh
@@ -109,7 +107,7 @@ in
         bear
         betterlockscreen
         bleachbit
-        blender-hip
+        blender
         bluetuith
         cabal-install
         cachix
@@ -124,7 +122,7 @@ in
         cloudflare-warp
         cmake
         code-cursor
-        conda-withrocm
+        conda
         #coreboot-toolchain.riscv
         coursier
         dbeaver-bin
@@ -132,7 +130,7 @@ in
         deno
         dirstalk
         discord
-        dotnet-sdk
+        dotnet-runtime_10
         dunst
         element-web
         espeak
@@ -168,10 +166,10 @@ in
         gsl
         gtest
         gtkwave
-        guile
         haskell-language-server
         hledger
         hledger-web
+        hmcl
         home-manager
         html-tidy
         hugo
@@ -180,6 +178,7 @@ in
         irssi
         jdt-language-server
         jetbrains.idea-community-bin
+        joplin-desktop
         jpm
         jq
         just
@@ -214,6 +213,7 @@ in
         nyxt
         onboard
         onedrive
+        openal
         openconnect
         openutau
         peazip
@@ -226,7 +226,6 @@ in
         polybar
         pwvucontrol
         pyright
-        python3
         qFlipper
         qq
         lesspipe
@@ -241,10 +240,12 @@ in
         rsshub
         rsync
         rustdesk-flutter
-#rust toolchain
-        cargo
+
         rust-analyzer
+        #rust toolchain
+        cargo
         rustc
+        samba
         sbcl
         sbt
         scala
@@ -276,6 +277,9 @@ in
         w3m
         warpd
         waydroid
+        waydroid-helper
+        cage
+
         wayvnc
         wechat
         wemeet
@@ -287,6 +291,7 @@ in
         wpaperd
         wshowkeys
         xdg-ninja
+        xsel
         xsettingsd
         xss-lock
         yosys
@@ -297,15 +302,22 @@ in
         zls
         zotero
       ]
-      ++ (with pkgs.python312Packages; [
+      ++ (with pkgs.python313Packages; [
         compiledb
-        tkinter
-        numpy
-        jupyter
-        ipykernel
-        matplotlib
-        scipy
-      ]);
+      ])
+      ++ [
+        (pkgs.python313.withPackages (
+          ps: with ps; [
+            tkinter
+            numpy
+            jupyter
+            ipykernel
+            matplotlib
+            pyqt5
+            pyqt6
+          ]
+        ))
+      ];
 
     pointerCursor = {
       gtk.enable = true;

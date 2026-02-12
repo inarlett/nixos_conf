@@ -35,6 +35,7 @@
         "application/vnd.ms-powerpoint" = "libreoffice-impress.desktop";
         "application/vnd.openxmlformats-officedocument.presentationml.presentation" =
           "libreoffice-impress.desktop";
+        "application/x-gtkwave" = "gtkwave.desktop";
 
         # --- Picture ---
         "image/jpeg" = "imv.desktop"; # JPG, JPEG
