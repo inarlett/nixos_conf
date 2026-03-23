@@ -17,7 +17,11 @@ let
     27031
     27036
   ]; # vr port and basic
-
+  jdk21WithFX = pkgs.jdk21.override {
+    enableJavaFX = true; # for JavaFX
+    # include following line if JavaFX with Webkit is needed
+    openjfx_jdk = pkgs.openjfx.override { withWebKit = true; };
+  };
 in
 {
 
@@ -71,7 +75,7 @@ in
         #haskellPackages.ghcup
         icu
         jdk11
-        jdk21
+        jdk21WithFX
         jdk8
         kdePackages.qtmultimedia
         krb5.lib
