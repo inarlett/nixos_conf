@@ -48,7 +48,7 @@
       noto-fonts-cjk-serif
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
-      
+
       corefonts
       vista-fonts
       source-han-sans

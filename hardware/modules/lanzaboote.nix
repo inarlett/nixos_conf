@@ -1,17 +1,17 @@
 {
   efiSysMountPoint,
 }:
-{ pkgs, lib, ... }: 
+{ pkgs, lib, ... }:
 {
   environment.systemPackages = [
     # For debugging and troubleshooting Secure Boot.
     pkgs.sbctl
   ];
 
-  boot.loader={
+  boot.loader = {
     efi = {
-        canTouchEfiVariables = true;
-        inherit efiSysMountPoint;
+      canTouchEfiVariables = true;
+      inherit efiSysMountPoint;
     };
     systemd-boot.enable = lib.mkForce false;
   };

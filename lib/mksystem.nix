@@ -25,9 +25,9 @@ let
   nixosConfig = ../nixos/${nixos}.nix;
   systemFunc = if isDarwin then inputs.darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
   usersHomeConfig = nixpkgs.lib.genAttrs users (user: import ../users/${user}/home.nix);
-  usersNixOSConfig = builtins.map (user: ../users/${user}/${
-    if isDarwin then "darwin" else "nixos"
-  }.nix) users;
+  usersNixOSConfig = builtins.map (
+    user: ../users/${user}/${if isDarwin then "darwin" else "nixos"}.nix
+  ) users;
 in
 {
   ${host} = systemFunc rec {

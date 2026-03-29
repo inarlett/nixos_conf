@@ -1,10 +1,9 @@
-
 {
   lib,
   python311,
-  python311Packages, 
+  python311Packages,
   fetchFromGitHub,
-  makeWrapper
+  makeWrapper,
 }:
 
 python311Packages.buildPythonApplication rec {
@@ -14,7 +13,7 @@ python311Packages.buildPythonApplication rec {
   src = fetchFromGitHub {
     owner = "light12222";
     repo = "Voice2Sub-Whisper-Live-Translator";
-    rev = "main";  # 可以换成 commit hash
+    rev = "main"; # 可以换成 commit hash
     sha256 = "sha256-GKRK90lcyh5D9Bm1xZYIjwKqvBQnWZFNser7f8iUYX8="; # nix build 后会提示真实 hash
   };
 

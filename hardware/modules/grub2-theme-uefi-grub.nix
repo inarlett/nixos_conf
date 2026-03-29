@@ -1,7 +1,7 @@
 {
   efiSysMountPoint,
   customResolution ? null,
-  theme
+  theme,
 }:
 {
   inputs,

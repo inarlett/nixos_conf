@@ -2,7 +2,7 @@
   networking = {
     bridges = {
       "vm-br" = {
-        interfaces = [ 
+        interfaces = [
           # "wlp0s20f3"
         ];
       };

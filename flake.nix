@@ -3,7 +3,7 @@
 
   inputs = {
     #daeuniverse.url = "github:daeuniverse/flake.nix";
-    nix-alien.url="github:thiagokokada/nix-alien";
+    nix-alien.url = "github:thiagokokada/nix-alien";
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -24,15 +24,15 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     nix-matlab = {
-	    # nix-matlab's Nixpkgs input follows Nixpkgs' nixos-unstable branch. However
-	    # your Nixpkgs revision might not follow the same branch. You'd want to
-	    # match your Nixpkgs and nix-matlab to ensure fontconfig related
-	    # compatibility.
-	    inputs.nixpkgs.follows = "nixpkgs";
-	    url = "gitlab:doronbehar/nix-matlab";
-	  };
+      # nix-matlab's Nixpkgs input follows Nixpkgs' nixos-unstable branch. However
+      # your Nixpkgs revision might not follow the same branch. You'd want to
+      # match your Nixpkgs and nix-matlab to ensure fontconfig related
+      # compatibility.
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "gitlab:doronbehar/nix-matlab";
+    };
     hyprland.url = "github:hyprwm/Hyprland";
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
@@ -80,19 +80,17 @@
         inputs.nur.overlays.default
         inputs.nix-matlab.overlay
       ];
-      
 
     in
     {
       homeConfigurations = {
-        "${username}@${hostname}" =
-          home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs.legacyPackages.x86_64-linux;
-            modules = [
-              hyprland.homeManagerModules.default
-              {wayland.windowManager.hyprland.enable = true;}
-            ];
-          };
+        "${username}@${hostname}" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules = [
+            hyprland.homeManagerModules.default
+            { wayland.windowManager.hyprland.enable = true; }
+          ];
+        };
       };
       nixosConfigurations =
         mkSystem "logos-morph" {
@@ -172,6 +170,6 @@
             "inf"
           ];
         };
-        
+
     };
 }

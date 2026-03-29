@@ -17,11 +17,7 @@ let
     27031
     27036
   ]; # vr port and basic
-  jdk21WithFX = pkgs.jdk21.override {
-    enableJavaFX = true; # for JavaFX
-    # include following line if JavaFX with Webkit is needed
-    openjfx_jdk = pkgs.openjfx.override { withWebKit = true; };
-  };
+
 in
 {
 
@@ -39,7 +35,16 @@ in
       man-db.enable = true;
     };
   };
-
+  imports = [
+    ./modules/authenticator.nix
+    ./modules/docker.nix
+    ./modules/libvirt.nix
+    ./modules/waydroid.nix
+    ./modules/nixos-common.nix
+    ./modules/record
+    ./modules/zsh
+    ./modules/gui
+  ];
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -64,79 +69,37 @@ in
     #        - /var/tmp/
     #      '';
     #    };
-    systemPackages =
-      with pkgs;
-      [
-        #davinci-resolv
-        btrbk
-        ffmpeg_4
-        gcc
-        gtest
-        #haskellPackages.ghcup
-        icu
-        jdk11
-        jdk21WithFX
-        jdk8
-        kdePackages.qtmultimedia
-        krb5.lib
-        libcxx
-        libGL
-        libglvnd
-        libsndfile
-        libxcb
-        libva-utils
-        libdrm
-        libudev-zero
-        linuxHeaders
-        linux-manual
-        livecaptions
-        lm_sensors
-        libimobiledevice
-        ifuse
-        man-pages
-        man-pages-posix
-        mesa
-        mono
-        ncurses
-        nss
-        ntfs3g
-        polkit_gnome
-        portaudio
-        radeontop
-        redsocks
-        tldr
-        touchegg
-        util-linux.lib
-        vulkan-loader
-        vulkan-tools
-        wayland-utils
-        xdg-desktop-portal
-        xdg-desktop-portal-wlr
-        yubioath-flutter
-        ueberzugpp
-      ]
-      ++ (with pkgs.xorg; [
-        libX11
-        libXcursor
-        libXrandr
-        libXinerama
-        libXcomposite
-        libXdamage
-        libXfixes
-        libXrender
-      ]);
+
+    systemPackages = with pkgs; [
+      btrbk
+      ffmpeg_4
+      icu # 很多软件依赖icu工具，可以保留
+      jdk11
+      jdk8
+      kdePackages.qtmultimedia
+      livecaptions
+      lm_sensors
+      libimobiledevice
+      ifuse
+      man-pages
+      man-pages-posix
+      mono
+      ntfs3g
+      polkit_gnome
+      radeontop
+      tldr
+      touchegg
+      vulkan-tools
+      wayland-utils
+      xdg-desktop-portal
+      xdg-desktop-portal-wlr
+      yubioath-flutter
+      ueberzugpp
+    ];
     wordlist = {
       enable = true;
     };
     sessionVariables = {
-      LD_LIBRARY_PATH = lib.makeLibraryPath (
-        with pkgs;
-        [
-          ffmpeg_4
-          alsa-lib
-          pulseaudio
-        ]
-      );
       NIXOS_OZONE_WL = "1";
       WLR_RENDERER = "vulkan";
       AMD_VULKAN_ICD = "RADV";
@@ -156,16 +119,6 @@ in
     };
   };
 
-  imports = [
-    ./modules/authenticator.nix
-    ./modules/docker.nix
-    ./modules/libvirt.nix
-    ./modules/waydroid.nix
-    ./modules/nixos-common.nix
-    ./modules/record
-    ./modules/zsh
-    ./modules/gui
-  ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -174,7 +127,12 @@ in
       enable = true;
       binfmt = true;
       package = pkgs.appimage-run.override {
-        extraPkgs = pkgs: [ pkgs.ffmpeg pkgs.imagemagick pkgs.webkitgtk_6_0 pkgs.webkitgtk_4_1 ];
+        extraPkgs = pkgs: [
+          pkgs.ffmpeg
+          pkgs.imagemagick
+          pkgs.webkitgtk_6_0
+          pkgs.webkitgtk_4_1
+        ];
       };
     };
     firejail = {
@@ -211,8 +169,25 @@ in
         libx11
         libxcb
         krb5.lib
-        #sta
         libgcc.lib
+
+        #do not use in systemPackages
+        libcxx
+        libGL
+        libglvnd
+        libsndfile
+        libva-utils
+        libdrm
+        mesa
+        ncurses
+        nss
+        portaudio
+        util-linux.lib
+        vulkan-loader
+
+        ffmpeg_4
+        alsa-lib
+        pulseaudio
       ];
     };
     nh = {
@@ -327,7 +302,7 @@ in
     };
     # Enable CUPS to print documents.
     playerctld = {
-      enable =true;
+      enable = true;
     };
     printing = {
       enable = true;

@@ -9,7 +9,7 @@
     libu2f-host
     ccid
   ];
-  services={
+  services = {
     pcscd = {
       enable = true;
       plugins = [ pkgs.ccid ];
@@ -23,12 +23,12 @@
       sudo.u2fAuth = true;
     };
     #yubico
-#    yubico = {
-#       enable = true;
-#       debug = true;
-#       mode = "challenge-response";
-#       id = [ "" ];
-#    };
+    #    yubico = {
+    #       enable = true;
+    #       debug = true;
+    #       mode = "challenge-response";
+    #       id = [ "" ];
+    #    };
   };
 
 }

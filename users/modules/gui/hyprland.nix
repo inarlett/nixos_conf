@@ -17,13 +17,16 @@ in
 {
   home = {
     file = {
-      ".config/hypr/hypridle.conf".source = config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/hypridle.conf";
-      ".config/hypr/hyprlock.conf".source = config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/hyprlock.conf";
-      ".config/hypr/pyprland.toml".source = config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/pyprland.toml";
+      ".config/hypr/hypridle.conf".source =
+        config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/hypridle.conf";
+      ".config/hypr/hyprlock.conf".source =
+        config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/hyprlock.conf";
+      ".config/hypr/pyprland.toml".source =
+        config.lib.file.mkOutOfStoreSymlink "${hyprland_path}/pyprland.toml";
       ".config/waybar".source = config.lib.file.mkOutOfStoreSymlink waybar_path;
       ".config/wpaperd".source = config.lib.file.mkOutOfStoreSymlink wpaperd_path;
     };
-    packages = with pkgs;[
+    packages = with pkgs; [
       waybar
       hyprshot
       pyprland
@@ -71,7 +74,7 @@ in
           action = "systemctl reboot";
           text = "Reboot";
         }
-      ]; 
+      ];
     };
   };
   services = {
@@ -80,15 +83,15 @@ in
     };
   };
   wayland.windowManager.hyprland = {
-    enable=true;
-    package=inputs.hyprland.packages.${system}.hyprland;
+    enable = true;
+    package = inputs.hyprland.packages.${system}.hyprland;
     plugins = [
       inputs.hyprland-plugins.packages.${system}.hyprscrolling
       inputs.hyprland-plugins.packages.${system}.hyprexpo
     ];
     extraConfig = ''
       source=${gui_path_base}/conf/hyprland.conf
-    ''; 
+    '';
   };
-  
+
 }

@@ -6,12 +6,12 @@
   ...
 }:
 {
-  xdg={
-    configFile={
-	"fcitx/rime/default.custom.yaml".source = ./rime.yaml;
+  xdg = {
+    configFile = {
+      "fcitx/rime/default.custom.yaml".source = ./rime.yaml;
     };
-    dataFile={
-    	"fcitx5/rime/default.custom.yaml".source = ./rime.yaml;
+    dataFile = {
+      "fcitx5/rime/default.custom.yaml".source = ./rime.yaml;
     };
 
   };

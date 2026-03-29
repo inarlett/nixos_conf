@@ -1,15 +1,19 @@
-{ config, pkgs,lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  imports =
-    [
-      # 导入适用于云环境的基础配置
-      <nixpkgs/nixos/modules/virtualisation/amazon-image.nix>
-    ];
+  imports = [
+    # 导入适用于云环境的基础配置
+    <nixpkgs/nixos/modules/virtualisation/amazon-image.nix>
+  ];
 
   # 1. 引导加载器设置
   # 必须指向虚拟磁盘，阿里云通常是 /dev/vda
-  boot.loader.grub.device =lib.mkForce "/dev/vda";
+  boot.loader.grub.device = lib.mkForce "/dev/vda";
   boot.loader.timeout = lib.mkForce 0;
   # 2. 文件系统
   # 根文件系统对应虚拟磁盘的第一个分区
@@ -56,7 +60,11 @@
   };
 
   # 系统包中最好包含基础工具
-  environment.systemPackages = with pkgs; [ vim git curl ];
+  environment.systemPackages = with pkgs; [
+    vim
+    git
+    curl
+  ];
 
   system.stateVersion = "24.11"; # 根据你的NixOS版本设置
 }

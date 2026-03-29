@@ -13,4 +13,3 @@ in
   wpaperd_path = "${gui_path_base}/wpaperd";
   yazi_path = "${tools_path_base}/yazi";
 }
-

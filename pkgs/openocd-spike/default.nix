@@ -26,7 +26,7 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "sha256-9UmjCCvAWIUoczqqTtgEmoHSTcKLSbG3nLrPgwz1m9o=";
   };
 
- installPhase = ''
+  installPhase = ''
     runHook preInstall
     SKIP_SUBMODULE=1 ./bootstrap
     ./configure --enable-ftdi --enable-dummy --enable-remote-bitbang --prefix=$out

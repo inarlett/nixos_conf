@@ -4,7 +4,7 @@
   ...
 }:
 {
-  imports=[
+  imports = [
     ./security
     inputs.zen-browser.homeModules.beta
   ];
@@ -18,6 +18,7 @@
       gitFull
       mupdf
       nixfmt-rfc-style
+      nixfmt-tree
       nmap
       p7zip
       rr
@@ -31,7 +32,7 @@
     ];
     sessionVariables = {
       EDITOR = "nvim";
-      
+
     };
   };
   i18n = {
@@ -40,7 +41,7 @@
       type = "fcitx5";
       fcitx5 = {
         addons = with pkgs; [
-	  (fcitx5-rime.override {
+          (fcitx5-rime.override {
             rimeDataPkgs = with pkgs; [
               rime-data
               rime-ice
@@ -56,16 +57,16 @@
   };
   programs = {
     feh = {
-      enable = true;  
+      enable = true;
     };
-#    git = {
-#      delta = {
-#        enable = true;  
-#      };
-#      enable = true;
-#    };
+    #    git = {
+    #      delta = {
+    #        enable = true;
+    #      };
+    #      enable = true;
+    #    };
     mpv = {
-      enable = true;  
+      enable = true;
     };
     zen-browser.enable = true;
   };

@@ -14,8 +14,8 @@
         # --- Text ---
         "text/plain" = "nvim.desktop";
         "text/plain;charset=utf-8" = "nvim.desktop";
-        "text/x-csrc"="nvim.desktop";
-        "text/x-hdr"="nvim.desktop";
+        "text/x-csrc" = "nvim.desktop";
+        "text/x-hdr" = "nvim.desktop";
 
         # --- PDF ---
         "application/pdf" = "zathura.desktop";

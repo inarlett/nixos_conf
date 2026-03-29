@@ -170,7 +170,7 @@
         };
       };
       nvim-tree = {
-        enable = true;       
+        enable = true;
       };
       todo-comments.enable = true;
       trouble.enable = true;

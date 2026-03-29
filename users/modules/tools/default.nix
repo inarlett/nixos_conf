@@ -16,7 +16,7 @@ in
       wpsoffice
     ];
   };
-  
+
   imports = [
     ./rime
     #./nvim

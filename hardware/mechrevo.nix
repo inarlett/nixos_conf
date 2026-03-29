@@ -48,12 +48,12 @@
       fsType = "vfat";
     };
   };
-#  powerManagement = {
-#    cpuFreqGovernor = "powersave";
-#    powertop = {
-#      enable = true;
-#    };
-#  };
+  #  powerManagement = {
+  #    cpuFreqGovernor = "powersave";
+  #    powertop = {
+  #      enable = true;
+  #    };
+  #  };
   hardware = {
     cpu.amd.updateMicrocode = true;
     graphics = {
@@ -70,19 +70,18 @@
       efiSysMountPoint = "/efi";
       theme = "tela";
     })
-#    (import ./modules/limine-uefi-boot.nix {
-#      efiSysMountPoint = "/efi";
-#    })
-#    (import ./modules/lanzaboote.nix{
-#      efiSysMountPoint = "/efi";
-#    })
+    #    (import ./modules/limine-uefi-boot.nix {
+    #      efiSysMountPoint = "/efi";
+    #    })
+    #    (import ./modules/lanzaboote.nix{
+    #      efiSysMountPoint = "/efi";
+    #    })
     inputs.lanzaboote.nixosModules.lanzaboote
-
 
     ./modules/hardware-common.nix
   ];
   zramSwap.enable = true;
-  zramSwap.memoryPercent = 80; 
+  zramSwap.memoryPercent = 80;
   swapDevices = [
     {
       device = "/var/lib/swapfile";

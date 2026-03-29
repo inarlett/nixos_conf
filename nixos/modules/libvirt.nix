@@ -20,7 +20,7 @@
       libvirt-guests.wantedBy = lib.mkForce [ ];
     };
   };
-  services.spice-vdagentd.enable=true;
+  services.spice-vdagentd.enable = true;
   virtualisation = {
     libvirtd = {
       enable = true;
